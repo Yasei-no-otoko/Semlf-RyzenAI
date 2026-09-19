@@ -69,6 +69,29 @@ SDK cannot produce the requested Qwen3.5 Token Fusion artifact with a
 Python-only post-processing change. NPU eager is a separate experimental
 route, not a Token Fusion result.
 
+### Official availability check (2026-09-20 JST)
+
+AMD's public Qwen model query returned 203 models, including nine Qwen3.5
+models in 9B, 35B, and 397B sizes, but no Qwen3.5-4B model. The public API
+returned 25 items from the Ryzen AI 1.8 NPU 16K collection, with no Qwen3.5
+entry. These are bounded public-query results, not a claim about unpublished
+AMD work. The [official model list](https://ryzenai.docs.amd.com/en/latest/llm_list.html)
+also has no Qwen3.5 entry.
+
+The [generic 16K preparation command](https://ryzenai.docs.amd.com/en/latest/oga_model_prepare.html)
+applies to supported architectures. The [additional operator compilation
+flow](https://ryzenai.docs.amd.com/en/latest/oga_op_prepare.html) is experimental
+and primarily supports hybrid execution; it does not establish a Qwen3.5
+Token Fusion route.
+
+The installed SDK's `ryzenai_onnx_utils` and `ryzenai_dynamic_dispatch` 1.8.0
+Windows wheels exactly match the SHA256 values for the same filenames in
+AMD's public package indexes. This rules out a replacement of these two
+specific files in the checked indexes. Query times, URLs, counts, and both
+wheel hashes are recorded in the
+[availability report](../results/raw/qwen35-conversion-20260920/availability.json).
+This check did not run inference and does not change the incomplete status.
+
 ## Reproducible conversion environments
 
 Run from the repository root. Keep the conversion environment separate from

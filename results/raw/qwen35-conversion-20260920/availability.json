@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "status": "no_official_qwen35_4b_npu_token_fusion_route_found",
+  "scope": "Read-only public availability check; not a conversion or inference result. Absence is limited to the queries and documentation below.",
+  "model_lookup": {
+    "checked_utc": "2026-09-19T16:54:05.8539039Z",
+    "query_url": "https://huggingface.co/api/models?author=amd&search=Qwen&limit=1000&full=true",
+    "http_status": 200,
+    "returned_count": 203,
+    "response_link_header": null,
+    "qwen35_count": 9,
+    "qwen35_4b_count": 0,
+    "observed_qwen35_sizes": [
+      "9B",
+      "35B",
+      "397B"
+    ],
+    "observed_qwen35_libraries": [
+      "transformers"
+    ],
+    "collection_url": "https://huggingface.co/api/collections/amd/ryzen-ai-180-npu-16k",
+    "collection_public_items_returned": 25,
+    "collection_qwen35_count": 0,
+    "limitation": "Collection count describes returned public API items, not a guaranteed total including private or unavailable items."
+  },
+  "reference_model": {
+    "id": "amd/Qwen3-4B_rai_1.8.0_npu_16K",
+    "sha": "715d60818350b685ca2af3566e5ae38f4780daf0",
+    "lastModified": "2026-07-22T23:31:51Z"
+  },
+  "documentation": {
+    "checked_utc": "2026-09-19T16:55:16.1790326Z",
+    "prepare_url": "https://ryzenai.docs.amd.com/en/latest/oga_model_prepare.html",
+    "prepare_scope": "Preparation supports fine-tuned versions of already supported model architectures; official generic Token Fusion recipe uses --extra_options max_seq_len=16384.",
+    "models_url": "https://ryzenai.docs.amd.com/en/latest/llm_list.html",
+    "models_qwen_matches": [
+      "Qwen3-1.7B: hybrid, full-optimized, long-context",
+      "Qwen3-4B: hybrid, full-optimized, long-context",
+      "Qwen3-8B: hybrid, full-optimized, long-context",
+      "Qwen3-VL-4B-Instruct: long-context"
+    ],
+    "models_qwen35_match_count": 0,
+    "operators_url": "https://ryzenai.docs.amd.com/en/latest/oga_op_prepare.html",
+    "operators_scope": "Experimental compilation for new operator shapes; primarily supported for hybrid execution; requires OGA Model Builder architecture support. Does not state Qwen3.5 Token Fusion support.",
+    "reference_model_card": "https://huggingface.co/amd/Qwen3-4B_rai_1.8.0_npu_16K/blob/715d60818350b685ca2af3566e5ae38f4780daf0/README.md",
+    "reference_model_recipe": "Quark AWQ, group 128, asymmetric UINT4 weights and BFP16 activations; OGA Model Builder then Token Fusion 16K postprocessing."
+  },
+  "same_version_wheel_checks": [
+    {
+      "filename": "ryzenai_onnx_utils-1.8.0-py3-none-win_amd64.whl",
+      "index_url": "https://pypi.amd.com/ryzenai_llm/1.8.0/windows/simple/ryzenai-onnx-utils/",
+      "http_status": 200,
+      "checked_utc": "2026-09-19T17:01:47.2581194Z",
+      "bytes": 998177,
+      "published_sha256": "48a6e544d81208f8fecb9a5e1b5249da7bd1ee7ab212f093039e5f80085a6fd1",
+      "local_sha256": "48a6e544d81208f8fecb9a5e1b5249da7bd1ee7ab212f093039e5f80085a6fd1",
+      "matches": true
+    },
+    {
+      "filename": "ryzenai_dynamic_dispatch-1.8.0-py3-none-win_amd64.whl",
+      "index_url": "https://pypi.amd.com/ryzenai_llm/1.8.0/windows/simple/ryzenai-dynamic-dispatch/",
+      "http_status": 200,
+      "checked_utc": "2026-09-19T17:01:49.1883780Z",
+      "bytes": 747736247,
+      "published_sha256": "8988620998c23a0d1a71bf2ced9a5287bc6641133ad38b67900fa4c546e7a8e4",
+      "local_sha256": "8988620998c23a0d1a71bf2ced9a5287bc6641133ad38b67900fa4c546e7a8e4",
+      "matches": true
+    }
+  ],
+  "conclusion": "No published replacement was found for the two checked installed SDK wheels. The documented generic 16K command does not establish Qwen3.5 architecture support. Token Fusion and 16K validation remain incomplete."
+}
