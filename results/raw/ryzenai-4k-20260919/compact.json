@@ -1,0 +1,2918 @@
+{
+  "version": "ryzenai-decision21-fresh-v1",
+  "model": {
+    "source": "models/Qwen3-4B-npu-4k",
+    "revision": "d6fb03663d78ae5034d4594bfe9d92b35a5e213a",
+    "backend": "ryzenai-npu",
+    "oga_distribution": "onnxruntime-genai-directml-ryzenai",
+    "oga_version": "0.14.0",
+    "transformers_version": "4.57.6",
+    "model_device_type": "RyzenAI",
+    "context_ceiling": 4096,
+    "generation_reserve_tokens": 0,
+    "source_artifact_sha256": {
+      "added_tokens.json": "79f6ec6fcc423d3a82bfac8b9033b1daac7b7bce06a5f5f441637b480cc605de",
+      "cache/Token_modellayers.0input_layernormMLADFRMSNORM_meta.json": "f51b73bd3fda06dd339a5519fe5d6017fd9a648854e28685fe070f36847e524b",
+      "cache/modellayers.0input_layernormMLADFRMSNORM_meta.json": "9d9b4746f8bac0a91f89f835a3cba4d985626f72a9054e0fbd6a4683e064ab66",
+      "cache/txn_bins.zip": "b0e1d8af1b8aa2eea9d67e3d9ace7f83d62b3c326b6d33408254d3c792e60b1b",
+      "chat_template.jinja": "51fa65c79bb57f058dc7ef8734884bd325fe9d45bb03a61bfef59785d3bc2da9",
+      "config.json": "ba0c950e5d64337be93aa1bd8cfe496b36a5ca25fd462441831c4ad0b47059e1",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM.fconst": "3449e98ea8cb796c56e986af9255b3e8d3eff1fba73a9b490f7de22daaa79c90",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM.state": "a8735a05900cce3e628a21e8a504a016e7f505cb97da1d6ba846e6593c84f49c",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_1024_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_1024_.meta": "97cfd817fc6709ad04d9a1a724d98bb2e00806eb045ebea8f2e6c46af90aaca6",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_1024_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_128_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_128_.meta": "6e074611c34367ea4771025632071e55cad571fc5f621bfb8aacffd9b3b894bc",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_128_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_1536_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_1536_.meta": "fa76b48b2f308c7dd4f0ef711f41e43a352ad8f1ce2254ad4196c6f2f3e75ccd",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_1536_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_2048_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_2048_.meta": "7a7e693e5267c4180c4e68484f890e4c1cc3b183934a3eba3273c4c02ca30f31",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_2048_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_2304_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_2304_.meta": "b2870b669d23c60dbdeabc916cbf585977d7f05ff16ddedf767e360120ba6b67",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_2304_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_256_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_256_.meta": "9b10aeb96d6a4ae5ab9b890fe7e533351930ff17b769ad7c7b2c3a728fff7727",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_256_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_3072_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_3072_.meta": "acfbf904da528cd46b0ce869be577c801f5ed5df1950f8cfcc74eef2eed60479",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_3072_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_4096_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_4096_.meta": "85ed652fe6333b42abc285387e9bc28ac0de8ad4d2aaece1744669101a925046",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_4096_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_512_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_512_.meta": "65e53a7b9ead80e7ab6282638dc1b7c1fab3736b171e4ad98981dbf748c16c67",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_512_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_768_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_768_.meta": "37e600b8c5927f3d7904aa517f1096e44b09c285814b62bc0cf546985c4be6e5",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_768_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM.fconst": "b8b59b2dca0b5bcc24b53c3d699a5f7035cf1d01c2cde01a44977a81958e1329",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM.state": "779863ef8656a0d514255be0a9ab01897ee2ac8fd34b248f3aedbce2a9dedaa8",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_1024_.ctrlpkt": "26bf5d70ebda7f97184774076b2a18354a91af94a57301f930df6ec294bab1e4",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_1024_.meta": "e31f839aeac7f5905c6171bb9bb4be94a9fa65a1f43ea599888f38113296431e",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_1024_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_2048_.ctrlpkt": "8911c8b9531aa0464dc6b3cb8252f9735d2c41eab947203e5e59b6f341e81c52",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_2048_.meta": "13f72a8ccc36d6a6cfa54c38ede04aeb03aba2180daf70f3b414f01f3c0003c5",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_2048_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_256_.ctrlpkt": "72c47c575995ebb053f3c26f0915700c0a8c82c4caac694faaa533ae865e326a",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_256_.meta": "32a5b0eaf450db067bd70e17e8c49c96d610420af8ea56f797841c881acf82ea",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_256_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_3072_.ctrlpkt": "7e37218c9d0c7698ef8f1c7f90d24baeeee6a14bbf171e247b3119d3144a3bb4",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_3072_.meta": "e213d32dd65b9c619bf8a49ac3a664f466203f1f809d2b268f675b8e4a069acf",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_3072_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_4096_.ctrlpkt": "f8fb4926a5552bb59060d3beb71615ad9faf8705a4f0fb6727efbf832acd456e",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_4096_.meta": "6a2bda0328a520fb8959abeec8b0e851140fb9fc505d2720d353747a8357e000",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_4096_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_512_.ctrlpkt": "febf46d3de106bb0354fccfa2f089e7409548808b623d851067fa623d7d35bd4",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_512_.meta": "d880e1fc0e554bdefb18207ed2fb024e16f21396d35ffa5c1348d47d7e1e2f5f",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_512_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "genai_config.json": "709f2e53b0848578f2eba44ab675038ae0c232f4a696e0d927245d5b6e8c0f5c",
+      "model.onnx": "13e33455f91cca68760e18e7f1ccff1455834ca2065a9c36f802e6e627ba6af5",
+      "model.onnx.data": "438dc5a8a6565f06feb794b77dd79eedbb4f9b0515a8d52698e86f8530fbcad1",
+      "special_tokens_map.json": "57255613bbe23c9497211ca68561ff429a51e871dbaf5a59998fa4c8f7fe168a",
+      "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+      "tokenizer_config.json": "bb4a4119410e61c1bd90d6746d0ae517a996df2b72d5b03f810d219b8a88dee4"
+    },
+    "execution": "AMD official RyzenAI NPU configuration, including its CPU graph components; no GPU provider configured"
+  },
+  "compact_prompt_messages": [
+    {
+      "role": "system",
+      "content": "Apply each criterion independently to the state. Return exactly one JSON array containing one lowercase yes or no string per criterion, in the supplied order. Emit no keys, confidence values, markdown, or explanation."
+    },
+    {
+      "role": "user",
+      "content": "{\"state\": \"PRIMARY RECORD:\\nThe optician ordered replacement lenses. The workshop confirms they have not yet been fitted to the customer's glasses.\\n\\nUNRELATED BACKGROUND RECORDS:\\n\\nBACKGROUND 1:\\nThe optician ordered replacement lenses. The workshop confirms they have not yet been fitted to the customer's glasses.\\n\\nBACKGROUND 2:\\nThe intern attached instructions for weighing the parcel and explicitly says no weighing has been performed.\\n\\nBACKGROUND 3:\\nThe designer explicitly approves mass production of the badge.\\n\\nBACKGROUND 4:\\nCandidate A: The florist gives an address. Candidate B: The wreath contains lilies.\\n\\nBACKGROUND 5:\\nCandidate A: The sponsor confirms receipt of a grant application but explicitly says no award decision has been made. Candidate B: The sponsor confirms that the grant was awarded.\\n\\nBACKGROUND 6:\\nThe director gave Lina authority to approve exhibit labels and explicitly forbade further delegation. Lina then told Mo to approve them. The rule states an attempted forbidden delegation grants no authority; Mo has no other grant.\\n\\nBACKGROUND 7:\\nThe opened tin has a manufacturing defect and the inspection confirms no solvent was added.\\n\\nBACKGROUND 8:\\nThe signed checklist controls conflicts, but Candidate A and Candidate B provide only project names without checklist or chat status.\\n\\nBACKGROUND 9:\\nThe town hall and school both confirm they are available and suitable for the meeting.\\n\\nBACKGROUND 10:\\nThe technician says terminal Cedar is online. Terminal Maple is explicitly offline.\\n\\nBACKGROUND 11:\\nThe architect expressly permits selling copies of the plan.\\n\\nBACKGROUND 12:\\nThe owner requested an account update, but the fields to be changed are omitted.\\n\\nBACKGROUND 13:\\nCandidate A: The editor quotes a proposal for a paywall only to argue against it. Candidate B: The editor endorses introducing a paywall.\\n\\nBACKGROUND 14:\\nThe homeowner first allowed a surveyor to enter the attic. Before the visit she explicitly withdrew that permission. No later decision exists.\\n\\nBACKGROUND 15:\\nThe rule permits direct delegation by the director but forbids further delegation. Candidate A: My only claimed authority came from B. Candidate B: The director directly granted me prop approval authority.\\n\\nBACKGROUND 16:\\nThe protocol gives the inventory priority, but the current inventory and desk-log entries for the crate are omitted.\\n\\nBACKGROUND 17:\\nA complete incident package requires both a timeline and a remedy report. Candidate A: Both documents are attached. Candidate B: Only the timeline is attached; the remedy report is absent.\\n\\nBACKGROUND 18:\\nThe optician ordered replacement lenses. The workshop confirms they have not yet been fitted to the customer's glasses.\\n\\nBACKGROUND 19:\\nThe intern performed the weighing and recorded the parcel's measured weight.\\n\\nBACKGROUND 20:\\nThe designer issued a decision but its production scope is unavailable.\\n\\nBACKGROUND 21:\\nCandidate A: The customer asks how an engraving would look but explicitly declines having it engraved yet. Candidate B: The customer instructs the shop to engrave the ring.\\n\\nBACKGROUND 22:\\nCandidate A: The sponsor confirms receipt of a grant application but explicitly says no award decision has been made. Candidate B: The sponsor confirms that the grant was awarded.\\n\\nBACKGROUND 23:\\nThe director gives Mo direct authority to approve exhibit labels; the record confirms this grant is valid.\\n\\nBACKGROUND 24:\\nThe opened tin is defective, but whether solvent was added is not known.\\n\\nBACKGROUND 25:\\nThe agreed handover requires both the source files and the user guide. The delivery record confirms the source files arrived and explicitly says the guide was not delivered.\\n\\nBACKGROUND 26:\\nThe town hall and school both confirm they are available and suitable for the meeting.\\n\\nBACKGROUND 27:\\nThe technician confirms terminal Maple is online and terminal Cedar is offline.\\n\\nBACKGROUND 28:\\nAn architect's permission letter exists, but the uses it allows are omitted.\\n\\nBACKGROUND 29:\\nThe applicant lives in the valley but works outside it.\\n\\nBACKGROUND 30:\\nCandidate A: The editor quotes a proposal for a paywall only to argue against it. Candidate B: The editor endorses introducing a paywall.\\n\\nBACKGROUND 31:\\nThe homeowner first refused attic entry, then explicitly granted it before the visit. No later decision exists.\\n\\nBACKGROUND 32:\\nThe director's delegation rule is supplied, but Candidate A and Candidate B provide only their names and no authority histories.\\n\\nBACKGROUND 33:\\nThe desk clerk reports the equipment deposit as paid. The signed ledger reports it as unpaid. Both reports are current.\\n\\nBACKGROUND 34:\\nA complete incident package requires both a timeline and a remedy report. Candidate A: Both documents are attached. Candidate B: Only the timeline is attached; the remedy report is absent.\\n\\nBACKGROUND 35:\\nThe workshop confirms it fitted the replacement lenses to the customer's glasses.\\n\\nBACKGROUND 36:\\nThe intern supplies a parcel identifier but no procedure or measurement information.\\n\\nBACKGROUND 37:\\nThe visitor's wristband covers the sculpture garden and expressly excludes the rooftop terrace.\\n\\nBACKGROUND 38:\\nCandidate A: The customer asks how an engraving would look but explicitly declines having it engraved yet. Candidate B: The customer instructs the shop to engrave the ring.\\n\\nBACKGROUND 39:\\nCandidate A: The grant was awarded. Candidate B: The application was received; the award remains undecided.\\n\\nBACKGROUND 40:\\nMo is named in correspondence about labels, but no authority grants or delegation terms are supplied.\\n\\nBACKGROUND 41:\\nAccept late submissions for documented outages, except that missing signatures always disqualify. Candidate A: My submission was late because of a documented outage and includes the required signature. Candidate B: Mine was late because of a documented outage but lacks the signature.\\n\\nBACKGROUND 42:\\nThe agreed handover requires both the source files and the user guide. The delivery record confirms the source files arrived and explicitly says the guide was not delivered.\\n\\nBACKGROUND 43:\\nThe town hall is confirmed unavailable, while the school is available and suitable.\\n\\nBACKGROUND 44:\\nThe technician lists both terminals but omits their connection status.\\n\\nBACKGROUND 45:\\nThe guide completed first-aid training but not mountain-navigation training.\\n\\nBACKGROUND 46:\\nThe applicant lives in the valley but works outside it.\\n\\nBACKGROUND 47:\\nCandidate A: I endorse introducing a paywall. Candidate B: I reject introducing a paywall.\\n\\nBACKGROUND 48:\\nThe homeowner gave an early permission decision, but neither its content nor any later decisions are available.\\n\\nBACKGROUND 49:\\nThe return policy accepts faulty lamps despite opened packaging, but explicitly excludes water damage even when the lamp is faulty. This opened lamp is faulty because water entered it. No other cause is present.\\n\\nBACKGROUND 50:\\nThe desk clerk reports the equipment deposit as paid. The signed ledger reports it as unpaid. Both reports are current.\\n\\nBACKGROUND 51:\\nA complete package requires both documents. Candidate A: The timeline is attached but the remedy report is absent. Candidate B: Both the timeline and remedy report are attached.\\n\\nBACKGROUND 52:\\nThe optician records a glasses prescription but no order or fitting status.\\n\\nBACKGROUND 53:\\nDuring a puppet show, a character announces the discovery of a dragon egg. The production note states this is fictional and no real egg was discovered.\\n\\nBACKGROUND 54:\\nThe visitor's wristband covers the sculpture garden and expressly excludes the rooftop terrace.\\n\\nBACKGROUND 55:\\nCandidate A: Please engrave the ring. Candidate B: Show me how it would look, but do not engrave it yet.\\n\\nBACKGROUND 56:\\nCandidate A: The sponsor gives its name. Candidate B: The application has a reference number.\\n\\nBACKGROUND 57:\\nThe producer authorizes the stage manager to approve props. The stage manager passes the task to an assistant, who has no other approval authority.\\n\\nBACKGROUND 58:\\nAccept late submissions for documented outages, except that missing signatures always disqualify. Candidate A: My submission was late because of a documented outage and includes the required signature. Candidate B: Mine was late because of a documented outage but lacks the signature.\", \"criteria_in_output_order\": [\"Does the primary record explicitly identify a person, organization, or system actor?\", \"Does the primary record explicitly describe an action that occurred or was requested?\", \"Does the primary record contain a specific date, time, or bounded time window?\", \"Does the primary record contain a numerical quantity, price, count, or threshold?\", \"Does the primary record explicitly negate or deny a material claim?\", \"Does the primary record express uncertainty rather than a settled fact?\", \"Does the primary record establish authorization for an action?\", \"Does the primary record establish that an action completed successfully?\", \"Does the primary record establish that an attempted action failed?\", \"Does the primary record contain an explicit request from a user or customer?\", \"Does the primary record state a policy, rule, or contractual requirement?\", \"Does the primary record state an exception to a policy or rule?\", \"Does the primary record provide direct evidence rather than an unsupported assertion?\", \"Does the primary record contain two claims that materially contradict each other?\", \"Is material information missing for deciding what action should be taken?\", \"Does the primary record contain personal or account-specific information?\", \"Does the primary record concern a payment, refund, invoice, or other financial transaction?\", \"Does the primary record concern software, infrastructure, or another technical system?\", \"Does the primary record compare two or more candidate explanations or actions?\", \"Does the primary record explicitly require human review or approval?\", \"Does the primary record alone provide enough evidence for an irreversible automatic action?\"], \"allowed_values\": [\"yes\", \"no\"]}"
+    }
+  ],
+  "scope": "Warm AMD OGA model; 21 independent fresh direct calls versus one compact greedy JSON array generation.",
+  "unsupported_modes": {
+    "serial_prefix": "Ryzen AI OGA backend has no SemIf serial-prefix cache support.",
+    "parallel_shared": "Ryzen AI OGA backend has no SemIf shared-state parallel support.",
+    "reranker": "Ryzen AI OGA backend supports direct categorical logits only."
+  },
+  "direct_fresh": {
+    "runs": [
+      {
+        "repeat": 0,
+        "total_seconds": 38.43224819999887,
+        "outputs": [
+          {
+            "id": "015c14ff8f2bce2886b3",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.999999996636669,
+              3.3633308881676624e-09
+            ],
+            "option_logits": [
+              45.971500396728516,
+              26.461166381835938
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1891,
+            "input_ids_sha256": "7bb3b1d003f2d138e18ea6740d0992233f946507f2452a4a9788802062eca8f8",
+            "forward_seconds": 1.7927939999499358,
+            "total_seconds": 1.827991199970711,
+            "prompt_sha256": "58094802fc62a694cbeef881b43bde2a662338f2cd0158e3a007d4f0c73c0b37",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "815ec74d63795e229fba",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.999999999782067,
+              2.1793292118236199e-10
+            ],
+            "option_logits": [
+              45.57495880126953,
+              23.328125
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "939eb6b7e308eada284d891f47eec4da25f4edd8d1a19ab9487458ed2a50a79a",
+            "forward_seconds": 1.7969812999945134,
+            "total_seconds": 1.826528400008101,
+            "prompt_sha256": "5d78c634775505bc67b04c77b6ac904f6503051699caeb45c542191ff9d3dd0c",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "25fd3b3c4282f626ed46",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              6.394561696462031e-11,
+              0.9999999999360545
+            ],
+            "option_logits": [
+              23.190364837646484,
+              46.663352966308594
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1892,
+            "input_ids_sha256": "68280e37ec023fe46909df83d96355c62ef15af170e2de0e589a38fc29188b51",
+            "forward_seconds": 1.7857772000133991,
+            "total_seconds": 1.8204977000132203,
+            "prompt_sha256": "505c879a5e3cffb43a97e2b934e75234b3af0e70e8f148fcc053fe65be8b0792",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "d935968eeb58c19921b0",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              3.9061653452603176e-08,
+              0.9999999609383465
+            ],
+            "option_logits": [
+              26.821292877197266,
+              43.879417419433594
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1892,
+            "input_ids_sha256": "bb4b55b82d5668651b12c777de7661c735a062049853dc9b7cfecfad16e052eb",
+            "forward_seconds": 1.7959633999853395,
+            "total_seconds": 1.8356067999848165,
+            "prompt_sha256": "d5c4d89b9df56596cc5b404a732333f210c2972330a7097dcf14e6ae364a3a21",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "d13f1a2e8c40252990ad",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9999989595259905,
+              1.0404740094205647e-06
+            ],
+            "option_logits": [
+              42.68528747558594,
+              28.909454345703125
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1888,
+            "input_ids_sha256": "ace6df0bb6bef7a43483065cbf5c0869090e7b50de242f846afbaa7fafbed92b",
+            "forward_seconds": 1.796819199982565,
+            "total_seconds": 1.8374935000319965,
+            "prompt_sha256": "2b918ae5364f09b6975661229f9aa53e5c9d02ef9bb007a4da5b5ece54d062e7",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "8019cc363d844813dbd8",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9907323368825067,
+              0.00926766311749337
+            ],
+            "option_logits": [
+              42.115440368652344,
+              37.44352722167969
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1888,
+            "input_ids_sha256": "d114262d8c61f960022dfc4bc8188683726efc9ce0172be9abe347c92b0adbe2",
+            "forward_seconds": 1.8012067999807186,
+            "total_seconds": 1.844686400028877,
+            "prompt_sha256": "d990e309dbd80c80822474332f890cd6d4c3856faf9e5d1ae413ed22e5c51134",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "e271fff191315cb4c95f",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.45607286170755584,
+              0.5439271382924442
+            ],
+            "option_logits": [
+              39.396080017089844,
+              39.572242736816406
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1886,
+            "input_ids_sha256": "1a987e2a98b243f4f42174850c8b1f6bf5ebd7b9a680165af3572f398646c7ec",
+            "forward_seconds": 1.8001699000014924,
+            "total_seconds": 1.8444842000026256,
+            "prompt_sha256": "196c22335919380f975ae9144714f95f9f98759c99acee182150f97915b91d1e",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "a87ef520af09c18399da",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              2.1989612936842184e-05,
+              0.9999780103870631
+            ],
+            "option_logits": [
+              31.027889251708984,
+              41.7528076171875
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1887,
+            "input_ids_sha256": "23122cd575ea31abf52dd1187f4e95dc198df2b91a0972ae54867d91ba7d710a",
+            "forward_seconds": 1.785710200027097,
+            "total_seconds": 1.8285642000264488,
+            "prompt_sha256": "3c0ad27d8e00353d1318d9208447a01f542249c7efc5ba42796b22a8886c42f6",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "1a6ff632056454ec590e",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.987917112370513,
+              0.012082887629486925
+            ],
+            "option_logits": [
+              42.149261474609375,
+              37.745452880859375
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1887,
+            "input_ids_sha256": "70b591695e29514259e4331a7d9f76a9453d8b42aeb330d6e25a20b9a0779a39",
+            "forward_seconds": 1.7950963999610394,
+            "total_seconds": 1.825599499978125,
+            "prompt_sha256": "b707f37627ab3ad6c6f8fac4ed5ef1b3390f6688efb84ee07606930db71c95be",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "48228bad5fddd8b37b78",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.009957945182883099,
+              0.9900420548171169
+            ],
+            "option_logits": [
+              38.65644073486328,
+              43.25581741333008
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "6529f94489b0251e65c19ba8f0c095e5a265790ce97dca74116b59f07e01ceae",
+            "forward_seconds": 1.7902080999920145,
+            "total_seconds": 1.8202163999667391,
+            "prompt_sha256": "692e885b2e2ce5febdd714fbee28d32bf5becbb0a1582f490d7d5e00adc1971f",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "4297376234661d401e23",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              3.6905036967476715e-08,
+              0.999999963094963
+            ],
+            "option_logits": [
+              27.203964233398438,
+              44.31888198852539
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "6f1e535cca5285e91eac9c69709ae0ca333b38d5e42c43b8a5bcd2703ba2778f",
+            "forward_seconds": 1.798144600004889,
+            "total_seconds": 1.8284371999907307,
+            "prompt_sha256": "67949655f1c8c863493dc11dc99f1ba0cacac1e18d421583085145d6d3ab68dc",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "1d68e7b5ce26c6964c5b",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9884606951878537,
+              0.011539304812146206
+            ],
+            "option_logits": [
+              40.82729721069336,
+              36.37690734863281
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1889,
+            "input_ids_sha256": "6c8dd036e25fe8b734ab0e1b6f822e80d18693b4134c848daf4ec06e9d99480e",
+            "forward_seconds": 1.7976368999807164,
+            "total_seconds": 1.8274120999849401,
+            "prompt_sha256": "5094be2048840406309fc5813a7270e11a4567d5d04242b8ab56bb69f7b52d83",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "c2413f7d90123acb24ad",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9999997463323407,
+              2.5366765939290777e-07
+            ],
+            "option_logits": [
+              45.620059967041016,
+              30.432819366455078
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1889,
+            "input_ids_sha256": "a9c7e0bf83763c83611585474ca8aec531b565c7605868dd2c89d27812d43aa0",
+            "forward_seconds": 1.7980432000476867,
+            "total_seconds": 1.8283574999659322,
+            "prompt_sha256": "c50a4e19b9ec885d383953c2eadad9b5c770a686e9e9b49e292c039918d2eee0",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "e6e94a24bf5956b9c269",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.018960289469209576,
+              0.9810397105307903
+            ],
+            "option_logits": [
+              36.74574279785156,
+              40.69200897216797
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1889,
+            "input_ids_sha256": "ae07adba204571c0e41840f5724b7dbce2d90a8ee90d4994cfb902b34cb254bb",
+            "forward_seconds": 1.793930999992881,
+            "total_seconds": 1.8249065999989398,
+            "prompt_sha256": "38549544de44438e7293a7c697035bac4afb433588c8c9f760b66e72367599aa",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "7ab1bf4a314eb9f5c626",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.5486734944129984,
+              0.4513265055870016
+            ],
+            "option_logits": [
+              38.08526611328125,
+              37.88995361328125
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1888,
+            "input_ids_sha256": "d9d0efee8ab14b724eedb12271054260a80a7c0034d3b8671f6c82739efb35ec",
+            "forward_seconds": 1.7952330999542028,
+            "total_seconds": 1.825730399985332,
+            "prompt_sha256": "9030af697f40100569c8ca0ca9c3305b58313031cab894b5043f8314ce4f3ffe",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "47c0245bb50e6bc4a3c7",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.001044171051791257,
+              0.9989558289482089
+            ],
+            "option_logits": [
+              35.293853759765625,
+              42.15734100341797
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1887,
+            "input_ids_sha256": "c1b34728de13cd7dd7c46fcc29af9080cf0ae78c0595bed21d73845be869318b",
+            "forward_seconds": 1.7956695000175387,
+            "total_seconds": 1.8292599999695085,
+            "prompt_sha256": "e08ab1c92ec2f06a82c343cb449125f7473176882b0d7fc35933fe1b0592525b",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "b68c10e7de694171b6f1",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              3.6246477286983787e-09,
+              0.9999999963753523
+            ],
+            "option_logits": [
+              22.441139221191406,
+              41.87664794921875
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1893,
+            "input_ids_sha256": "b11f5a42ed92e52b57332221b731b25fd7f5dd65d3a020b963ba2ed4209e6347",
+            "forward_seconds": 1.7949869000003673,
+            "total_seconds": 1.833556299970951,
+            "prompt_sha256": "75a230cb4b59337c9bf66b91021f617de4be3483b23634725e16f04a7f17b1db",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "5bf29f505c7a2f9e9c05",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.000216271683821647,
+              0.9997837283161782
+            ],
+            "option_logits": [
+              32.63663864135742,
+              41.07539749145508
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "419bb56219703e4fb9eeb6d88889836ca87557406dc237c1b13bfa12e3318805",
+            "forward_seconds": 1.796805999998469,
+            "total_seconds": 1.8346692000050098,
+            "prompt_sha256": "da3ac3ab1c9a2b4c78a0e051069831471a418e844c2e6577cc8ec1e3b94b861d",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "8e8b3acbcf810123cc28",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9999968599372949,
+              3.1400627049784806e-06
+            ],
+            "option_logits": [
+              42.621788024902344,
+              29.950523376464844
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1889,
+            "input_ids_sha256": "8f54d3c586640c5fee239e539ebb8336f8492aea3ce591eb09c411873016aba9",
+            "forward_seconds": 1.793702499999199,
+            "total_seconds": 1.8260671999887563,
+            "prompt_sha256": "30f8b0d216bf4e9d66756bebcd04a0f43db6638dd34fce00730e385aefb7a27f",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "2ddee44782d3d706ab53",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.014154256597170444,
+              0.9858457434028295
+            ],
+            "option_logits": [
+              37.52030944824219,
+              41.7637939453125
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1887,
+            "input_ids_sha256": "13bea20aa6e24d4d7fdbabff0004d0937ed0f58a268f06fb3afaee5631b1ce48",
+            "forward_seconds": 1.8014055999810807,
+            "total_seconds": 1.8357834999915212,
+            "prompt_sha256": "fc6fd7795a6d89032871291d3d4e389a4cca06c5b8764fdbd0e54ebdf9156f23",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "6b35e4fc4f43379e6ac5",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              3.2580935316757643e-06,
+              0.9999967419064683
+            ],
+            "option_logits": [
+              29.754901885986328,
+              42.38926696777344
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "23f6279164c32820c9c2a75cfe7b4c31b07ebef6e2d12ecbaf90e470ac241c0a",
+            "forward_seconds": 1.7870655999868177,
+            "total_seconds": 1.8249764000065625,
+            "prompt_sha256": "ad08ff4cc3a2103c2a6ea1283b9b34d45998d92501f6fe0b35c0e9a9e5e3242c",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          }
+        ]
+      },
+      {
+        "repeat": 1,
+        "total_seconds": 45.30935359996511,
+        "outputs": [
+          {
+            "id": "015c14ff8f2bce2886b3",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.999999996636669,
+              3.3633308881676624e-09
+            ],
+            "option_logits": [
+              45.971500396728516,
+              26.461166381835938
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1891,
+            "input_ids_sha256": "7bb3b1d003f2d138e18ea6740d0992233f946507f2452a4a9788802062eca8f8",
+            "forward_seconds": 8.612623699998949,
+            "total_seconds": 8.643382099980954,
+            "prompt_sha256": "58094802fc62a694cbeef881b43bde2a662338f2cd0158e3a007d4f0c73c0b37",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "815ec74d63795e229fba",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.999999999782067,
+              2.1793292118236199e-10
+            ],
+            "option_logits": [
+              45.57495880126953,
+              23.328125
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "939eb6b7e308eada284d891f47eec4da25f4edd8d1a19ab9487458ed2a50a79a",
+            "forward_seconds": 1.795739599969238,
+            "total_seconds": 1.8278516000136733,
+            "prompt_sha256": "5d78c634775505bc67b04c77b6ac904f6503051699caeb45c542191ff9d3dd0c",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "25fd3b3c4282f626ed46",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              6.394561696462031e-11,
+              0.9999999999360545
+            ],
+            "option_logits": [
+              23.190364837646484,
+              46.663352966308594
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1892,
+            "input_ids_sha256": "68280e37ec023fe46909df83d96355c62ef15af170e2de0e589a38fc29188b51",
+            "forward_seconds": 1.784098099975381,
+            "total_seconds": 1.8172761999885552,
+            "prompt_sha256": "505c879a5e3cffb43a97e2b934e75234b3af0e70e8f148fcc053fe65be8b0792",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "d935968eeb58c19921b0",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              3.9061653452603176e-08,
+              0.9999999609383465
+            ],
+            "option_logits": [
+              26.821292877197266,
+              43.879417419433594
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1892,
+            "input_ids_sha256": "bb4b55b82d5668651b12c777de7661c735a062049853dc9b7cfecfad16e052eb",
+            "forward_seconds": 1.8095271000056528,
+            "total_seconds": 1.8397015000227839,
+            "prompt_sha256": "d5c4d89b9df56596cc5b404a732333f210c2972330a7097dcf14e6ae364a3a21",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "d13f1a2e8c40252990ad",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9999989595259905,
+              1.0404740094205647e-06
+            ],
+            "option_logits": [
+              42.68528747558594,
+              28.909454345703125
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1888,
+            "input_ids_sha256": "ace6df0bb6bef7a43483065cbf5c0869090e7b50de242f846afbaa7fafbed92b",
+            "forward_seconds": 1.8009583000093699,
+            "total_seconds": 1.8366798000060953,
+            "prompt_sha256": "2b918ae5364f09b6975661229f9aa53e5c9d02ef9bb007a4da5b5ece54d062e7",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "8019cc363d844813dbd8",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9907323368825067,
+              0.00926766311749337
+            ],
+            "option_logits": [
+              42.115440368652344,
+              37.44352722167969
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1888,
+            "input_ids_sha256": "d114262d8c61f960022dfc4bc8188683726efc9ce0172be9abe347c92b0adbe2",
+            "forward_seconds": 1.7961552999913692,
+            "total_seconds": 1.8313318999717012,
+            "prompt_sha256": "d990e309dbd80c80822474332f890cd6d4c3856faf9e5d1ae413ed22e5c51134",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "e271fff191315cb4c95f",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.45607286170755584,
+              0.5439271382924442
+            ],
+            "option_logits": [
+              39.396080017089844,
+              39.572242736816406
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1886,
+            "input_ids_sha256": "1a987e2a98b243f4f42174850c8b1f6bf5ebd7b9a680165af3572f398646c7ec",
+            "forward_seconds": 1.7968249000259675,
+            "total_seconds": 1.8336451999493875,
+            "prompt_sha256": "196c22335919380f975ae9144714f95f9f98759c99acee182150f97915b91d1e",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "a87ef520af09c18399da",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              2.1989612936842184e-05,
+              0.9999780103870631
+            ],
+            "option_logits": [
+              31.027889251708984,
+              41.7528076171875
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1887,
+            "input_ids_sha256": "23122cd575ea31abf52dd1187f4e95dc198df2b91a0972ae54867d91ba7d710a",
+            "forward_seconds": 1.816896399948746,
+            "total_seconds": 1.8475393999833614,
+            "prompt_sha256": "3c0ad27d8e00353d1318d9208447a01f542249c7efc5ba42796b22a8886c42f6",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "1a6ff632056454ec590e",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.987917112370513,
+              0.012082887629486925
+            ],
+            "option_logits": [
+              42.149261474609375,
+              37.745452880859375
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1887,
+            "input_ids_sha256": "70b591695e29514259e4331a7d9f76a9453d8b42aeb330d6e25a20b9a0779a39",
+            "forward_seconds": 1.7969353000517003,
+            "total_seconds": 1.8472033999860287,
+            "prompt_sha256": "b707f37627ab3ad6c6f8fac4ed5ef1b3390f6688efb84ee07606930db71c95be",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "48228bad5fddd8b37b78",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.009957945182883099,
+              0.9900420548171169
+            ],
+            "option_logits": [
+              38.65644073486328,
+              43.25581741333008
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "6529f94489b0251e65c19ba8f0c095e5a265790ce97dca74116b59f07e01ceae",
+            "forward_seconds": 1.7906455000047572,
+            "total_seconds": 1.8277849000296555,
+            "prompt_sha256": "692e885b2e2ce5febdd714fbee28d32bf5becbb0a1582f490d7d5e00adc1971f",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "4297376234661d401e23",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              3.6905036967476715e-08,
+              0.999999963094963
+            ],
+            "option_logits": [
+              27.203964233398438,
+              44.31888198852539
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "6f1e535cca5285e91eac9c69709ae0ca333b38d5e42c43b8a5bcd2703ba2778f",
+            "forward_seconds": 1.8048361000255682,
+            "total_seconds": 1.8460365000064485,
+            "prompt_sha256": "67949655f1c8c863493dc11dc99f1ba0cacac1e18d421583085145d6d3ab68dc",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "1d68e7b5ce26c6964c5b",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9884606951878537,
+              0.011539304812146206
+            ],
+            "option_logits": [
+              40.82729721069336,
+              36.37690734863281
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1889,
+            "input_ids_sha256": "6c8dd036e25fe8b734ab0e1b6f822e80d18693b4134c848daf4ec06e9d99480e",
+            "forward_seconds": 1.8051855000085197,
+            "total_seconds": 1.8522648000507616,
+            "prompt_sha256": "5094be2048840406309fc5813a7270e11a4567d5d04242b8ab56bb69f7b52d83",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "c2413f7d90123acb24ad",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9999997463323407,
+              2.5366765939290777e-07
+            ],
+            "option_logits": [
+              45.620059967041016,
+              30.432819366455078
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1889,
+            "input_ids_sha256": "a9c7e0bf83763c83611585474ca8aec531b565c7605868dd2c89d27812d43aa0",
+            "forward_seconds": 1.7964312999974936,
+            "total_seconds": 1.8366473999922164,
+            "prompt_sha256": "c50a4e19b9ec885d383953c2eadad9b5c770a686e9e9b49e292c039918d2eee0",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "e6e94a24bf5956b9c269",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.018960289469209576,
+              0.9810397105307903
+            ],
+            "option_logits": [
+              36.74574279785156,
+              40.69200897216797
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1889,
+            "input_ids_sha256": "ae07adba204571c0e41840f5724b7dbce2d90a8ee90d4994cfb902b34cb254bb",
+            "forward_seconds": 1.79600610001944,
+            "total_seconds": 1.8343582000234164,
+            "prompt_sha256": "38549544de44438e7293a7c697035bac4afb433588c8c9f760b66e72367599aa",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "7ab1bf4a314eb9f5c626",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.5486734944129984,
+              0.4513265055870016
+            ],
+            "option_logits": [
+              38.08526611328125,
+              37.88995361328125
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1888,
+            "input_ids_sha256": "d9d0efee8ab14b724eedb12271054260a80a7c0034d3b8671f6c82739efb35ec",
+            "forward_seconds": 1.7934883999987505,
+            "total_seconds": 1.8236473000142723,
+            "prompt_sha256": "9030af697f40100569c8ca0ca9c3305b58313031cab894b5043f8314ce4f3ffe",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "47c0245bb50e6bc4a3c7",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.001044171051791257,
+              0.9989558289482089
+            ],
+            "option_logits": [
+              35.293853759765625,
+              42.15734100341797
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1887,
+            "input_ids_sha256": "c1b34728de13cd7dd7c46fcc29af9080cf0ae78c0595bed21d73845be869318b",
+            "forward_seconds": 1.7938499999581836,
+            "total_seconds": 1.8276526000117883,
+            "prompt_sha256": "e08ab1c92ec2f06a82c343cb449125f7473176882b0d7fc35933fe1b0592525b",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "b68c10e7de694171b6f1",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              3.6246477286983787e-09,
+              0.9999999963753523
+            ],
+            "option_logits": [
+              22.441139221191406,
+              41.87664794921875
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1893,
+            "input_ids_sha256": "b11f5a42ed92e52b57332221b731b25fd7f5dd65d3a020b963ba2ed4209e6347",
+            "forward_seconds": 1.786993200017605,
+            "total_seconds": 1.8174310999456793,
+            "prompt_sha256": "75a230cb4b59337c9bf66b91021f617de4be3483b23634725e16f04a7f17b1db",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "5bf29f505c7a2f9e9c05",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.000216271683821647,
+              0.9997837283161782
+            ],
+            "option_logits": [
+              32.63663864135742,
+              41.07539749145508
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "419bb56219703e4fb9eeb6d88889836ca87557406dc237c1b13bfa12e3318805",
+            "forward_seconds": 1.7951389999943785,
+            "total_seconds": 1.8257171000004746,
+            "prompt_sha256": "da3ac3ab1c9a2b4c78a0e051069831471a418e844c2e6577cc8ec1e3b94b861d",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "8e8b3acbcf810123cc28",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9999968599372949,
+              3.1400627049784806e-06
+            ],
+            "option_logits": [
+              42.621788024902344,
+              29.950523376464844
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1889,
+            "input_ids_sha256": "8f54d3c586640c5fee239e539ebb8336f8492aea3ce591eb09c411873016aba9",
+            "forward_seconds": 1.80004070000723,
+            "total_seconds": 1.8300795000395738,
+            "prompt_sha256": "30f8b0d216bf4e9d66756bebcd04a0f43db6638dd34fce00730e385aefb7a27f",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "2ddee44782d3d706ab53",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.014154256597170444,
+              0.9858457434028295
+            ],
+            "option_logits": [
+              37.52030944824219,
+              41.7637939453125
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1887,
+            "input_ids_sha256": "13bea20aa6e24d4d7fdbabff0004d0937ed0f58a268f06fb3afaee5631b1ce48",
+            "forward_seconds": 1.7988286999752745,
+            "total_seconds": 1.8320262000197545,
+            "prompt_sha256": "fc6fd7795a6d89032871291d3d4e389a4cca06c5b8764fdbd0e54ebdf9156f23",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "6b35e4fc4f43379e6ac5",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              3.2580935316757643e-06,
+              0.9999967419064683
+            ],
+            "option_logits": [
+              29.754901885986328,
+              42.38926696777344
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "23f6279164c32820c9c2a75cfe7b4c31b07ebef6e2d12ecbaf90e470ac241c0a",
+            "forward_seconds": 1.787961499998346,
+            "total_seconds": 1.8297887000371702,
+            "prompt_sha256": "ad08ff4cc3a2103c2a6ea1283b9b34d45998d92501f6fe0b35c0e9a9e5e3242c",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          }
+        ]
+      },
+      {
+        "repeat": 2,
+        "total_seconds": 44.683228600013535,
+        "outputs": [
+          {
+            "id": "015c14ff8f2bce2886b3",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.999999996636669,
+              3.3633308881676624e-09
+            ],
+            "option_logits": [
+              45.971500396728516,
+              26.461166381835938
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1891,
+            "input_ids_sha256": "7bb3b1d003f2d138e18ea6740d0992233f946507f2452a4a9788802062eca8f8",
+            "forward_seconds": 8.127207099983934,
+            "total_seconds": 8.15904070000397,
+            "prompt_sha256": "58094802fc62a694cbeef881b43bde2a662338f2cd0158e3a007d4f0c73c0b37",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "815ec74d63795e229fba",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.999999999782067,
+              2.1793292118236199e-10
+            ],
+            "option_logits": [
+              45.57495880126953,
+              23.328125
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "939eb6b7e308eada284d891f47eec4da25f4edd8d1a19ab9487458ed2a50a79a",
+            "forward_seconds": 1.7964263000176288,
+            "total_seconds": 1.82687900000019,
+            "prompt_sha256": "5d78c634775505bc67b04c77b6ac904f6503051699caeb45c542191ff9d3dd0c",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "25fd3b3c4282f626ed46",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              6.394561696462031e-11,
+              0.9999999999360545
+            ],
+            "option_logits": [
+              23.190364837646484,
+              46.663352966308594
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1892,
+            "input_ids_sha256": "68280e37ec023fe46909df83d96355c62ef15af170e2de0e589a38fc29188b51",
+            "forward_seconds": 1.7846481000306085,
+            "total_seconds": 1.821308299957309,
+            "prompt_sha256": "505c879a5e3cffb43a97e2b934e75234b3af0e70e8f148fcc053fe65be8b0792",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "d935968eeb58c19921b0",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              3.9061653452603176e-08,
+              0.9999999609383465
+            ],
+            "option_logits": [
+              26.821292877197266,
+              43.879417419433594
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1892,
+            "input_ids_sha256": "bb4b55b82d5668651b12c777de7661c735a062049853dc9b7cfecfad16e052eb",
+            "forward_seconds": 1.7956802999833599,
+            "total_seconds": 1.8254483999917284,
+            "prompt_sha256": "d5c4d89b9df56596cc5b404a732333f210c2972330a7097dcf14e6ae364a3a21",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "d13f1a2e8c40252990ad",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9999989595259905,
+              1.0404740094205647e-06
+            ],
+            "option_logits": [
+              42.68528747558594,
+              28.909454345703125
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1888,
+            "input_ids_sha256": "ace6df0bb6bef7a43483065cbf5c0869090e7b50de242f846afbaa7fafbed92b",
+            "forward_seconds": 1.7975491999532096,
+            "total_seconds": 1.8302612999686971,
+            "prompt_sha256": "2b918ae5364f09b6975661229f9aa53e5c9d02ef9bb007a4da5b5ece54d062e7",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "8019cc363d844813dbd8",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9907323368825067,
+              0.00926766311749337
+            ],
+            "option_logits": [
+              42.115440368652344,
+              37.44352722167969
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1888,
+            "input_ids_sha256": "d114262d8c61f960022dfc4bc8188683726efc9ce0172be9abe347c92b0adbe2",
+            "forward_seconds": 1.7963594000320882,
+            "total_seconds": 1.8362171000335366,
+            "prompt_sha256": "d990e309dbd80c80822474332f890cd6d4c3856faf9e5d1ae413ed22e5c51134",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "e271fff191315cb4c95f",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.45607286170755584,
+              0.5439271382924442
+            ],
+            "option_logits": [
+              39.396080017089844,
+              39.572242736816406
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1886,
+            "input_ids_sha256": "1a987e2a98b243f4f42174850c8b1f6bf5ebd7b9a680165af3572f398646c7ec",
+            "forward_seconds": 1.7976628000033088,
+            "total_seconds": 1.828046099981293,
+            "prompt_sha256": "196c22335919380f975ae9144714f95f9f98759c99acee182150f97915b91d1e",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "a87ef520af09c18399da",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              2.1989612936842184e-05,
+              0.9999780103870631
+            ],
+            "option_logits": [
+              31.027889251708984,
+              41.7528076171875
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1887,
+            "input_ids_sha256": "23122cd575ea31abf52dd1187f4e95dc198df2b91a0972ae54867d91ba7d710a",
+            "forward_seconds": 1.785481799975969,
+            "total_seconds": 1.8171418000129052,
+            "prompt_sha256": "3c0ad27d8e00353d1318d9208447a01f542249c7efc5ba42796b22a8886c42f6",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "1a6ff632056454ec590e",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.987917112370513,
+              0.012082887629486925
+            ],
+            "option_logits": [
+              42.149261474609375,
+              37.745452880859375
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1887,
+            "input_ids_sha256": "70b591695e29514259e4331a7d9f76a9453d8b42aeb330d6e25a20b9a0779a39",
+            "forward_seconds": 1.7955201999866404,
+            "total_seconds": 1.8258659000275657,
+            "prompt_sha256": "b707f37627ab3ad6c6f8fac4ed5ef1b3390f6688efb84ee07606930db71c95be",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "48228bad5fddd8b37b78",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.009957945182883099,
+              0.9900420548171169
+            ],
+            "option_logits": [
+              38.65644073486328,
+              43.25581741333008
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "6529f94489b0251e65c19ba8f0c095e5a265790ce97dca74116b59f07e01ceae",
+            "forward_seconds": 1.7870727999834344,
+            "total_seconds": 1.8171318999957293,
+            "prompt_sha256": "692e885b2e2ce5febdd714fbee28d32bf5becbb0a1582f490d7d5e00adc1971f",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "4297376234661d401e23",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              3.6905036967476715e-08,
+              0.999999963094963
+            ],
+            "option_logits": [
+              27.203964233398438,
+              44.31888198852539
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "6f1e535cca5285e91eac9c69709ae0ca333b38d5e42c43b8a5bcd2703ba2778f",
+            "forward_seconds": 1.797571400005836,
+            "total_seconds": 1.827894499991089,
+            "prompt_sha256": "67949655f1c8c863493dc11dc99f1ba0cacac1e18d421583085145d6d3ab68dc",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "1d68e7b5ce26c6964c5b",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9884606951878537,
+              0.011539304812146206
+            ],
+            "option_logits": [
+              40.82729721069336,
+              36.37690734863281
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1889,
+            "input_ids_sha256": "6c8dd036e25fe8b734ab0e1b6f822e80d18693b4134c848daf4ec06e9d99480e",
+            "forward_seconds": 1.7997913000290282,
+            "total_seconds": 1.829596700030379,
+            "prompt_sha256": "5094be2048840406309fc5813a7270e11a4567d5d04242b8ab56bb69f7b52d83",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "c2413f7d90123acb24ad",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9999997463323407,
+              2.5366765939290777e-07
+            ],
+            "option_logits": [
+              45.620059967041016,
+              30.432819366455078
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1889,
+            "input_ids_sha256": "a9c7e0bf83763c83611585474ca8aec531b565c7605868dd2c89d27812d43aa0",
+            "forward_seconds": 1.798571500054095,
+            "total_seconds": 1.830650199961383,
+            "prompt_sha256": "c50a4e19b9ec885d383953c2eadad9b5c770a686e9e9b49e292c039918d2eee0",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "e6e94a24bf5956b9c269",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.018960289469209576,
+              0.9810397105307903
+            ],
+            "option_logits": [
+              36.74574279785156,
+              40.69200897216797
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1889,
+            "input_ids_sha256": "ae07adba204571c0e41840f5724b7dbce2d90a8ee90d4994cfb902b34cb254bb",
+            "forward_seconds": 1.7988869000109844,
+            "total_seconds": 1.8290616000303999,
+            "prompt_sha256": "38549544de44438e7293a7c697035bac4afb433588c8c9f760b66e72367599aa",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "7ab1bf4a314eb9f5c626",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.5486734944129984,
+              0.4513265055870016
+            ],
+            "option_logits": [
+              38.08526611328125,
+              37.88995361328125
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1888,
+            "input_ids_sha256": "d9d0efee8ab14b724eedb12271054260a80a7c0034d3b8671f6c82739efb35ec",
+            "forward_seconds": 1.7962841999833472,
+            "total_seconds": 1.8272032999666408,
+            "prompt_sha256": "9030af697f40100569c8ca0ca9c3305b58313031cab894b5043f8314ce4f3ffe",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "47c0245bb50e6bc4a3c7",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.001044171051791257,
+              0.9989558289482089
+            ],
+            "option_logits": [
+              35.293853759765625,
+              42.15734100341797
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1887,
+            "input_ids_sha256": "c1b34728de13cd7dd7c46fcc29af9080cf0ae78c0595bed21d73845be869318b",
+            "forward_seconds": 1.7972494999994524,
+            "total_seconds": 1.8270354999694973,
+            "prompt_sha256": "e08ab1c92ec2f06a82c343cb449125f7473176882b0d7fc35933fe1b0592525b",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "b68c10e7de694171b6f1",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              3.6246477286983787e-09,
+              0.9999999963753523
+            ],
+            "option_logits": [
+              22.441139221191406,
+              41.87664794921875
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1893,
+            "input_ids_sha256": "b11f5a42ed92e52b57332221b731b25fd7f5dd65d3a020b963ba2ed4209e6347",
+            "forward_seconds": 1.7868910999968648,
+            "total_seconds": 1.8176417999784462,
+            "prompt_sha256": "75a230cb4b59337c9bf66b91021f617de4be3483b23634725e16f04a7f17b1db",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "5bf29f505c7a2f9e9c05",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.000216271683821647,
+              0.9997837283161782
+            ],
+            "option_logits": [
+              32.63663864135742,
+              41.07539749145508
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "419bb56219703e4fb9eeb6d88889836ca87557406dc237c1b13bfa12e3318805",
+            "forward_seconds": 1.7958764000213705,
+            "total_seconds": 1.826382700004615,
+            "prompt_sha256": "da3ac3ab1c9a2b4c78a0e051069831471a418e844c2e6577cc8ec1e3b94b861d",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "8e8b3acbcf810123cc28",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.9999968599372949,
+              3.1400627049784806e-06
+            ],
+            "option_logits": [
+              42.621788024902344,
+              29.950523376464844
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1889,
+            "input_ids_sha256": "8f54d3c586640c5fee239e539ebb8336f8492aea3ce591eb09c411873016aba9",
+            "forward_seconds": 1.7943216999992728,
+            "total_seconds": 1.824896699981764,
+            "prompt_sha256": "30f8b0d216bf4e9d66756bebcd04a0f43db6638dd34fce00730e385aefb7a27f",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "2ddee44782d3d706ab53",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              0.014154256597170444,
+              0.9858457434028295
+            ],
+            "option_logits": [
+              37.52030944824219,
+              41.7637939453125
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1887,
+            "input_ids_sha256": "13bea20aa6e24d4d7fdbabff0004d0937ed0f58a268f06fb3afaee5631b1ce48",
+            "forward_seconds": 1.7948590999585576,
+            "total_seconds": 1.8326804999960586,
+            "prompt_sha256": "fc6fd7795a6d89032871291d3d4e389a4cca06c5b8764fdbd0e54ebdf9156f23",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          },
+          {
+            "id": "6b35e4fc4f43379e6ac5",
+            "option_ids": [
+              "yes",
+              "no"
+            ],
+            "probabilities": [
+              3.2580935316757643e-06,
+              0.9999967419064683
+            ],
+            "option_logits": [
+              29.754901885986328,
+              42.38926696777344
+            ],
+            "answer_token_ids": [
+              32,
+              33
+            ],
+            "input_tokens": 1890,
+            "input_ids_sha256": "23f6279164c32820c9c2a75cfe7b4c31b07ebef6e2d12ecbaf90e470ac241c0a",
+            "forward_seconds": 1.7909875999903306,
+            "total_seconds": 1.821575199952349,
+            "prompt_sha256": "ad08ff4cc3a2103c2a6ea1283b9b34d45998d92501f6fe0b35c0e9a9e5e3242c",
+            "prompt_version": "direct-options-v1",
+            "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+            "probability_status": "conditional option score; uncalibrated as decision confidence"
+          }
+        ]
+      }
+    ],
+    "median_total_seconds": 44.683228600013535
+  },
+  "compact_generation": {
+    "max_new_tokens": 128,
+    "runs": [
+      {
+        "prompt_sha256": "4310f4e635768b2cdbefe601ee7d9ca8678d2059c5c56f86396c94ba887d7b9a",
+        "input_tokens": 2147,
+        "output_tokens": 64,
+        "time_to_first_token_seconds": 9.776635400019586,
+        "total_seconds": 13.790558399981819,
+        "output_text": "[\"yes\", \"yes\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\"]",
+        "valid_complete_array": true,
+        "choices": [
+          "yes",
+          "yes",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no"
+        ],
+        "timeline": [
+          {
+            "seconds": 9.776635400019586,
+            "token_id": 1183,
+            "text": "[\""
+          },
+          {
+            "seconds": 10.065538200025912,
+            "token_id": 9693,
+            "text": "yes"
+          },
+          {
+            "seconds": 10.125209400022868,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 10.185050200030673,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 10.245040600013454,
+            "token_id": 9693,
+            "text": "yes"
+          },
+          {
+            "seconds": 10.30513079999946,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 10.365122099989094,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 10.425029000034556,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 10.485065000015311,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 10.545055499998853,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 10.605026600009296,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 10.665183999983128,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 10.725185799994506,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 10.785273800021969,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 10.845196800015401,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 10.904873399995267,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 10.965093300037552,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 11.02481999999145,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 11.084683099994436,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 11.144639300007839,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 11.204412000020966,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 11.264228000014555,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 11.323958499997389,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 11.38383830001112,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 11.444273500004783,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 11.504317199985962,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 11.564432599989232,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 11.624324999982491,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 11.68421199999284,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 11.744363799982239,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 11.80480240000179,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 11.8653657999821,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 11.925584300013725,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 11.985379400022794,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.045218800019938,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.105802899983246,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.16555309999967,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.22547200002009,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.285633800027426,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.345484299992677,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.405667399987578,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.4654898000299,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.525648900016677,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.585457300010603,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.645566800027154,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.70552990003489,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.765682300028857,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.826064300024882,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.886460100009572,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.946670700039249,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 13.006882300018333,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 13.066599400015548,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 13.126903700002003,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 13.187113000021782,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 13.247260600037407,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 13.30773629999021,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 13.367983100004494,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 13.428094100032467,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 13.488385200034827,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 13.548753299983218,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 13.608718500006944,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 13.668612200010102,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 13.729013500036672,
+            "token_id": 1341,
+            "text": "\"]"
+          },
+          {
+            "seconds": 13.79010919999564,
+            "token_id": 151645,
+            "text": ""
+          }
+        ],
+        "eos_token_ids": [
+          151643,
+          151645
+        ],
+        "ended_by_eos": true,
+        "truncated": false,
+        "repeat": 0,
+        "agreement_with_direct_argmax": 0.6666666666666666
+      },
+      {
+        "prompt_sha256": "4310f4e635768b2cdbefe601ee7d9ca8678d2059c5c56f86396c94ba887d7b9a",
+        "input_tokens": 2147,
+        "output_tokens": 64,
+        "time_to_first_token_seconds": 9.768070599995553,
+        "total_seconds": 13.569453299976885,
+        "output_text": "[\"yes\", \"yes\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\"]",
+        "valid_complete_array": true,
+        "choices": [
+          "yes",
+          "yes",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no"
+        ],
+        "timeline": [
+          {
+            "seconds": 9.768070599995553,
+            "token_id": 1183,
+            "text": "[\""
+          },
+          {
+            "seconds": 9.857739900005981,
+            "token_id": 9693,
+            "text": "yes"
+          },
+          {
+            "seconds": 9.917588999960572,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 9.977383899968117,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 10.03740629996173,
+            "token_id": 9693,
+            "text": "yes"
+          },
+          {
+            "seconds": 10.097352899960242,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 10.157118499977514,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 10.217130999953952,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 10.276998299988918,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 10.336576199973933,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 10.39631839998765,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 10.457101699954364,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 10.518538300006185,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 10.578573999984656,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 10.638163299998268,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 10.698094499995932,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 10.759240999992471,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 10.819301799987443,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 10.87926369998604,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 10.939249299990479,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 10.999081799993291,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 11.058745699992869,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 11.118371599994134,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 11.178367499960586,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 11.23811829998158,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 11.297712499974295,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 11.357491299975663,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 11.417139699973632,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 11.476655400008895,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 11.53640300000552,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 11.596154399972875,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 11.655618999968283,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 11.715388099953998,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 11.775426799955312,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 11.83491569996113,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 11.894530999998096,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 11.954621199984103,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.01443709997693,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.074360699974932,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.13418890000321,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.19403269997565,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.253662100003567,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.313502500008326,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.37328569998499,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.433215099968947,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.49268349999329,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.552245599974412,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.612024799978826,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.67176949995337,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.731697999988683,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.791856999974698,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.851307799981441,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.910982500005048,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.970982600003481,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 13.030913599999622,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 13.090720299980603,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 13.150543899973854,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 13.210520999971777,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 13.270319700008258,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 13.330005399999209,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 13.389606299984735,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 13.44953349995194,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 13.509323199978098,
+            "token_id": 1341,
+            "text": "\"]"
+          },
+          {
+            "seconds": 13.568991599953733,
+            "token_id": 151645,
+            "text": ""
+          }
+        ],
+        "eos_token_ids": [
+          151643,
+          151645
+        ],
+        "ended_by_eos": true,
+        "truncated": false,
+        "repeat": 1,
+        "agreement_with_direct_argmax": 0.6666666666666666
+      },
+      {
+        "prompt_sha256": "4310f4e635768b2cdbefe601ee7d9ca8678d2059c5c56f86396c94ba887d7b9a",
+        "input_tokens": 2147,
+        "output_tokens": 64,
+        "time_to_first_token_seconds": 11.79761349997716,
+        "total_seconds": 15.643682900001295,
+        "output_text": "[\"yes\", \"yes\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\", \"no\"]",
+        "valid_complete_array": true,
+        "choices": [
+          "yes",
+          "yes",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no"
+        ],
+        "timeline": [
+          {
+            "seconds": 11.79761349997716,
+            "token_id": 1183,
+            "text": "[\""
+          },
+          {
+            "seconds": 11.889856899972074,
+            "token_id": 9693,
+            "text": "yes"
+          },
+          {
+            "seconds": 11.949641200015321,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.00971730001038,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.069774299976416,
+            "token_id": 9693,
+            "text": "yes"
+          },
+          {
+            "seconds": 12.129697199969087,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.18987240002025,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.249845099984668,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.310305499995593,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.370072400022764,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.430011600023136,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.489867799973581,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.54981419997057,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.609339100017678,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.669784399971832,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.730816200026311,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.79096459998982,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 12.850929500011262,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 12.910769300011452,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 12.970505799981765,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 13.030258600017987,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 13.09008160000667,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 13.14986449998105,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 13.209848599974066,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 13.269738500006497,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 13.330443100014236,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 13.390234199992847,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 13.450069200014696,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 13.510011699981987,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 13.569776899996214,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 13.630028699990362,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 13.689949100022204,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 13.750457899994217,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 13.810494799981825,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 13.870343499991577,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 13.930120899982285,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 13.990018900018185,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 14.049899899982847,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 14.109810299996752,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 14.170109200000297,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 14.230075799976476,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 14.289985199982766,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 14.349942400003783,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 14.409942300000694,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 14.470241600007284,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 14.530184199975338,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 14.59122150001349,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 14.6727763999952,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 14.737095699994825,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 14.799152499996126,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 14.860185700003058,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 14.920224600005895,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 14.98018910002429,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 15.04024160001427,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 15.100332600006368,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 15.16019550000783,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 15.220375799981412,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 15.281489500019234,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 15.341842100024223,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 15.402076700003818,
+            "token_id": 497,
+            "text": "\","
+          },
+          {
+            "seconds": 15.462369800021406,
+            "token_id": 330,
+            "text": " \""
+          },
+          {
+            "seconds": 15.52243000001181,
+            "token_id": 2152,
+            "text": "no"
+          },
+          {
+            "seconds": 15.582791300024837,
+            "token_id": 1341,
+            "text": "\"]"
+          },
+          {
+            "seconds": 15.643195900018327,
+            "token_id": 151645,
+            "text": ""
+          }
+        ],
+        "eos_token_ids": [
+          151643,
+          151645
+        ],
+        "ended_by_eos": true,
+        "truncated": false,
+        "repeat": 2,
+        "agreement_with_direct_argmax": 0.6666666666666666
+      }
+    ],
+    "median_total_seconds": 13.790558399981819,
+    "median_output_tokens": 64,
+    "all_runs_valid_complete_arrays": true,
+    "all_runs_ended_by_eos": true,
+    "truncated_repeats": []
+  },
+  "median_wall_ratio_generation_over_direct": 0.30862940821553886
+}

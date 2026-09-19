@@ -99,6 +99,44 @@ scoring only: serial and shared modes are not supported. It preserves the
 SemIf interface and data format, but it is not an official Jev binary or
 network API and does not transfer the Qwen3.5 quality claims to Qwen3.
 
+## Optional AMD 16K Token Fusion model
+
+For a separate long-context experiment, AMD publishes a Qwen3 4B Token Fusion
+artifact for Ryzen AI 1.8. It is a different compiled model from the 4K Full
+Fusion artifact above and must be kept in a separate directory:
+
+* model: `amd/Qwen3-4B_rai_1.8.0_npu_16K`
+* pinned revision: `715d60818350b685ca2af3566e5ae38f4780daf0`
+* local path: `models\Qwen3-4B-npu-16k`
+* source: [AMD 16K model card](https://huggingface.co/amd/Qwen3-4B_rai_1.8.0_npu_16K)
+
+Download the pinned snapshot without changing the existing 4K directory:
+
+```powershell
+$modelDir = 'models\Qwen3-4B-npu-16k'
+& .\.venv\Scripts\hf.exe download amd/Qwen3-4B_rai_1.8.0_npu_16K `
+  --revision 715d60818350b685ca2af3566e5ae38f4780daf0 `
+  --local-dir $modelDir
+```
+
+The official 16K configuration uses Token Fusion with
+`search.max_length` 16384 and `search.chunk_size` 4096. Use the launcher with
+the local directory and the pinned revision when scoring this artifact:
+
+```powershell
+.\run_semif_npu.ps1 `
+  -Model 'models\Qwen3-4B-npu-16k' `
+  -Revision '715d60818350b685ca2af3566e5ae38f4780daf0' `
+  -MaxTokens 16384
+```
+
+The backend reads the model's compiled context metadata and enforces the
+effective model context limit; changing the 4K model's JSON configuration does
+not extend that artifact. The 16K command is an optional setup path and has not
+been claimed as a completed runtime or quality run here. The NPU browser demo
+continues to use the configured 4K model and its 4096-token context until a
+separate demo configuration is implemented.
+
 ## Local hardware verification
 
 ### Browser demo

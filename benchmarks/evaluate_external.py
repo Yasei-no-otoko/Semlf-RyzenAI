@@ -41,8 +41,9 @@ def aligned_distribution(row, prediction):
     return prediction["probabilities"]
 
 
-def type_safe(gold, direct, reranker):
-    systems = {"direct": prediction_map(direct), "reranker": prediction_map(reranker)}
+def type_safe_systems(gold, system_predictions):
+    """Evaluate any named set of systems against the frozen TypeSafe rows."""
+    systems = {name: prediction_map(predictions) for name, predictions in system_predictions.items()}
     expected = {row["id"] for row in gold}
     if any(set(predictions) != expected for predictions in systems.values()):
         raise ValueError("TypeSafe gold and prediction IDs differ")
@@ -77,6 +78,11 @@ def type_safe(gold, direct, reranker):
             ),
         }
     return result
+
+
+def type_safe(gold, direct, reranker):
+    """Backward-compatible two-system TypeSafe report."""
+    return type_safe_systems(gold, {"direct": direct, "reranker": reranker})
 
 
 def yes_probability(row, predictions):
@@ -148,8 +154,9 @@ def firewall(rows, predictions, actions):
     return {"rows": len(rows), "actions": len(expected), "correct": correct, "accuracy": correct / len(expected)}
 
 
-def every(gold, inference, direct, reranker, actions):
-    systems = {"direct": prediction_map(direct), "reranker": prediction_map(reranker)}
+def every_systems(gold, inference, system_predictions, actions):
+    """Evaluate any named set of systems against the frozen Every rows."""
+    systems = {name: prediction_map(predictions) for name, predictions in system_predictions.items()}
     gold_ids = {row["id"] for row in gold}
     inference_ids = {row["id"] for row in inference}
     if len(inference_ids) != len(inference) or any(set(predictions) != inference_ids for predictions in systems.values()):
@@ -169,6 +176,11 @@ def every(gold, inference, direct, reranker, actions):
             "action-firewall": firewall(firewall_rows, predictions, actions),
         }
     return result
+
+
+def every(gold, inference, direct, reranker, actions):
+    """Backward-compatible two-system Every report."""
+    return every_systems(gold, inference, {"direct": direct, "reranker": reranker}, actions)
 
 
 def main() -> None:

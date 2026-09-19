@@ -2,6 +2,10 @@
 results/raw/*.json text eol=lf
 results/raw/*.jsonl text eol=lf
 results/raw/SHA256SUMS text eol=lf
+results/raw/ryzenai-*/*.json text eol=lf
+results/raw/ryzenai-*/*.jsonl text eol=lf
+benchmarks/data/*.jsonl text eol=lf
+benchmarks/manifests/*.jsonl text eol=lf
 docs/media/README.md text eol=lf
 docs/media/*.jsonl text eol=lf
 docs/media/*.cast text eol=lf

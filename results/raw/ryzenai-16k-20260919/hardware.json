@@ -1,0 +1,38 @@
+{
+  "before": {
+    "available": true,
+    "benchmark_contexts": [
+      {
+        "context_id": "26",
+        "command_submissions": "0",
+        "command_completions": "0",
+        "errors": "0"
+      },
+      {
+        "context_id": "27",
+        "command_submissions": "0",
+        "command_completions": "0",
+        "errors": "0"
+      }
+    ],
+    "other_process_command_submissions": 7507
+  },
+  "after": {
+    "available": true,
+    "benchmark_contexts": [
+      {
+        "context_id": "26",
+        "command_submissions": "588390",
+        "command_completions": "588390",
+        "errors": "0"
+      },
+      {
+        "context_id": "27",
+        "command_submissions": "0",
+        "command_completions": "0",
+        "errors": "0"
+      }
+    ],
+    "other_process_command_submissions": 7507
+  }
+}

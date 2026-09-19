@@ -47,3 +47,37 @@ Direct modes are fresh batch-one scoring, serial suffixes after one state prefil
 - Softmax over allowed tokens is conditional on the supplied alternatives; it is not calibrated operational confidence.
 - Prefix-cache speedups are implementation results, not evidence about Jev's disclosed architecture.
 - A reranker is expected to be strongest on ranking. Its categorical threshold metrics should not be confused with ranking quality.
+
+## Ryzen AI 1.8 evidence
+
+The Ryzen AI runs use AMD's pinned ONNX Runtime GenAI NPU artifacts through the
+repository's `ryzenai-npu` direct backend. The 4K quality run uses the local
+`amd/Qwen3-4B_rai_1.8.0_npu_4K` artifact at revision
+`d6fb03663d78ae5034d4594bfe9d92b35a5e213a`. The separate long-context quality
+run uses AMD's `amd/Qwen3-4B_rai_1.8.0_npu_16K` Token Fusion artifact at
+revision `715d60818350b685ca2af3566e5ae38f4780daf0`. These are distinct
+compiled model artifacts; results are reported by artifact and are not a
+Qwen3.5-to-Qwen3 quality transfer.
+
+Both runs use the same frozen SemIf inputs and direct probability scorer. The
+official NPU configuration permits CPU host/tokenization and other CPU graph
+work; no GPU offload is configured. The benchmark records model, runtime,
+revision, source-artifact, input, prompt, and code hashes in its manifest.
+Predictions contain option IDs, probabilities/logits, token counts, timings,
+and errors, but no source text or reference documents.
+
+The speed scope is deliberately narrow: three fresh direct repeats for the
+21-decision compact comparison against one compact JSON generation with a
+128-token output cap, plus one fresh-direct pass over all 777 Shape777
+decisions. Serial prefix caching, shared-state execution, and the native
+reranker are unsupported paths for this backend. The run performs a context
+preflight and never silently truncates a prompt. The 4K TypeSafe run is
+recorded its compiled-context rejections explicitly (29 rejected and 73 scored
+rows). The 16K Token Fusion run scored all 102 TypeSafe rows; its largest
+observed input was 12,621 tokens. The two results remain measurements of
+distinct compiled artifacts, not a context-only comparison.
+
+The model distinction and context modes follow AMD's [Ryzen AI 1.8 OGA
+documentation](https://ryzenai.docs.amd.com/en/latest/oga_model_prepare.html). The
+official model cards are [Qwen3-4B NPU 4K](https://huggingface.co/amd/Qwen3-4B_rai_1.8.0_npu_4K)
+and [Qwen3-4B NPU 16K](https://huggingface.co/amd/Qwen3-4B_rai_1.8.0_npu_16K).

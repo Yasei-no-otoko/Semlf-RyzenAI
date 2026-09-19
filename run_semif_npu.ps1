@@ -24,8 +24,8 @@ try {
     if (-not (Test-Path -LiteralPath $python -PathType Leaf)) {
         throw "Project interpreter not found: $python. Create .venv and install the project first."
     }
-    if ($MaxTokens -lt 1 -or $MaxTokens -gt 4096) {
-        throw "MaxTokens must be between 1 and 4096 for the Full Fusion 4K model."
+    if ($MaxTokens -lt 1 -or $MaxTokens -gt 16384) {
+        throw "MaxTokens must be between 1 and 16384; the selected model's context limit is also enforced."
     }
     if (-not (Test-Path -LiteralPath $Model -PathType Container)) {
         throw "Local NPU model directory not found: $Model"

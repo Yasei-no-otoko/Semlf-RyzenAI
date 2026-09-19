@@ -48,7 +48,10 @@ def _artifact_hashes(source: Path) -> dict[str, str]:
     model_suffixes = {".onnx", ".data", ".bin", ".fconst", ".state", ".meta", ".super", ".ctrlpkt"}
     result = {}
     for artifact in sorted((path for path in source.rglob("*") if path.is_file()), key=lambda path: str(path)):
-        if artifact.name not in names and artifact.suffix.casefold() not in model_suffixes:
+        relative = artifact.relative_to(source).as_posix()
+        compiled_cache = (relative == "cache/txn_bins.zip" or
+                          (relative.startswith("cache/") and artifact.name.endswith("_meta.json")))
+        if artifact.name not in names and artifact.suffix.casefold() not in model_suffixes and not compiled_cache:
             continue
         hasher = hashlib.sha256()
         with artifact.open("rb") as handle:
@@ -132,8 +135,25 @@ def _context_ceiling(model: dict, options: dict, search: dict | None = None) -> 
         raise ValueError("RyzenAI config must declare model.context_length and search.max_length")
     values = [(model.get("context_length"), "model.context_length"),
               (options.get("max_length_for_kv_cache"), "RyzenAI.max_length_for_kv_cache"),
-              (options.get("hybrid_opt_max_seq_length"), "RyzenAI.hybrid_opt_max_seq_length"),
               (search.get("max_length"), "search.max_length")]
+    chunk_context = options.get("hybrid_opt_chunk_context")
+    if chunk_context is None:
+        chunk_enabled = False
+    elif isinstance(chunk_context, bool):
+        raise ValueError("RyzenAI.hybrid_opt_chunk_context must be 0 or 1")
+    elif (isinstance(chunk_context, int) and chunk_context in {0, 1}) or (
+            isinstance(chunk_context, str) and chunk_context in {"0", "1"}):
+        chunk_enabled = int(chunk_context) == 1
+    else:
+        raise ValueError("RyzenAI.hybrid_opt_chunk_context must be 0 or 1")
+    if chunk_enabled:
+        chunk_limit = _positive_int(options.get("hybrid_opt_max_seq_length"),
+                                    "RyzenAI.hybrid_opt_max_seq_length")
+        chunk_size = _positive_int(search.get("chunk_size"), "search.chunk_size")
+        if chunk_size > chunk_limit:
+            raise ValueError("search.chunk_size must not exceed RyzenAI.hybrid_opt_max_seq_length")
+    else:
+        values.append((options.get("hybrid_opt_max_seq_length"), "RyzenAI.hybrid_opt_max_seq_length"))
     limits = [_positive_int(value, name) for value, name in values if value is not None]
     return min(limits)
 

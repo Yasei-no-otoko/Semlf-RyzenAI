@@ -1,0 +1,27 @@
+{
+  "authored144": {
+    "rows": 144,
+    "scoring_seconds": 131.74639349989593,
+    "median_row_seconds": 0.8304450499999803
+  },
+  "perturbations108": {
+    "rows": 108,
+    "scoring_seconds": 107.35157460009214,
+    "median_row_seconds": 0.847851799975615
+  },
+  "wanli256": {
+    "rows": 256,
+    "scoring_seconds": 185.13199930015253,
+    "median_row_seconds": 0.7264342500129715
+  },
+  "typesafe102": {
+    "rows": 102,
+    "scoring_seconds": 1196.9726568003534,
+    "median_row_seconds": 6.0173545999859925
+  },
+  "every204": {
+    "rows": 204,
+    "scoring_seconds": 151.53670169977704,
+    "median_row_seconds": 0.7578638999839313
+  }
+}

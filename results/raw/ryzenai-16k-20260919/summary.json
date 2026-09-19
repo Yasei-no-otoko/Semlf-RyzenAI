@@ -1,0 +1,63 @@
+{
+  "unavailable": {},
+  "quality": {
+    "authored144": 0.6945107867708487,
+    "perturbations108": 0.6735449735449736,
+    "wanli256": 0.5846785225718194,
+    "typesafe102": {
+      "status": "complete",
+      "frozen_rows": 102,
+      "scored_rows": 102,
+      "rejected_rows": 0,
+      "full_denominator_equal_case_modal_agreement": 0.629496336996337,
+      "covered_only": {
+        "ryzenai_npu": {
+          "rows": 102,
+          "cases": 20,
+          "equal_case_modal_agreement": 0.629496336996337,
+          "equal_case_total_variation": 0.32008136657589653
+        },
+        "published_jev": {
+          "rows": 102,
+          "cases": 20,
+          "equal_case_modal_agreement": 0.8831410256410257,
+          "equal_case_total_variation": 0.12682507173382174
+        }
+      },
+      "limitation": "Covered-only metrics use fewer rows/cases and are not the published 102-row comparison; context rejections remain failures in full-denominator metrics."
+    },
+    "every204": {
+      "ryzenai_npu": {
+        "judge-grid": {
+          "rows": 36,
+          "correct": 26,
+          "accuracy": 0.7222222222222222
+        },
+        "code-rag": {
+          "rows": 48,
+          "correct": 47,
+          "accuracy": 0.9791666666666666,
+          "queries": 6,
+          "recall_at_1": 1.0,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        },
+        "company-brain": {
+          "rows": 70,
+          "correct": 68,
+          "accuracy": 0.9714285714285714,
+          "queries": 7,
+          "recall_at_1": 0.9285714285714286,
+          "recall_at_3": 1.0,
+          "mrr": 1.0
+        },
+        "action-firewall": {
+          "rows": 50,
+          "actions": 10,
+          "correct": 5,
+          "accuracy": 0.5
+        }
+      }
+    }
+  }
+}

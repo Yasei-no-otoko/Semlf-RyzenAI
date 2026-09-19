@@ -1,0 +1,169 @@
+{
+  "version": "ryzenai-benchmark-v1",
+  "created_utc": "2026-09-19T13:14:15.847099+00:00",
+  "suite": "all",
+  "model": {
+    "source": "models/Qwen3-4B-npu-4k",
+    "revision": "d6fb03663d78ae5034d4594bfe9d92b35a5e213a",
+    "backend": "ryzenai-npu",
+    "oga_distribution": "onnxruntime-genai-directml-ryzenai",
+    "oga_version": "0.14.0",
+    "transformers_version": "4.57.6",
+    "model_device_type": "RyzenAI",
+    "context_ceiling": 4096,
+    "generation_reserve_tokens": 0,
+    "source_artifact_sha256": {
+      "added_tokens.json": "79f6ec6fcc423d3a82bfac8b9033b1daac7b7bce06a5f5f441637b480cc605de",
+      "cache/Token_modellayers.0input_layernormMLADFRMSNORM_meta.json": "f51b73bd3fda06dd339a5519fe5d6017fd9a648854e28685fe070f36847e524b",
+      "cache/modellayers.0input_layernormMLADFRMSNORM_meta.json": "9d9b4746f8bac0a91f89f835a3cba4d985626f72a9054e0fbd6a4683e064ab66",
+      "cache/txn_bins.zip": "b0e1d8af1b8aa2eea9d67e3d9ace7f83d62b3c326b6d33408254d3c792e60b1b",
+      "chat_template.jinja": "51fa65c79bb57f058dc7ef8734884bd325fe9d45bb03a61bfef59785d3bc2da9",
+      "config.json": "ba0c950e5d64337be93aa1bd8cfe496b36a5ca25fd462441831c4ad0b47059e1",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM.fconst": "3449e98ea8cb796c56e986af9255b3e8d3eff1fba73a9b490f7de22daaa79c90",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM.state": "a8735a05900cce3e628a21e8a504a016e7f505cb97da1d6ba846e6593c84f49c",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_1024_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_1024_.meta": "97cfd817fc6709ad04d9a1a724d98bb2e00806eb045ebea8f2e6c46af90aaca6",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_1024_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_128_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_128_.meta": "6e074611c34367ea4771025632071e55cad571fc5f621bfb8aacffd9b3b894bc",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_128_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_1536_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_1536_.meta": "fa76b48b2f308c7dd4f0ef711f41e43a352ad8f1ce2254ad4196c6f2f3e75ccd",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_1536_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_2048_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_2048_.meta": "7a7e693e5267c4180c4e68484f890e4c1cc3b183934a3eba3273c4c02ca30f31",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_2048_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_2304_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_2304_.meta": "b2870b669d23c60dbdeabc916cbf585977d7f05ff16ddedf767e360120ba6b67",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_2304_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_256_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_256_.meta": "9b10aeb96d6a4ae5ab9b890fe7e533351930ff17b769ad7c7b2c3a728fff7727",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_256_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_3072_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_3072_.meta": "acfbf904da528cd46b0ce869be577c801f5ed5df1950f8cfcc74eef2eed60479",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_3072_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_4096_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_4096_.meta": "85ed652fe6333b42abc285387e9bc28ac0de8ad4d2aaece1744669101a925046",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_4096_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_512_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_512_.meta": "65e53a7b9ead80e7ab6282638dc1b7c1fab3736b171e4ad98981dbf748c16c67",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_512_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_768_.ctrlpkt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_768_.meta": "37e600b8c5927f3d7904aa517f1096e44b09c285814b62bc0cf546985c4be6e5",
+      "dd_metastate_Llm_Prefill_modellayers.0input_layernormMLADFRMSNORM_sequence_length_padded_768_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM.fconst": "b8b59b2dca0b5bcc24b53c3d699a5f7035cf1d01c2cde01a44977a81958e1329",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM.state": "779863ef8656a0d514255be0a9ab01897ee2ac8fd34b248f3aedbce2a9dedaa8",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_1024_.ctrlpkt": "26bf5d70ebda7f97184774076b2a18354a91af94a57301f930df6ec294bab1e4",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_1024_.meta": "e31f839aeac7f5905c6171bb9bb4be94a9fa65a1f43ea599888f38113296431e",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_1024_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_2048_.ctrlpkt": "8911c8b9531aa0464dc6b3cb8252f9735d2c41eab947203e5e59b6f341e81c52",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_2048_.meta": "13f72a8ccc36d6a6cfa54c38ede04aeb03aba2180daf70f3b414f01f3c0003c5",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_2048_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_256_.ctrlpkt": "72c47c575995ebb053f3c26f0915700c0a8c82c4caac694faaa533ae865e326a",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_256_.meta": "32a5b0eaf450db067bd70e17e8c49c96d610420af8ea56f797841c881acf82ea",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_256_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_3072_.ctrlpkt": "7e37218c9d0c7698ef8f1c7f90d24baeeee6a14bbf171e247b3119d3144a3bb4",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_3072_.meta": "e213d32dd65b9c619bf8a49ac3a664f466203f1f809d2b268f675b8e4a069acf",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_3072_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_4096_.ctrlpkt": "f8fb4926a5552bb59060d3beb71615ad9faf8705a4f0fb6727efbf832acd456e",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_4096_.meta": "6a2bda0328a520fb8959abeec8b0e851140fb9fc505d2720d353747a8357e000",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_4096_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_512_.ctrlpkt": "febf46d3de106bb0354fccfa2f089e7409548808b623d851067fa623d7d35bd4",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_512_.meta": "d880e1fc0e554bdefb18207ed2fb024e16f21396d35ffa5c1348d47d7e1e2f5f",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_512_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "genai_config.json": "709f2e53b0848578f2eba44ab675038ae0c232f4a696e0d927245d5b6e8c0f5c",
+      "model.onnx": "13e33455f91cca68760e18e7f1ccff1455834ca2065a9c36f802e6e627ba6af5",
+      "model.onnx.data": "438dc5a8a6565f06feb794b77dd79eedbb4f9b0515a8d52698e86f8530fbcad1",
+      "special_tokens_map.json": "57255613bbe23c9497211ca68561ff429a51e871dbaf5a59998fa4c8f7fe168a",
+      "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+      "tokenizer_config.json": "bb4a4119410e61c1bd90d6746d0ae517a996df2b72d5b03f810d219b8a88dee4"
+    },
+    "execution": "AMD official RyzenAI NPU configuration, including its CPU graph components; no GPU provider configured"
+  },
+  "hardware": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.11",
+    "logical_cpus": 32,
+    "processor": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+    "runtime_versions": {
+      "onnxruntime-genai-directml-ryzenai": "0.14.0",
+      "onnxruntime-vitisai": "1.27.0",
+      "onnxruntime-providers-ryzenai": "1.8.0",
+      "ryzenai-dynamic-dispatch": "1.8.0",
+      "voe": "1.8.0",
+      "numpy": "1.26.4"
+    }
+  },
+  "process_id": 35908,
+  "model_load_seconds": 23.59269270004006,
+  "git_base_revision": "9033b80eb3b65738313e4fcda8a0795f0e137243",
+  "benchmark_code_sha256": {
+    "benchmarks/ryzenai_benchmark.py": "652d921e8589bea9ca5a6be4455b80e43311f1224da0ebc818230d85020919aa",
+    "benchmarks/ryzenai_speed.py": "7572c6e4223f90692b88e13dcc82c5ffbcf2a300d9d9beaee27e4cebf20cfece",
+    "benchmarks/evaluate.py": "2b8376577294d6836e2aff1bccf5d4d01aa1ec39e21f8f908281437b2bd4f2af",
+    "benchmarks/evaluate_external.py": "8d69435817a08416866a3df17a6003a296d8e280a67da06d80914b0962c40b33",
+    "benchmarks/evaluate_perturbations.py": "effbe9b74c12aeef5fb5cbf9410528b44bed215c1ee97978df7db9a9dbfd916a",
+    "src/semif_phase1/ryzenai_backend.py": "f4257f077dccd48597f929da137541fd0f2bf6ae5f92c29be6ee22d32b2afd2f",
+    "src/semif_phase1/core.py": "dc72a4b536b340b6f22547d35cf8980613f15334452b9eac92249367d850b4a4"
+  },
+  "inputs": {
+    "authored144": {
+      "path": "benchmarks/data/authored144.jsonl",
+      "sha256": "8162d1c73f925af64453f1ec05ef36d583b3815bf698e60f0d454bd11537e079",
+      "file": "authored144.jsonl",
+      "rows": 144
+    },
+    "perturbations108": {
+      "path": "benchmarks/data/perturbations108.jsonl",
+      "sha256": "1dd7ccf80518d0e34886478ca23982aa726e9daccd343b9e95cedaf6b569bec4",
+      "file": "perturbations108.jsonl",
+      "rows": 108
+    },
+    "shape777": {
+      "path": "benchmarks/data/shape777.jsonl",
+      "sha256": "8dcf414b12fc2684e3c4ca5f3ebfd3f525f5346fec4a9bc67eb65138101f55f1",
+      "file": "shape777.jsonl",
+      "rows": 777
+    },
+    "wanli256": {
+      "file": "wanli256.jsonl",
+      "sha256": "b37977d0753d17c50f64053ed421a5f8ca71d16f8c73262bc8e8d5b113212e78",
+      "rows": 256
+    },
+    "typesafe102": {
+      "file": "typesafe102.jsonl",
+      "sha256": "3d5d5cd10490baaed0b42176d9b7226a0daef17832feb17a973e2ccabf1cd280",
+      "rows": 102
+    },
+    "every204": {
+      "file": "inference204.jsonl",
+      "sha256": "595449ca958a81d7d24bb86bb652d634035e2cfca00ca1e4fe4d5f393e24d42b",
+      "rows": 204
+    },
+    "every_gold154": {
+      "file": "gold154.jsonl",
+      "sha256": "d564ef8ad1242a17e9d28b2595e5f71a5c8db8700f7282c2f2031eec5a95756b",
+      "rows": 154
+    },
+    "firewall_actions": {
+      "file": "firewall-actions.json",
+      "sha256": "5d9299cbc5b90857f555559df2658bfe400252441ad7aac576bb6da09784400f",
+      "actions": 10
+    }
+  },
+  "source_selection_sha256": "81d98a4195971e1fe046673928730b7112a6a7677baf046505761f2504b424c7",
+  "evaluation_matrix_sha256": "6daebbf2ab8d45c081e718dea2c19e07836695ab5bac0120dcd304ed279f22d3",
+  "unavailable": {},
+  "timing_scope": "Warm model; prompt construction, tokenization, forward and readout included; model load and evidence writes excluded.",
+  "unsupported_paths": [
+    "serial_prefix",
+    "parallel_shared",
+    "native_reranker"
+  ],
+  "limitations": [
+    "AMD Qwen3-4B quantized NPU artifact differs from the upstream Qwen3.5-4B BF16 model.",
+    "Official NPU configuration includes CPU graph/host work; no GPU offload is configured.",
+    "No source text or reference document is copied into predictions.",
+    "Other idle demo processes may remain resident; this is a local systems measurement."
+  ]
+}

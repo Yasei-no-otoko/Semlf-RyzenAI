@@ -125,6 +125,30 @@ On an owned 37-state × 21-criterion workload:
 
 The owned [37×21 fixture](benchmarks/data/shape777.jsonl), [direct/reuse runner](benchmarks/shape777.py), [reranker runner](benchmarks/shape777_reranker.py), [raw timings](results/raw/shape777-direct.json), and [row-level predictions](results/raw/shape777-direct.predictions.jsonl) are included. The fast reuse paths are experimental: BF16 execution changed 5–6 of 777 argmaxes relative to fresh scoring.
 
+### Ryzen AI 1.8 NPU direct versus compact generation
+
+The AMD NPU run uses the official quantized Qwen3-4B 4K artifact,
+which is a different model from the Qwen3.5-4B CUDA results above. It allows
+the official CPU host/prefill/LM-head components and configures no GPU offload.
+For the same 21-decision state, three fresh direct runs had a median of
+**44.683 s**; three compact JSON runs had a median of **13.791 s**, or
+**0.309×** the direct wall time (**3.24× faster**). The compact output used a
+64-token median, all three runs were valid and EOS-terminated, and its choices
+agreed with fresh direct argmax on **14/21** criteria. Each direct decision
+prefilled independently; this comparison did not use an NPU shared-state
+cache. The full 777-decision fresh pass took **1,421.510 s**, or
+**0.547 decisions/s**, with a 21-decision state median of **38.403 s**.
+Serial prefix reuse, parallel suffixes, and a native NPU reranker were not
+implemented or measured.
+
+The host was a Ryzen AI Max+ 395 with NPU driver 32.0.20102.3930. Hardware
+counters recorded completed NPU submissions and zero hardware errors for the
+scorer. This was a normal desktop session, not an exclusive-machine run.
+See the [Ryzen AI guide](docs/RYZENAI.md),
+[compact report](results/raw/ryzenai-4k-20260919/compact.json), and
+[777-decision report](results/raw/ryzenai-4k-20260919/shape777.json) for the
+exact scope and metadata.
+
 ## Quality
 
 ### Browser model ladder
@@ -153,6 +177,34 @@ The owned [37×21 fixture](benchmarks/data/shape777.jsonl), [direct/reuse runner
 The reranker remained strong at retrieval ranking, but direct logits were the better general-decision baseline.
 
 The Jev number is read from TypeSafe's published records; we did not run a live Jev endpoint. The comparison covers the 102 rows that could be aligned from public artifacts, not TypeSafe's reported 711-row aggregate.
+
+### Ryzen AI 1.8 NPU quality
+
+These direct-scoring results use two distinct AMD Qwen3-4B compiled artifacts:
+the 4K Full Fusion model and the 16K Token Fusion model. The 16K run's largest
+observed input was 12,621 tokens. Both are separate from the upstream
+Qwen3.5-4B BF16 claims above; the figures are not a context-only comparison.
+The first three scores are mean family balanced accuracy. TypeSafe uses
+equal-case modal agreement; TV is equal-case total variation distance.
+
+| Frozen workload | 4K Full Fusion | 16K Token Fusion |
+|---|---:|---:|
+| Authored decisions | 144/144; **0.7254** | 144/144; **0.6945** |
+| Perturbations | 108/108; **0.7039** | 108/108; **0.6735** |
+| WANLI | 256/256; **0.5846** | 256/256; **0.5847** |
+| TypeSafe | 73/102; 29 context rejections; **0.5354** full-denominator agreement | 102/102; **0.6295** agreement, 20 cases, TV **0.3201** |
+| Every judge grid | 25/36; **0.6944** | 26/36; **0.7222** |
+| Every action firewall | 5/10; **0.5000** | 5/10; **0.5000** |
+| Every code retrieval | Recall@1 **1.0** | Recall@1 **1.0** |
+| Every company knowledge | Recall@1 **0.9286** | Recall@1 **0.9286** |
+
+The 4K TypeSafe covered-only figure was 0.7139 over 73 rows and 15 cases;
+it is not directly comparable with the full 16K 102-row result. Both raw
+[4K reports](results/raw/ryzenai-4k-20260919/quality.json) and [16K
+reports](results/raw/ryzenai-16k-20260919/quality.json), together with their
+[4K manifest](results/raw/ryzenai-4k-20260919/manifest.json) and [16K
+manifest](results/raw/ryzenai-16k-20260919/manifest.json), preserve model,
+runtime, revision, input, and source-artifact hashes.
 
 ## Input
 

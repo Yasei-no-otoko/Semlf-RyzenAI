@@ -27,6 +27,56 @@ def distribution(row):
     return dict(zip(row["option_ids"], row["probabilities"]))
 
 
+def evaluate_system(gold, perturb_gold, base_predictions, perturb_predictions):
+    """Evaluate one scorer using the same stability contract as the published report."""
+    original_ids = {row["id"] for row in gold if row["provenance"]["variant"] == "original"}
+    missing_gold = [row for row in gold if row["provenance"]["variant"] == "missing"]
+    if len(original_ids) != 36 or len(missing_gold) != 36 or len(perturb_gold) != 108:
+        raise ValueError("Unexpected stability populations")
+    base, perturb = indexed(base_predictions), indexed(perturb_predictions)
+    if set(perturb) != {row["id"] for row in perturb_gold} or not original_ids <= set(base):
+        raise ValueError("Incomplete stability outputs")
+    report = {
+        "base_original": evaluate.evaluate(
+            [row for row in gold if row["id"] in original_ids],
+            [base[row["id"]] for row in gold if row["id"] in original_ids],
+        ),
+        "variants": {},
+    }
+    variants = defaultdict(list)
+    for row in perturb_gold:
+        variants[row["provenance"]["variant"]].append(row)
+    for variant, variant_gold in variants.items():
+        shifts, flips = [], []
+        for row in variant_gold:
+            candidate = perturb[row["id"]]
+            reference = base[row["provenance"]["base_id"]]
+            left, right = distribution(reference), distribution(candidate)
+            if set(left) != set(right):
+                raise ValueError("Semantic option IDs changed")
+            shifts.append(max(abs(left[key] - right[key]) for key in left))
+            if chosen(reference) != chosen(candidate):
+                flips.append({"base_id": row["provenance"]["base_id"], "variant_id": row["id"],
+                              "from": chosen(reference), "to": chosen(candidate)})
+        report["variants"][variant] = {
+            "evaluation": evaluate.evaluate(variant_gold, [perturb[row["id"]] for row in variant_gold]),
+            "argmax_flips": len(flips),
+            "flip_rows": flips,
+            "mean_max_probability_movement": statistics.mean(shifts),
+            "max_probability_movement": max(shifts),
+        }
+    missing_predictions = [base[row["id"]] for row in missing_gold]
+    aligned = evaluate.align(missing_gold, missing_predictions)
+    report["missing_evidence"] = {
+        "evaluation": evaluate.evaluate(missing_gold, missing_predictions),
+        "confident_non_insufficient_at_0_8": sum(
+            row["predicted_id"] != "insufficient" and row["confidence"] is not None and row["confidence"] >= .8
+            for row in aligned
+        ),
+    }
+    return report
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--gold", type=Path, required=True)
@@ -38,10 +88,6 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     gold, perturb_gold = read(args.gold), read(args.perturbations)
-    original_ids = {row["id"] for row in gold if row["provenance"]["variant"] == "original"}
-    missing_gold = [row for row in gold if row["provenance"]["variant"] == "missing"]
-    if len(original_ids) != 36 or len(missing_gold) != 36 or len(perturb_gold) != 108:
-        raise ValueError("Unexpected stability populations")
     systems = {
         "direct_logits": (args.direct_base, args.direct_perturbations),
         "reranker": (args.reranker_base, args.reranker_perturbations),
@@ -50,49 +96,8 @@ def main() -> None:
         "meaning": "Stability under output-blind project-authored variants; accuracy against unchanged labels plus semantic-ID-aligned probability movement.",
         "systems": {},
     }
-    variants = defaultdict(list)
-    for row in perturb_gold:
-        variants[row["provenance"]["variant"]].append(row)
     for name, (base_path, perturb_path) in systems.items():
-        base, perturb = indexed(read(base_path)), indexed(read(perturb_path))
-        if set(perturb) != {row["id"] for row in perturb_gold} or not original_ids <= set(base):
-            raise ValueError(f"Incomplete {name} stability outputs")
-        report = {
-            "base_original": evaluate.evaluate(
-                [row for row in gold if row["id"] in original_ids],
-                [base[row["id"]] for row in gold if row["id"] in original_ids],
-            ),
-            "variants": {},
-        }
-        for variant, variant_gold in variants.items():
-            shifts, flips = [], []
-            for row in variant_gold:
-                candidate = perturb[row["id"]]
-                reference = base[row["provenance"]["base_id"]]
-                left, right = distribution(reference), distribution(candidate)
-                if set(left) != set(right):
-                    raise ValueError("Semantic option IDs changed")
-                shifts.append(max(abs(left[key] - right[key]) for key in left))
-                if chosen(reference) != chosen(candidate):
-                    flips.append({"base_id": row["provenance"]["base_id"], "variant_id": row["id"],
-                                  "from": chosen(reference), "to": chosen(candidate)})
-            report["variants"][variant] = {
-                "evaluation": evaluate.evaluate(variant_gold, [perturb[row["id"]] for row in variant_gold]),
-                "argmax_flips": len(flips),
-                "flip_rows": flips,
-                "mean_max_probability_movement": statistics.mean(shifts),
-                "max_probability_movement": max(shifts),
-            }
-        missing_predictions = [base[row["id"]] for row in missing_gold]
-        aligned = evaluate.align(missing_gold, missing_predictions)
-        report["missing_evidence"] = {
-            "evaluation": evaluate.evaluate(missing_gold, missing_predictions),
-            "confident_non_insufficient_at_0_8": sum(
-                row["predicted_id"] != "insufficient" and row["confidence"] is not None and row["confidence"] >= .8
-                for row in aligned
-            ),
-        }
-        result["systems"][name] = report
+        result["systems"][name] = evaluate_system(gold, perturb_gold, read(base_path), read(perturb_path))
     with args.output.open("x") as destination:
         destination.write(json.dumps(result, indent=2, allow_nan=False) + "\n")
 

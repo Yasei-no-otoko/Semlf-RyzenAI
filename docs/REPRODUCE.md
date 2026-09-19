@@ -119,3 +119,75 @@ python benchmarks/verify_published.py
 ```
 
 The source-specific quality commands above regenerate the metrics stored in `results/raw/quality-comparison.json`. `verify_published.py` checks 69 published summary values against that report plus the perturbation, systems, and generation reports. It deliberately does not require byte-identical GPU reruns.
+
+## Reproduce Ryzen AI 1.8 evidence
+
+These commands run from the repository root in the AMD 1.8 environment. Install
+the optional Ryzen AI dependencies and the five locally supplied AMD wheels as
+described in [RYZENAI.md](RYZENAI.md); do not substitute the older machine-wide
+SDK. The model directories are local downloads and are never committed:
+
+```powershell
+$built = "cache/benchmark-built-20260919-215735"
+$sdkRoot = "C:\Program Files\RyzenAI\1.8.0"
+$python = ".\.venv\Scripts\python.exe"
+$env:RYZEN_AI_INSTALLATION_PATH = $sdkRoot
+$env:PATH = "$sdkRoot;$env:PATH"
+$model4k = "models/Qwen3-4B-npu-4k"
+$revision4k = "d6fb03663d78ae5034d4594bfe9d92b35a5e213a"
+$out4k = "cache/results/ryzenai-4k-$(Get-Date -Format yyyyMMdd-HHmmss)"
+if (Test-Path $out4k) { throw "Output must be new: $out4k" }
+& $python benchmarks/ryzenai_benchmark.py --model $model4k --revision $revision4k `
+  --data-dir $built --output $out4k --suite all
+& $python benchmarks/verify_ryzenai.py --data-dir $built $out4k
+```
+
+`$built` must contain the locally rebuilt, hash-verified `wanli256.jsonl`,
+`typesafe102.jsonl`, `every/inference204.jsonl`,
+`every/gold154.jsonl`, and `every/firewall-actions.json` outputs. Build those
+inputs with the existing commands in [benchmarks/README.md](../benchmarks/README.md)
+and keep the source records local. The benchmark also consumes the committed
+`benchmarks/data/authored144.jsonl`, `perturbations108.jsonl`, and
+`shape777.jsonl` fixtures.
+
+Run the separate AMD 16K Token Fusion quality suite with a new output path:
+
+```powershell
+$model16k = "models/Qwen3-4B-npu-16k"
+$revision16k = "715d60818350b685ca2af3566e5ae38f4780daf0"
+$out16k = "cache/results/ryzenai-16k-quality-$(Get-Date -Format yyyyMMdd-HHmmss)"
+if (Test-Path $out16k) { throw "Output must be new: $out16k" }
+& $python benchmarks/ryzenai_benchmark.py --model $model16k --revision $revision16k `
+  --data-dir $built --output $out16k --suite quality
+& $python benchmarks/verify_ryzenai.py --data-dir $built $out16k
+```
+
+The 4K and 16K runs are separate artifact measurements, not a context-only
+comparison. Each run writes a context preflight before scoring and fails rather
+than truncating non-TypeSafe inputs that exceed the compiled context ceiling.
+The completed 4K TypeSafe run has 29 explicit context rejections and 73 scored
+rows. The completed 16K run scored all 102 TypeSafe rows; its largest observed
+input was 12,621 tokens. The 4K Full Fusion and 16K Token Fusion artifacts
+retain their own pinned revisions and manifests.
+
+For speed evidence, use the same 4K model and a new output directory with
+`--suite speed`; this executes three fresh 21-decision direct repeats against
+compact JSON generation capped at 128 output tokens, followed by one fresh
+direct pass over all 777 Shape777 decisions. The benchmark does not invoke
+serial/shared prefix modes or the native reranker. It records only IDs,
+vectors, hashes, token counts, timings, and metadata in the output bundle.
+
+The benchmark's AMD model/runtime and artifact revisions are documented in
+[the AMD OGA preparation guide](https://ryzenai.docs.amd.com/en/latest/oga_model_prepare.html),
+[the 4K model card](https://huggingface.co/amd/Qwen3-4B_rai_1.8.0_npu_4K), and
+[the 16K model card](https://huggingface.co/amd/Qwen3-4B_rai_1.8.0_npu_16K).
+
+For a completed run, check that the create-only bundle contains the manifest,
+preflight, quality/speed reports, predictions, and private hardware snapshots
+before archiving it:
+
+```powershell
+Get-ChildItem -LiteralPath $out4k -Force
+Get-FileHash "$out4k\manifest.json", "$out4k\quality.json", "$out4k\compact.json" -Algorithm SHA256
+& $python benchmarks\verify_ryzenai.py --data-dir $built $out4k
+```

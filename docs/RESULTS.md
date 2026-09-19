@@ -49,6 +49,27 @@ In a focused same-model comparison on one owned state with 21 criteria, parallel
 
 A stricter request for a minified, whitespace-free array was also tested. The model repeated values past the required 21 entries and hit the 128-token cap in all three runs, so it is recorded as a failure rather than used to inflate the speed ratio. The earlier verbose 21-key confidence-object comparison (1.066 versus 18.229 seconds) remains in `results/raw/decision-vs-verbose-json.json`, but it is no longer the headline baseline.
 
+### Ryzen AI 1.8 NPU measured results
+
+The AMD Ryzen AI 1.8 direct backend was measured separately with the official
+quantized Qwen3-4B 4K artifact. This is a different model from the Qwen3.5-4B
+BF16 RTX 3090 results above; the official CPU host/prefill/LM-head components
+are allowed and no GPU offload is configured. Fresh direct scoring over the
+21-decision state had a **44.683 s** median, while one compact JSON generation
+had a **13.791 s** median (0.309× the direct wall time). The compact path
+produced 64 tokens at the median, all three runs were valid and EOS-terminated,
+and choices agreed with direct argmax on 14/21 criteria.
+
+The completed fresh Shape777 pass measured **1,421.510 s**, **0.546602
+decisions/s**, and **38.4033 s** state median. These local NPU measurements do
+not change the upstream RTX 3090 claims or establish Qwen3.5 quality. The 4K
+quality run scored 73/102 TypeSafe rows after 29 compiled-context rejections;
+the separate 16K Token Fusion run scored all 102 rows, with a largest observed
+input of 12,621 tokens. The 4K and 16K artifacts are distinct compiled models.
+The reproducible bundles are
+`results/raw/ryzenai-4k-20260919/{quality.json,compact.json,manifest.json}`
+and `results/raw/ryzenai-16k-20260919/{quality.json,manifest.json}`.
+
 The finalized one-RTX-3090 measurements are recorded in `results/phase1-summary.json`:
 
 | Mode | Wall time | Decisions/s | State p50 | Argmax drift vs batch-1/fresh |

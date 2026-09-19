@@ -103,6 +103,18 @@ def test_npu_config_allows_gpu_in_a_filename_but_rejects_a_gpu_device(tmp_path):
         backend._load_npu_config(tmp_path)
 
 
+def test_artifact_hashes_include_only_declared_tokenfusion_cache_artifacts(tmp_path):
+    cache = tmp_path / "cache"
+    cache.mkdir()
+    (cache / "txn_bins.zip").write_bytes(b"transaction")
+    (cache / "decoder_meta.json").write_text("{}", encoding="utf-8")
+    (cache / "unrelated.json").write_text("{}", encoding="utf-8")
+    (tmp_path / ".cache").mkdir()
+    (tmp_path / ".cache" / "hub_meta.json").write_text("{}", encoding="utf-8")
+    hashes = backend._artifact_hashes(tmp_path)
+    assert set(hashes) == {"cache/txn_bins.zip", "cache/decoder_meta.json"}
+
+
 def test_context_ceiling_uses_the_lower_of_hardware_and_config_limits():
     model = _config()["model"]
     options = {"hybrid_opt_token_backend": "npu"}
@@ -110,6 +122,28 @@ def test_context_ceiling_uses_the_lower_of_hardware_and_config_limits():
     # config makes the supported prompt budget explicit.
     assert backend._context_ceiling(model, options, _config()["search"]) == 4096
     assert backend._context_ceiling(model, {**options, "max_length_for_kv_cache": 2048}, _config()["search"]) == 2048
+
+
+def test_context_ceiling_accepts_official_chunked_16k_tokenfusion_config():
+    model = _config()["model"]
+    options = {
+        "hybrid_opt_token_backend": "npu", "hybrid_opt_max_seq_length": "4096",
+        "hybrid_opt_chunk_context": "1", "hybrid_opt_chunk_context_threshold": "1",
+        "external_data_file": "model.pb.bin", "fusion_opt_io_bind_kv_cache": "1",
+    }
+    search = {"max_length": 16384, "chunk_size": 4096}
+    assert backend._context_ceiling(model, options, search) == 16384
+
+
+@pytest.mark.parametrize(("options", "search", "message"), [
+    ({"hybrid_opt_chunk_context": "1"}, {"max_length": 16384, "chunk_size": 4096}, "hybrid_opt_max_seq_length"),
+    ({"hybrid_opt_chunk_context": "1", "hybrid_opt_max_seq_length": 4096}, {"max_length": 16384, "chunk_size": 4097}, "chunk_size"),
+    ({"hybrid_opt_chunk_context": "yes", "hybrid_opt_max_seq_length": 4096}, {"max_length": 16384, "chunk_size": 4096}, "chunk_context"),
+    ({"hybrid_opt_chunk_context": 2, "hybrid_opt_max_seq_length": 4096}, {"max_length": 16384, "chunk_size": 4096}, "chunk_context"),
+])
+def test_context_ceiling_rejects_invalid_chunk_context_config(options, search, message):
+    with pytest.raises(ValueError, match=message):
+        backend._context_ceiling(_config()["model"], options, search)
 
 
 @pytest.mark.parametrize(("model_limit", "search_limit"), [(4096.0, 4096), (4096, True)])

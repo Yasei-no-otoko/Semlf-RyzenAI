@@ -1,0 +1,155 @@
+{
+  "authored144": {
+    "rows": 144,
+    "min_input_tokens": 127,
+    "max_input_tokens": 171,
+    "over_context_limit": []
+  },
+  "perturbations108": {
+    "rows": 108,
+    "min_input_tokens": 132,
+    "max_input_tokens": 203,
+    "over_context_limit": []
+  },
+  "shape777": {
+    "rows": 777,
+    "min_input_tokens": 1800,
+    "max_input_tokens": 1893,
+    "over_context_limit": []
+  },
+  "wanli256": {
+    "rows": 256,
+    "min_input_tokens": 125,
+    "max_input_tokens": 191,
+    "over_context_limit": []
+  },
+  "typesafe102": {
+    "rows": 102,
+    "min_input_tokens": 278,
+    "max_input_tokens": 12621,
+    "over_context_limit": [
+      {
+        "id": "188ccf71d8f2f9880393a022",
+        "input_tokens": 8741
+      },
+      {
+        "id": "4dbbe3efc20585950b06baf8",
+        "input_tokens": 8564
+      },
+      {
+        "id": "52b55b49ba54a27614b3f73d",
+        "input_tokens": 8611
+      },
+      {
+        "id": "daf967dda34c67970d2257e7",
+        "input_tokens": 8491
+      },
+      {
+        "id": "f4ca8bfc4ba3c01142b0a309",
+        "input_tokens": 8777
+      },
+      {
+        "id": "fa651dcab96ebf53f902cb12",
+        "input_tokens": 9020
+      },
+      {
+        "id": "41862b1e8a29ba4188821e9d",
+        "input_tokens": 11151
+      },
+      {
+        "id": "91912f1c0e651ae7e3802fb8",
+        "input_tokens": 11134
+      },
+      {
+        "id": "964d9446299d903c6def3337",
+        "input_tokens": 11577
+      },
+      {
+        "id": "ba5eded930214d934d09bd5e",
+        "input_tokens": 11492
+      },
+      {
+        "id": "d3d74159d4714e74dbf35bf1",
+        "input_tokens": 11017
+      },
+      {
+        "id": "ead6b253663b47bfb7723a91",
+        "input_tokens": 12621
+      },
+      {
+        "id": "19739e963c01114d0e80a9d9",
+        "input_tokens": 6224
+      },
+      {
+        "id": "5afb13535f84a1f9cc3b9c8f",
+        "input_tokens": 6494
+      },
+      {
+        "id": "9cecd05ebb8a5cc25e423239",
+        "input_tokens": 7141
+      },
+      {
+        "id": "a857bb8be892c90d21ee3d85",
+        "input_tokens": 6196
+      },
+      {
+        "id": "e69807128466dbc56a7bda22",
+        "input_tokens": 6268
+      },
+      {
+        "id": "1b263ba36e0457395f18969a",
+        "input_tokens": 6089
+      },
+      {
+        "id": "4837f53607a521c78ff9b14b",
+        "input_tokens": 6643
+      },
+      {
+        "id": "504fa3e9331aafba487b76c0",
+        "input_tokens": 6707
+      },
+      {
+        "id": "68f13ec40c5a86c911c29e1f",
+        "input_tokens": 6219
+      },
+      {
+        "id": "71a2393072e9e2b2ac08da0c",
+        "input_tokens": 6083
+      },
+      {
+        "id": "0852cab29a4de594ab0e40a5",
+        "input_tokens": 11274
+      },
+      {
+        "id": "287415a7a22e1fce9388a636",
+        "input_tokens": 10955
+      },
+      {
+        "id": "4829c4edb0e6417741ffc6d4",
+        "input_tokens": 9887
+      },
+      {
+        "id": "4f1c8783235a838e7ebad206",
+        "input_tokens": 10919
+      },
+      {
+        "id": "767af54164feae1d84407b1e",
+        "input_tokens": 10218
+      },
+      {
+        "id": "795bce421ace3e2a4be21fd9",
+        "input_tokens": 9938
+      },
+      {
+        "id": "8bae9f91e7610bf1c6abdf20",
+        "input_tokens": 9918
+      }
+    ]
+  },
+  "every204": {
+    "rows": 204,
+    "min_input_tokens": 110,
+    "max_input_tokens": 223,
+    "over_context_limit": []
+  }
+}
