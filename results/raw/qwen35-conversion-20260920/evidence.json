@@ -1,0 +1,428 @@
+{
+  "schema_version": 1,
+  "status": "incomplete",
+  "source": {
+    "repo": "Qwen/Qwen3.5-4B",
+    "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "lfs_verified": [
+      {
+        "file": "model.safetensors-00001-of-00002.safetensors",
+        "sha256": "26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61",
+        "bytes": 5329398688
+      },
+      {
+        "file": "model.safetensors-00002-of-00002.safetensors",
+        "sha256": "cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188",
+        "bytes": 3990429408
+      },
+      {
+        "file": "tokenizer.json",
+        "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+        "bytes": 12807982
+      }
+    ]
+  },
+  "source_config_sha256": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670",
+  "conversion_environment": {
+    "purpose": "Qwen3.5 Quark quantization and standalone OGA export only; NPU postprocessing/inference use RyzenAI SDK separately",
+    "python": "3.12.11",
+    "packages": {
+      "amd-quark": "0.11",
+      "torch": "2.8.0+cpu",
+      "transformers": "5.17.0",
+      "onnxruntime-genai": "0.14.0",
+      "onnxruntime": "1.27.0",
+      "onnx": "1.19.0",
+      "onnx-ir": "1.0.0",
+      "numpy": "1.26.4",
+      "ml-dtypes": "0.5.4",
+      "scipy": "1.15.3",
+      "pandas": "2.2.3",
+      "accelerate": "1.12.0",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.23.2"
+    }
+  },
+  "quantization": {
+    "quantizer": "amd-quark",
+    "quantizer_version": "0.11",
+    "method": "uint4_rtn_minmax_weight_only",
+    "awq": false,
+    "weight_dtype": "uint4",
+    "group_size": 128,
+    "symmetric": false,
+    "activation_quantization": false,
+    "kv_cache_quantization": false,
+    "output_file_sha256": {
+      "chat_template.jinja": "a92e1dd97cb1cb175c9b70c0828e146bea4371c2643319b661b777e89811972e",
+      "config.json": "e90d0e23996f6efd6d97dde3176d4210d35718148fb28ca3ced80c4f161b7af5",
+      "generation_config.json": "2bb288381005ac379cbbb8e60ce18f88054312e59432a4d8f61cbedd2e8cbabe",
+      "model.safetensors": "796e25e5639c01df3cc1e5d7e56b0abb50b7ea355e00987e95b55d47a5944336",
+      "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+      "tokenizer_config.json": "a6076025ef20ea49439d2a4d97fdb20949c90a20d29aea83e678f71d4baedf66"
+    }
+  },
+  "oga_intermediate": {
+    "directory": "models\\Qwen3.5-4B-oga-run2",
+    "artifact_sha256": {
+      "chat_template.jinja": "a92e1dd97cb1cb175c9b70c0828e146bea4371c2643319b661b777e89811972e",
+      "config.json": "e2e708466c5735781edc346f7ff3c22ec6780f3fbe4e53bf06595079ba82e44b",
+      "genai_config.json": "ff99afb0fee653720d209499d84d1d02d871a72f418b59405be3d3a1fcc51b6f",
+      "model.onnx": "5f0fbf519adce376930f1ab52922c1a9c3b7b07b430eb55fc1b67aa9e70ddea2",
+      "model.onnx.data": "751fa31b2fef01b1fe7e8492057701bc41f218f66a8f922f001b09f05d752c58",
+      "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+      "tokenizer_config.json": "b78d7687432566598b66847cae8b2d44bf06c733c42bdd10c2ac588e12e59983"
+    },
+    "provider_validation": "CPU only; see cpu-baseline.json"
+  },
+  "npu_candidate": {
+    "directory": "models/Qwen3.5-4B-npu-eager-16k-chunk64-run1",
+    "strategy": "npu_eager for prefill and token",
+    "token_fusion": false,
+    "search_max_length": 16384,
+    "search_chunk_size": 64,
+    "provider_max_seq_length": 4096,
+    "artifact_sha256": {
+      "cache/txn_bins.zip": "f83212a6eb31cea75700d83b1d066c3b5f84960c4e070b05c982406f85520e1b",
+      "chat_template.jinja": "a92e1dd97cb1cb175c9b70c0828e146bea4371c2643319b661b777e89811972e",
+      "config.json": "e2e708466c5735781edc346f7ff3c22ec6780f3fbe4e53bf06595079ba82e44b",
+      "genai_config.json": "bcd767f19edc21bcf954d5d8404c75cbf5c583edcbe8b0218732d7edd7518e21",
+      "model.bin": "5449230d8faaa65e655e81262450725fb3433bbdff46b75a23c183fe04f38901",
+      "model.onnx": "755d4ceb2fe5a933206e7b47c543946bc14b486e8fc0eb81aafbb590f193f5b2",
+      "model.onnx.data": "3177116128a7665ecc985d6463ae9dec351d6bf5f7e0c1ab9fbbbdfe687e2aee",
+      "model.pb.bin": "c3b8aa57fad55dec944ec35fb038ee230e5d6b77b8c4a518192cc548d6a7229a",
+      "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+      "tokenizer_config.json": "b78d7687432566598b66847cae8b2d44bf06c733c42bdd10c2ac588e12e59983"
+    },
+    "hashes_rechecked_after_second_reboot": true,
+    "runtime": {
+      "source": "models\\Qwen3.5-4B-npu-eager-16k-chunk64-run1",
+      "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "backend": "ryzenai-npu",
+      "oga_distribution": "onnxruntime-genai-directml-ryzenai",
+      "oga_version": "0.14.0",
+      "transformers_version": "4.57.6",
+      "model_device_type": "RyzenAI",
+      "context_ceiling": 16384,
+      "generation_reserve_tokens": 0,
+      "source_artifact_sha256": {
+        "cache/txn_bins.zip": "f83212a6eb31cea75700d83b1d066c3b5f84960c4e070b05c982406f85520e1b",
+        "chat_template.jinja": "a92e1dd97cb1cb175c9b70c0828e146bea4371c2643319b661b777e89811972e",
+        "config.json": "e2e708466c5735781edc346f7ff3c22ec6780f3fbe4e53bf06595079ba82e44b",
+        "genai_config.json": "bcd767f19edc21bcf954d5d8404c75cbf5c583edcbe8b0218732d7edd7518e21",
+        "model.bin": "5449230d8faaa65e655e81262450725fb3433bbdff46b75a23c183fe04f38901",
+        "model.onnx": "755d4ceb2fe5a933206e7b47c543946bc14b486e8fc0eb81aafbb590f193f5b2",
+        "model.onnx.data": "3177116128a7665ecc985d6463ae9dec351d6bf5f7e0c1ab9fbbbdfe687e2aee",
+        "model.pb.bin": "c3b8aa57fad55dec944ec35fb038ee230e5d6b77b8c4a518192cc548d6a7229a",
+        "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+        "tokenizer_config.json": "b78d7687432566598b66847cae8b2d44bf06c733c42bdd10c2ac588e12e59983"
+      },
+      "execution": "Custom Quark 0.11 uint4 group-128 RTN artifact through AMD RyzenAI 1.8 NPU; no GPU provider configured."
+    }
+  },
+  "short_direct_examples": [
+    {
+      "id": "owned-en-blue-first",
+      "expected_option_id": "blue",
+      "argmax_option_id": "blue",
+      "matches_expected": true,
+      "result": {
+        "id": "owned-en-blue-first",
+        "option_ids": [
+          "blue",
+          "red"
+        ],
+        "probabilities": [
+          0.9988304897349445,
+          0.0011695102650555148
+        ],
+        "option_logits": [
+          27.625,
+          20.875
+        ],
+        "answer_token_ids": [
+          32,
+          33
+        ],
+        "input_tokens": 94,
+        "input_ids_sha256": "407b2bf1e9daef875d570ce492ef4d39a2df2a793e34dd427b2cf5f75b980f71",
+        "forward_seconds": 24.134960799999988,
+        "total_seconds": 24.39229339999997,
+        "prompt_sha256": "96c062ef756ad4049e7551078cc9f708177119fdab0c71093d1c3cfd9e463cea",
+        "prompt_version": "direct-options-v1",
+        "model": {
+          "source": "models\\Qwen3.5-4B-npu-eager-16k-chunk64-run1",
+          "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "backend": "ryzenai-npu",
+          "oga_distribution": "onnxruntime-genai-directml-ryzenai",
+          "oga_version": "0.14.0",
+          "transformers_version": "4.57.6",
+          "model_device_type": "RyzenAI",
+          "context_ceiling": 16384,
+          "generation_reserve_tokens": 0,
+          "source_artifact_sha256": {
+            "cache/txn_bins.zip": "f83212a6eb31cea75700d83b1d066c3b5f84960c4e070b05c982406f85520e1b",
+            "chat_template.jinja": "a92e1dd97cb1cb175c9b70c0828e146bea4371c2643319b661b777e89811972e",
+            "config.json": "e2e708466c5735781edc346f7ff3c22ec6780f3fbe4e53bf06595079ba82e44b",
+            "genai_config.json": "bcd767f19edc21bcf954d5d8404c75cbf5c583edcbe8b0218732d7edd7518e21",
+            "model.bin": "5449230d8faaa65e655e81262450725fb3433bbdff46b75a23c183fe04f38901",
+            "model.onnx": "755d4ceb2fe5a933206e7b47c543946bc14b486e8fc0eb81aafbb590f193f5b2",
+            "model.onnx.data": "3177116128a7665ecc985d6463ae9dec351d6bf5f7e0c1ab9fbbbdfe687e2aee",
+            "model.pb.bin": "c3b8aa57fad55dec944ec35fb038ee230e5d6b77b8c4a518192cc548d6a7229a",
+            "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+            "tokenizer_config.json": "b78d7687432566598b66847cae8b2d44bf06c733c42bdd10c2ac588e12e59983"
+          },
+          "execution": "Custom Quark 0.11 uint4 group-128 RTN artifact through AMD RyzenAI 1.8 NPU; no GPU provider configured."
+        },
+        "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+        "probability_status": "conditional option score; uncalibrated as decision confidence"
+      },
+      "owned_prompt": {
+        "id": "owned-en-blue-first",
+        "state": "The marker is BLUE.",
+        "question": "What color is the marker?",
+        "options": [
+          {
+            "id": "blue",
+            "description": "BLUE"
+          },
+          {
+            "id": "red",
+            "description": "RED"
+          }
+        ]
+      }
+    },
+    {
+      "id": "owned-en-blue-reversed",
+      "expected_option_id": "blue",
+      "argmax_option_id": "blue",
+      "matches_expected": true,
+      "result": {
+        "id": "owned-en-blue-reversed",
+        "option_ids": [
+          "red",
+          "blue"
+        ],
+        "probabilities": [
+          0.0006263341581094201,
+          0.9993736658418905
+        ],
+        "option_logits": [
+          21.0,
+          28.375
+        ],
+        "answer_token_ids": [
+          32,
+          33
+        ],
+        "input_tokens": 94,
+        "input_ids_sha256": "d56ec847d8c5e909c5fa9e79263f915c804530aae13a1d8014bbc2c9e7d12bce",
+        "forward_seconds": 6.534503700000016,
+        "total_seconds": 6.548699900000031,
+        "prompt_sha256": "f3ecc5aa85f35552452c16cd65d85591b206ec5f6e335c6e53cf96d2b052b53d",
+        "prompt_version": "direct-options-v1",
+        "model": {
+          "source": "models\\Qwen3.5-4B-npu-eager-16k-chunk64-run1",
+          "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "backend": "ryzenai-npu",
+          "oga_distribution": "onnxruntime-genai-directml-ryzenai",
+          "oga_version": "0.14.0",
+          "transformers_version": "4.57.6",
+          "model_device_type": "RyzenAI",
+          "context_ceiling": 16384,
+          "generation_reserve_tokens": 0,
+          "source_artifact_sha256": {
+            "cache/txn_bins.zip": "f83212a6eb31cea75700d83b1d066c3b5f84960c4e070b05c982406f85520e1b",
+            "chat_template.jinja": "a92e1dd97cb1cb175c9b70c0828e146bea4371c2643319b661b777e89811972e",
+            "config.json": "e2e708466c5735781edc346f7ff3c22ec6780f3fbe4e53bf06595079ba82e44b",
+            "genai_config.json": "bcd767f19edc21bcf954d5d8404c75cbf5c583edcbe8b0218732d7edd7518e21",
+            "model.bin": "5449230d8faaa65e655e81262450725fb3433bbdff46b75a23c183fe04f38901",
+            "model.onnx": "755d4ceb2fe5a933206e7b47c543946bc14b486e8fc0eb81aafbb590f193f5b2",
+            "model.onnx.data": "3177116128a7665ecc985d6463ae9dec351d6bf5f7e0c1ab9fbbbdfe687e2aee",
+            "model.pb.bin": "c3b8aa57fad55dec944ec35fb038ee230e5d6b77b8c4a518192cc548d6a7229a",
+            "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+            "tokenizer_config.json": "b78d7687432566598b66847cae8b2d44bf06c733c42bdd10c2ac588e12e59983"
+          },
+          "execution": "Custom Quark 0.11 uint4 group-128 RTN artifact through AMD RyzenAI 1.8 NPU; no GPU provider configured."
+        },
+        "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+        "probability_status": "conditional option score; uncalibrated as decision confidence"
+      },
+      "owned_prompt": {
+        "id": "owned-en-blue-reversed",
+        "state": "The marker is BLUE.",
+        "question": "What color is the marker?",
+        "options": [
+          {
+            "id": "red",
+            "description": "RED"
+          },
+          {
+            "id": "blue",
+            "description": "BLUE"
+          }
+        ]
+      }
+    },
+    {
+      "id": "owned-ja-blue-second",
+      "expected_option_id": "blue",
+      "argmax_option_id": "blue",
+      "matches_expected": true,
+      "result": {
+        "id": "owned-ja-blue-second",
+        "option_ids": [
+          "red",
+          "blue"
+        ],
+        "probabilities": [
+          0.00015843621910252594,
+          0.9998415637808975
+        ],
+        "option_logits": [
+          19.25,
+          28.0
+        ],
+        "answer_token_ids": [
+          32,
+          33
+        ],
+        "input_tokens": 96,
+        "input_ids_sha256": "4f6dca6989bbbfcb70055388b8d74f87ff2e6f15e38ea6d9de1635675d33ea4f",
+        "forward_seconds": 5.873249700000031,
+        "total_seconds": 5.889809799999966,
+        "prompt_sha256": "79a696cbddb07604c0088da0bd40eb0c635660b946389f1fd503620788c51d06",
+        "prompt_version": "direct-options-v1",
+        "model": {
+          "source": "models\\Qwen3.5-4B-npu-eager-16k-chunk64-run1",
+          "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "backend": "ryzenai-npu",
+          "oga_distribution": "onnxruntime-genai-directml-ryzenai",
+          "oga_version": "0.14.0",
+          "transformers_version": "4.57.6",
+          "model_device_type": "RyzenAI",
+          "context_ceiling": 16384,
+          "generation_reserve_tokens": 0,
+          "source_artifact_sha256": {
+            "cache/txn_bins.zip": "f83212a6eb31cea75700d83b1d066c3b5f84960c4e070b05c982406f85520e1b",
+            "chat_template.jinja": "a92e1dd97cb1cb175c9b70c0828e146bea4371c2643319b661b777e89811972e",
+            "config.json": "e2e708466c5735781edc346f7ff3c22ec6780f3fbe4e53bf06595079ba82e44b",
+            "genai_config.json": "bcd767f19edc21bcf954d5d8404c75cbf5c583edcbe8b0218732d7edd7518e21",
+            "model.bin": "5449230d8faaa65e655e81262450725fb3433bbdff46b75a23c183fe04f38901",
+            "model.onnx": "755d4ceb2fe5a933206e7b47c543946bc14b486e8fc0eb81aafbb590f193f5b2",
+            "model.onnx.data": "3177116128a7665ecc985d6463ae9dec351d6bf5f7e0c1ab9fbbbdfe687e2aee",
+            "model.pb.bin": "c3b8aa57fad55dec944ec35fb038ee230e5d6b77b8c4a518192cc548d6a7229a",
+            "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+            "tokenizer_config.json": "b78d7687432566598b66847cae8b2d44bf06c733c42bdd10c2ac588e12e59983"
+          },
+          "execution": "Custom Quark 0.11 uint4 group-128 RTN artifact through AMD RyzenAI 1.8 NPU; no GPU provider configured."
+        },
+        "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+        "probability_status": "conditional option score; uncalibrated as decision confidence"
+      },
+      "owned_prompt": {
+        "id": "owned-ja-blue-second",
+        "state": "空の色は青です。",
+        "question": "空の色は何ですか？",
+        "options": [
+          {
+            "id": "red",
+            "description": "赤"
+          },
+          {
+            "id": "blue",
+            "description": "青"
+          }
+        ]
+      }
+    }
+  ],
+  "interrupted_generation": {
+    "result": {
+      "prompt_sha256": "96c062ef756ad4049e7551078cc9f708177119fdab0c71093d1c3cfd9e463cea",
+      "input_tokens": 94,
+      "requested_output_tokens": 16,
+      "output_tokens": 16,
+      "token_ids": [
+        32,
+        248046,
+        198,
+        248044,
+        248044,
+        248044,
+        248044,
+        248044,
+        248044,
+        248044,
+        248044,
+        248044,
+        248044,
+        248044,
+        248044,
+        248044
+      ],
+      "decoded_text": "A\n",
+      "ended_by_oga": false,
+      "finite_logits": true,
+      "seconds": 29.463854099999992,
+      "cache_mode": "native OGA Generator append_tokens/generate_next_token; no external recurrent-state inputs"
+    },
+    "limitation": "Original validator called get_logits after generation, which changes the OGA done state; this trace does not validate normal EOS termination. The validator was subsequently fixed, without changing artifact EOS policy."
+  },
+  "long_context": {
+    "status": "not_validated",
+    "attempts": [
+      {
+        "run": "validation-npu-eager16k-chunk64-run1",
+        "last_stage": "tail sentinel, 16384 input tokens",
+        "host_boot_jst": "2026-09-20T00:47:29+09:00"
+      },
+      {
+        "run": "validation-npu-eager16k-chunk64-run2",
+        "last_stage": "tail sentinel, 16384 input tokens",
+        "host_boot_jst": "2026-09-20T00:59:02+09:00"
+      }
+    ],
+    "final_reports_present": false,
+    "hardware_observation": "Windows WHEA event 19 corrected Bus/Interconnect errors preceded unexpected reboots (Kernel-Power event 41). Root cause is not established."
+  },
+  "full_wrapper_reproduction": {
+    "output": "models/Qwen3.5-4B-npu-eager-16k-chunk64-run2",
+    "status": "interrupted_by_second_host_reboot",
+    "last_stage": "preprocessing llm.absorb_transformation_ops"
+  },
+  "token_fusion": {
+    "status": "unsupported_by_installed_sdk_recipe",
+    "observed_failure": "llm.dd_graph.llm_token_to_dd expected one DD pattern but found zero",
+    "unsupported_prepack_K_N": [
+      [
+        2560,
+        32
+      ],
+      [
+        2560,
+        8192
+      ],
+      [
+        9216,
+        2560
+      ]
+    ],
+    "missing_contract": "Qwen3.5 recurrent LinearAttention/convolution states and CPU GQA boundaries in the token DD partition/runtime"
+  },
+  "completed_stage_source_sha256": {
+    "stage-model-loaded.json": "24cc4bdd3260a85f46dc64f41f57a81a7dcdb9881f50e5885079703caeed3209",
+    "stage-native-greedy.json": "746f1f0d68d8d1c6c7356d2e1ce162c5c992d5d4bb3c23041b64ac8d4e52e011",
+    "stage-owned-en-blue-first.json": "c81869568af8ab0a2301ba89b6b7f373d4f34e03fe87b58208cb2d9288e88e6e",
+    "stage-owned-en-blue-reversed.json": "189644bec9955fb62ee8b415f7c089f1db71445475c425e6fdd938e5bfca404b",
+    "stage-owned-ja-blue-second.json": "0e1085bccfafb92242f977c8d0d5096b4667f129056c2d22da5ef673994a300a"
+  },
+  "original_validator_sha256": "059a66b8a29d4d62cef1cb1326d4b9cf70d070a4ea34d96e2f1939017489b40b",
+  "limitations": [
+    "No completed 16K inference or full validation report.",
+    "NPU eager is not Token Fusion.",
+    "Short owned examples are smoke checks, not a quality benchmark.",
+    "No generation speed or quality claim; concurrent tasks and original termination probe prevent such inference."
+  ]
+}

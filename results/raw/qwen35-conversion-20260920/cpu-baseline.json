@@ -1,0 +1,94 @@
+{
+  "version": "qwen35-oga-run2-cpu-direct-baseline-v1",
+  "created_utc": "2026-09-19T14:56:58.502133+00:00",
+  "source": "models/Qwen3.5-4B-oga-run2",
+  "execution_provider": "CPUExecutionProvider",
+  "state_initialization": "fresh all-zero float16: 8 full-attention KV key/value pairs plus 24 conv/recurrent pairs per row",
+  "rows": [
+    {
+      "id": "owned-en-blue-first",
+      "expected_option_id": "blue",
+      "argmax_option_id": "blue",
+      "matches_expected": true,
+      "input_tokens": 94,
+      "prompt_sha256": "96c062ef756ad4049e7551078cc9f708177119fdab0c71093d1c3cfd9e463cea",
+      "input_ids_sha256": "407b2bf1e9daef875d570ce492ef4d39a2df2a793e34dd427b2cf5f75b980f71",
+      "answer_token_ids": [
+        32,
+        33
+      ],
+      "option_ids": [
+        "blue",
+        "red"
+      ],
+      "selected_logits": [
+        27.859375,
+        20.75
+      ],
+      "finite_selected_logits": true,
+      "forward_seconds": 5.775459000025876
+    },
+    {
+      "id": "owned-ja-blue-second",
+      "expected_option_id": "blue",
+      "argmax_option_id": "blue",
+      "matches_expected": true,
+      "input_tokens": 96,
+      "prompt_sha256": "79a696cbddb07604c0088da0bd40eb0c635660b946389f1fd503620788c51d06",
+      "input_ids_sha256": "4f6dca6989bbbfcb70055388b8d74f87ff2e6f15e38ea6d9de1635675d33ea4f",
+      "answer_token_ids": [
+        32,
+        33
+      ],
+      "option_ids": [
+        "red",
+        "blue"
+      ],
+      "selected_logits": [
+        19.890625,
+        28.03125
+      ],
+      "finite_selected_logits": true,
+      "forward_seconds": 3.6788673999835737
+    },
+    {
+      "id": "owned-en-blue-reversed",
+      "expected_option_id": "blue",
+      "argmax_option_id": "blue",
+      "matches_expected": true,
+      "input_tokens": 94,
+      "prompt_sha256": "f3ecc5aa85f35552452c16cd65d85591b206ec5f6e335c6e53cf96d2b052b53d",
+      "input_ids_sha256": "d56ec847d8c5e909c5fa9e79263f915c804530aae13a1d8014bbc2c9e7d12bce",
+      "answer_token_ids": [
+        32,
+        33
+      ],
+      "option_ids": [
+        "red",
+        "blue"
+      ],
+      "selected_logits": [
+        21.1875,
+        28.453125
+      ],
+      "finite_selected_logits": true,
+      "forward_seconds": 4.405421300034504
+    }
+  ],
+  "status": "passed",
+  "artifact_sha256": {
+    "model.onnx": "5f0fbf519adce376930f1ab52922c1a9c3b7b07b430eb55fc1b67aa9e70ddea2",
+    "model.onnx.data": "751fa31b2fef01b1fe7e8492057701bc41f218f66a8f922f001b09f05d752c58",
+    "config.json": "e2e708466c5735781edc346f7ff3c22ec6780f3fbe4e53bf06595079ba82e44b",
+    "genai_config.json": "ff99afb0fee653720d209499d84d1d02d871a72f418b59405be3d3a1fcc51b6f",
+    "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+    "tokenizer_config.json": "b78d7687432566598b66847cae8b2d44bf06c733c42bdd10c2ac588e12e59983",
+    "chat_template.jinja": "a92e1dd97cb1cb175c9b70c0828e146bea4371c2643319b661b777e89811972e"
+  },
+  "runtime": {
+    "onnxruntime": "1.27.0",
+    "transformers": "5.17.0",
+    "intra_op_threads": 32,
+    "inter_op_threads": 1
+  }
+}

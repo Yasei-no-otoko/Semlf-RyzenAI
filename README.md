@@ -17,6 +17,12 @@ in [README.txt](README.txt). Use `./run_semif_npu.ps1` for JSONL scoring.
 The demo opens with a 16-option receipt-routing example (up to 32 options are supported)
 for observing the cost of generating the complete probability object.
 
+An experimental [Qwen3.5-4B conversion](docs/QWEN35_NPU.md) records the Quark
+and OGA workflow and its current limitations. Short NPU-eager scoring works;
+Token Fusion is unsupported by the installed SDK recipe, and 16K validation
+was interrupted by host reboots. It is not a completed 16K replacement for
+the default AMD Qwen3-4B model.
+
 The upstream project description and its original benchmark results follow.
 
 <div align="center">

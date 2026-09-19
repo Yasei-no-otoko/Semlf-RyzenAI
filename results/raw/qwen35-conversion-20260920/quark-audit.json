@@ -1,0 +1,95 @@
+{
+  "artifact": "models\\Qwen3.5-4B-quark-rtn-g128-run1",
+  "config": {
+    "full_attention_layers": [
+      3,
+      7,
+      11,
+      15,
+      19,
+      23,
+      27,
+      31
+    ],
+    "group_size": 128,
+    "layer_count": 32,
+    "linear_attention_layers": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6,
+      8,
+      9,
+      10,
+      12,
+      13,
+      14,
+      16,
+      17,
+      18,
+      20,
+      21,
+      22,
+      24,
+      25,
+      26,
+      28,
+      29,
+      30
+    ],
+    "model_type": "qwen3_5",
+    "outer_architecture": "Qwen3_5ForConditionalGeneration",
+    "rope_parameters_match_source": true,
+    "text_model_type": "qwen3_5_text",
+    "weight_dtype": "uint4"
+  },
+  "errors": [],
+  "exclusions": {
+    "embedding_dtype": "torch.bfloat16",
+    "linear_raw_dtypes": [
+      "torch.bfloat16"
+    ],
+    "mtp_status": "not_exported_text_only_checkpoint",
+    "output_mtp_tensor_count": 0,
+    "source_mtp_tensor_count": 15,
+    "visual_packed_tensor_count": 0,
+    "visual_raw_tensor_count": 297
+  },
+  "hashes": {
+    "output_files": {
+      "chat_template.jinja": "a92e1dd97cb1cb175c9b70c0828e146bea4371c2643319b661b777e89811972e",
+      "config.json": "e90d0e23996f6efd6d97dde3176d4210d35718148fb28ca3ced80c4f161b7af5",
+      "generation_config.json": "2bb288381005ac379cbbb8e60ce18f88054312e59432a4d8f61cbedd2e8cbabe",
+      "model.safetensors": "796e25e5639c01df3cc1e5d7e56b0abb50b7ea355e00987e95b55d47a5944336",
+      "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+      "tokenizer_config.json": "a6076025ef20ea49439d2a4d97fdb20949c90a20d29aea83e678f71d4baedf66"
+    },
+    "output_files_match_manifest": true,
+    "source_config": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670",
+    "source_config_matches_manifest": true
+  },
+  "manifest_source_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "quantization": {
+    "finite_scale_tensors": 249,
+    "nonfinite_scale_tensors": [],
+    "packed_word_dtype": "int32",
+    "unpacked_nibble_range": [
+      0,
+      15
+    ]
+  },
+  "schema_version": 1,
+  "status": "passed",
+  "tensor_coverage": {
+    "expected_packed": 249,
+    "expected_raw": 97,
+    "missing": [],
+    "packed_with_scale_and_zero": 249,
+    "raw_found": 97,
+    "safetensor_key_count": 1222,
+    "scale_count": 249,
+    "zero_count": 249
+  }
+}

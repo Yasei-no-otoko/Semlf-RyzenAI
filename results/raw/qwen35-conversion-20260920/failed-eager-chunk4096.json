@@ -1,0 +1,138 @@
+{
+  "version": "qwen35-custom-rtn-npu-validation-v1",
+  "created_utc": "2026-09-19T15:22:34.311263+00:00",
+  "process_id": 46968,
+  "source_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "model_directory": "models\\Qwen3.5-4B-npu-eager-16k-run1",
+  "execution": "Custom Quark 0.11 uint4 group-128 RTN artifact through AMD RyzenAI 1.8 NPU; no GPU provider configured.",
+  "status": "failed",
+  "model": {
+    "source": "models\\Qwen3.5-4B-npu-eager-16k-run1",
+    "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "backend": "ryzenai-npu",
+    "oga_distribution": "onnxruntime-genai-directml-ryzenai",
+    "oga_version": "0.14.0",
+    "transformers_version": "4.57.6",
+    "model_device_type": "RyzenAI",
+    "context_ceiling": 16384,
+    "generation_reserve_tokens": 0,
+    "source_artifact_sha256": {
+      "cache/txn_bins.zip": "f83212a6eb31cea75700d83b1d066c3b5f84960c4e070b05c982406f85520e1b",
+      "chat_template.jinja": "a92e1dd97cb1cb175c9b70c0828e146bea4371c2643319b661b777e89811972e",
+      "config.json": "e2e708466c5735781edc346f7ff3c22ec6780f3fbe4e53bf06595079ba82e44b",
+      "genai_config.json": "d63aee168bd424be397f8c23bc8b8f14ea9112f55ced9e868df265fd17ced618",
+      "model.bin": "5449230d8faaa65e655e81262450725fb3433bbdff46b75a23c183fe04f38901",
+      "model.onnx": "755d4ceb2fe5a933206e7b47c543946bc14b486e8fc0eb81aafbb590f193f5b2",
+      "model.onnx.data": "3177116128a7665ecc985d6463ae9dec351d6bf5f7e0c1ab9fbbbdfe687e2aee",
+      "model.pb.bin": "c3b8aa57fad55dec944ec35fb038ee230e5d6b77b8c4a518192cc548d6a7229a",
+      "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+      "tokenizer_config.json": "b78d7687432566598b66847cae8b2d44bf06c733c42bdd10c2ac588e12e59983"
+    },
+    "execution": "Custom Quark 0.11 uint4 group-128 RTN artifact through AMD RyzenAI 1.8 NPU; no GPU provider configured."
+  },
+  "artifact_hashes": {
+    "cache/txn_bins.zip": "f83212a6eb31cea75700d83b1d066c3b5f84960c4e070b05c982406f85520e1b",
+    "chat_template.jinja": "a92e1dd97cb1cb175c9b70c0828e146bea4371c2643319b661b777e89811972e",
+    "config.json": "e2e708466c5735781edc346f7ff3c22ec6780f3fbe4e53bf06595079ba82e44b",
+    "genai_config.json": "d63aee168bd424be397f8c23bc8b8f14ea9112f55ced9e868df265fd17ced618",
+    "model.bin": "5449230d8faaa65e655e81262450725fb3433bbdff46b75a23c183fe04f38901",
+    "model.onnx": "755d4ceb2fe5a933206e7b47c543946bc14b486e8fc0eb81aafbb590f193f5b2",
+    "model.onnx.data": "3177116128a7665ecc985d6463ae9dec351d6bf5f7e0c1ab9fbbbdfe687e2aee",
+    "model.pb.bin": "c3b8aa57fad55dec944ec35fb038ee230e5d6b77b8c4a518192cc548d6a7229a",
+    "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+    "tokenizer_config.json": "b78d7687432566598b66847cae8b2d44bf06c733c42bdd10c2ac588e12e59983"
+  },
+  "genai_config_sha256": "d63aee168bd424be397f8c23bc8b8f14ea9112f55ced9e868df265fd17ced618",
+  "owned_direct_examples": [
+    {
+      "id": "owned-en-blue-first",
+      "expected_option_id": "blue",
+      "argmax_option_id": "blue",
+      "matches_expected": true,
+      "result": {
+        "id": "owned-en-blue-first",
+        "option_ids": [
+          "blue",
+          "red"
+        ],
+        "probabilities": [
+          0.9990889488055994,
+          0.0009110511944006454
+        ],
+        "option_logits": [
+          27.875,
+          20.875
+        ],
+        "answer_token_ids": [
+          32,
+          33
+        ],
+        "input_tokens": 94,
+        "input_ids_sha256": "407b2bf1e9daef875d570ce492ef4d39a2df2a793e34dd427b2cf5f75b980f71",
+        "forward_seconds": 14.161341000057291,
+        "total_seconds": 14.362794799963012,
+        "prompt_sha256": "96c062ef756ad4049e7551078cc9f708177119fdab0c71093d1c3cfd9e463cea",
+        "prompt_version": "direct-options-v1",
+        "model": {
+          "source": "models\\Qwen3.5-4B-npu-eager-16k-run1",
+          "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "backend": "ryzenai-npu",
+          "oga_distribution": "onnxruntime-genai-directml-ryzenai",
+          "oga_version": "0.14.0",
+          "transformers_version": "4.57.6",
+          "model_device_type": "RyzenAI",
+          "context_ceiling": 16384,
+          "generation_reserve_tokens": 0,
+          "source_artifact_sha256": {
+            "cache/txn_bins.zip": "f83212a6eb31cea75700d83b1d066c3b5f84960c4e070b05c982406f85520e1b",
+            "chat_template.jinja": "a92e1dd97cb1cb175c9b70c0828e146bea4371c2643319b661b777e89811972e",
+            "config.json": "e2e708466c5735781edc346f7ff3c22ec6780f3fbe4e53bf06595079ba82e44b",
+            "genai_config.json": "d63aee168bd424be397f8c23bc8b8f14ea9112f55ced9e868df265fd17ced618",
+            "model.bin": "5449230d8faaa65e655e81262450725fb3433bbdff46b75a23c183fe04f38901",
+            "model.onnx": "755d4ceb2fe5a933206e7b47c543946bc14b486e8fc0eb81aafbb590f193f5b2",
+            "model.onnx.data": "3177116128a7665ecc985d6463ae9dec351d6bf5f7e0c1ab9fbbbdfe687e2aee",
+            "model.pb.bin": "c3b8aa57fad55dec944ec35fb038ee230e5d6b77b8c4a518192cc548d6a7229a",
+            "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+            "tokenizer_config.json": "b78d7687432566598b66847cae8b2d44bf06c733c42bdd10c2ac588e12e59983"
+          },
+          "execution": "Custom Quark 0.11 uint4 group-128 RTN artifact through AMD RyzenAI 1.8 NPU; no GPU provider configured."
+        },
+        "readout": "OGA native full-vocabulary last-position logits restricted to declared answer slots; no generated tokens",
+        "probability_status": "conditional option score; uncalibrated as decision confidence"
+      }
+    }
+  ],
+  "error": {
+    "type": "RuntimeError",
+    "message": "OGA returned non-finite selected logits"
+  },
+  "npu_activity": {
+    "before": {
+      "available": true,
+      "benchmark_contexts": []
+    },
+    "after": {
+      "available": true,
+      "benchmark_contexts": [
+        {
+          "context_id": "28",
+          "command_submissions": "962",
+          "command_completions": "962",
+          "errors": "0"
+        },
+        {
+          "context_id": "29",
+          "command_submissions": "48",
+          "command_completions": "48",
+          "errors": "0"
+        },
+        {
+          "context_id": "30",
+          "command_submissions": "112",
+          "command_completions": "112",
+          "errors": "0"
+        }
+      ]
+    }
+  }
+}
