@@ -46,7 +46,8 @@ hashed too. Remote revisions must be immutable 40-character commit IDs.
 The default backend remains Torch/CUDA. MLX reranker mode is explicitly
 unsupported. Installations on other platforms can continue using the existing
 Torch paths without importing MLX. The MLX extra is specific to macOS arm64;
-it does not replace the repository's existing Torch dependencies.
+the separate `[torch]` extra provides the CUDA dependencies when they are
+needed.
 
 The loader caps MLX's inactive allocation cache at 256 MiB by default.
 Use `--mlx-cache-limit-mib 512` to change it, or `--mlx-cache-limit-mib 0`

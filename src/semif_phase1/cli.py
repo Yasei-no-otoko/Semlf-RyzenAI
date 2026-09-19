@@ -9,6 +9,7 @@ from pathlib import Path
 from .core import load_causal_model, validate_row
 from .direct import score as direct_score
 from .reranker import score as reranker_score
+from .ryzenai_backend import NPU_LABELS
 from .serial import SerialPrefixScorer
 from .shared import score_shared
 
@@ -16,7 +17,8 @@ from .shared import score_shared
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mode", choices=("direct", "serial", "shared", "reranker"), required=True)
-    parser.add_argument("--backend", choices=("torch", "mlx"), default="torch")
+    parser.add_argument("--backend", choices=("torch", "mlx", "ryzenai-npu"), default="torch",
+                        help="ryzenai-npu uses a local AMD NPU OGA model (direct mode)")
     parser.add_argument("--mlx-bits", type=int, choices=(4, 8), help="Quantize MLX weights in memory; default preserves source precision")
     parser.add_argument("--mlx-cache-limit-mib", type=int,
                         help="MLX inactive allocation cache in MiB (default: 256; 0 disables caching)")
@@ -37,11 +39,13 @@ def main() -> None:
             parser.error("--mlx-cache-limit-mib must be nonnegative")
     if args.backend == "mlx" and args.mode == "reranker":
         parser.error("MLX supports direct, serial, and shared modes; reranker requires torch")
-    rows = [json.loads(line) for line in args.input.read_text().splitlines() if line.strip()]
+    if args.backend == "ryzenai-npu" and args.mode != "direct":
+        parser.error("Ryzen AI NPU supports direct mode only; serial/shared caches and reranker are unsupported")
+    rows = [json.loads(line) for line in args.input.read_text(encoding="utf-8").splitlines() if line.strip()]
     if not rows:
         parser.error("Input is empty")
     for row in rows:
-        validate_row(row)
+        validate_row(row, max_options=len(NPU_LABELS) if args.backend == "ryzenai-npu" else 16)
     direct, serial, shared = direct_score, SerialPrefixScorer, score_shared
     if args.backend == "mlx":
         from . import mlx_backend
@@ -51,10 +55,15 @@ def main() -> None:
         model, tokenizer, metadata = mlx_backend.load_model(
             args.model, args.revision, args.mlx_bits, cache_limit_mib=cache_limit_mib)
         direct, serial, shared = mlx_backend.score, mlx_backend.SerialPrefixScorer, mlx_backend.score_shared
+    elif args.backend == "ryzenai-npu":
+        from . import ryzenai_backend
+
+        model, tokenizer, metadata = ryzenai_backend.load_model(args.model, args.revision)
+        direct = ryzenai_backend.score
     else:
         model, tokenizer, metadata = load_causal_model(args.model, args.revision)
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    with args.output.open("x") as destination:
+    with args.output.open("x", encoding="utf-8") as destination:
         if args.mode == "shared":
             results, timing = shared(model, tokenizer, rows, metadata, args.max_tokens)
             for result in results:

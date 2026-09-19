@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="SemIf Ryzen AI NPU direct and streamed JSON comparison.">
+    <title>SemIf — Ryzen AI NPU デモ</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="npu.css">
+  </head>
+  <body>
+    <main class="page">
+      <aside class="research-notice" role="note"><strong>独立研究プロジェクト。</strong> SemIf は TypeSafe と提携しておらず、公式 Jev API ではありません。</aside>
+      <header class="mast">
+        <a class="brand" href="./">SemIf / Ryzen AI NPU</a>
+        <div class="tagline">AMD公式NPUモデル · Windowsローカル実行 <nav class="lang-links"><a href="/">日本語</a> · <a href="/en/">English</a></nav></div>
+      </header>
+
+      <section class="hero">
+        <p class="eyebrow">AMD Ryzen AI 1.8 · Full Fusion 4K</p>
+        <h1>判断を <mark>NPUで測る。</mark></h1>
+        <p class="lede">同じ入力を、選択肢の確率を直接読む方法と、JSONを1トークンずつ生成する方法で実行します。モデルはサーバー側で準備済みです。</p>
+        <div class="truth-strip"><span>ローカルAPI</span><span>Qwen3 4B</span><span>NPU構成</span><span>品質評価なし</span></div>
+      </section>
+
+      <section class="machine" aria-labelledby="setup-title">
+        <div class="section-head">
+          <div><p class="eyebrow">00 / 準備</p><h2 id="setup-title">モデルを一度だけ読み込む</h2></div>
+          <button id="load" type="button">モデルを読み込む</button>
+        </div>
+        <p id="status" class="support" role="status" aria-live="polite">状態を確認中…</p>
+        <div class="model-card">
+          <strong id="model-name">AMD Qwen3-4B Ryzen AI 1.8 NPU 4K</strong>
+          <span id="model-meta">公式モデル · ローカルに配置済み · ダウンロードなし</span>
+        </div>
+        <div class="phases" aria-label="モデル準備の状態">
+          <div class="phase"><small>モデル状態</small><strong id="model-state">unloaded</strong><span>サーバーのAPI状態</span></div>
+          <div class="phase"><small>読み込み</small><strong id="load-time">—</strong><span>初回のコールドタイム</span></div>
+          <div class="phase"><small>コンテキスト</small><strong id="context-limit">—</strong><span>入力＋生成の上限</span></div>
+        </div>
+        <p class="fine">モデルは既にサーバーへ配置されています。この画面はダウンロードを行いません。初回の読み込み時間はモデル準備を含む実測値です。</p>
+      </section>
+
+      <section class="workbench" aria-labelledby="workbench-title">
+        <div class="section-head"><div><p class="eyebrow">01 / 判断</p><h2 id="workbench-title">入力を指定する</h2></div><button id="run" type="button" disabled>2つの方法を実行</button></div>
+        <div class="presets" aria-label="入力例"><span>例を入力</span><button type="button" data-preset="account">アカウント</button><button type="button" data-preset="email">メール</button><button type="button" data-preset="routing16">速度差を見る：16窓口 · 推奨</button><button type="button" data-preset="routing32">32窓口</button></div>
+        <p class="fine">「16窓口」は領収書の再発行を振り分ける例です。直接判定とJSON生成の出力長による時間差を観察できます。32窓口にも切り替えられます。品質の比較は行いません。</p>
+        <div class="inputs">
+          <label>状態<textarea id="state" rows="5">お客様からの依頼：先月購入した商品の領収書を、会社の経費精算に使うためPDFで再発行してください。購入と支払いは完了しています。返金や返品は希望していません。ログインも問題ありません。</textarea></label>
+          <label>質問<input id="question" value="問い合わせの主目的に最も合う窓口を1つ選んでください。"></label>
+          <fieldset><legend>選択肢</legend><div id="option-list"></div><div class="option-actions"><button id="remove-option" type="button">削除</button><span id="option-count">16 / 32</span><button id="add-option" type="button">追加</button></div></fieldset>
+        </div>
+        <p class="fine">選択肢は2〜32個です。確率は表示した選択肢の中だけで正規化され、信頼度ではありません。</p>
+      </section>
+
+      <section class="method-map" aria-label="2つの実行方法"><div><small>同じ入力</small><strong>状態 + 質問 + 選択肢</strong></div><div class="arrow" aria-hidden="true">→</div><div class="method-model"><small>同じモデル</small><strong>Qwen3-4B · Ryzen AI NPU</strong></div><div class="fork" aria-hidden="true">↗<br>↘</div><div class="method-outputs"><div><small>直接読出し</small><strong>選択肢の確率</strong></div><div><small>生成</small><strong>JSONをストリーム</strong></div></div></section>
+
+      <section class="race" aria-label="実行結果">
+        <article class="lane direct"><div class="lane-head"><div><p class="eyebrow">02A / 直接読出し</p><h2>選択肢の確率</h2></div><span class="badge">生成なし</span></div><p class="explain">モデルの選択肢トークンのロジットを読み、表示中の選択肢だけで確率化します。</p><div id="direct-output" class="output empty">実行を待っています</div><dl class="metrics"><div><dt>合計</dt><dd id="direct-total">—</dd></div><div><dt>入力</dt><dd id="direct-input">—</dd></div><div><dt>読出し</dt><dd id="direct-readouts">—</dd></div></dl></article>
+        <article class="lane generated"><div class="lane-head"><div><p class="eyebrow">02B / 生成</p><h2>JSON推定</h2></div><span class="badge pink">トークン単位</span></div><p class="explain">同じ入力から選択肢の推定をJSONとして生成します。到着したテキストをそのまま表示します。</p><pre id="generated-output" class="output empty">実行を待っています</pre><p id="generation-validation" class="validation">—</p><dl class="metrics"><div><dt>初回トークン</dt><dd id="generation-ttft">—</dd></div><div><dt>合計</dt><dd id="generation-total">—</dd></div><div><dt>入力</dt><dd id="generation-input">—</dd></div><div><dt>出力</dt><dd id="generation-tokens">—</dd></div></dl></article>
+      </section>
+
+      <section class="verdict" aria-live="polite"><span>実測時間の比率</span><strong id="ratio">実行してください</strong><p id="run-note">同じモデルを使い、直接読出しの後にJSON生成を実行します。コールドロード時間は含めません。</p></section>
+      <details><summary>この表示の意味と限界</summary><div class="details-grid"><p><b>条件付き確率。</b> 直接読出しは表示した選択肢に限定したスコアです。校正済みの信頼度ではありません。</p><p><b>NPU構成。</b> AMD公式モデル構成を使用します。ホストCPUと公式のprefill/LM-head CPUコンポーネントを含み、GPUオフロードはこのデモで設定しません。全演算子がNPUで動くという主張ではありません。</p><p><b>品質の主張なし。</b> ここではQwen3.5やJevの品質結果をQwen3へ移し替えません。表示するのはこの実行の時間と出力だけです。</p><p><b>研究用UI。</b> 入力はこのPCのローカルSemIf APIへ送られます。公式Jevのバイナリ/API互換を意味しません。</p></div></details>
+      <footer><span>SemIf / Ryzen AI NPU</span><span>AMD公式モデル · 独立研究</span></footer>
+    </main>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

@@ -15,7 +15,7 @@ DIRECT_SYSTEM = (
 )
 
 
-def validate_row(row: dict) -> None:
+def validate_row(row: dict, *, max_options: int = len(LETTERS)) -> None:
     required = {"id", "state", "question", "options"}
     if not required <= row.keys():
         raise ValueError(f"Row is missing fields: {sorted(required - row.keys())}")
@@ -29,8 +29,10 @@ def validate_row(row: dict) -> None:
     except (TypeError, ValueError) as error:
         raise ValueError("state must be finite JSON-compatible data") from error
     options = row["options"]
-    if not isinstance(options, list) or not 2 <= len(options) <= len(LETTERS):
-        raise ValueError("options must contain 2-16 entries")
+    if not isinstance(max_options, int) or isinstance(max_options, bool) or max_options < 2:
+        raise ValueError("max_options must be an integer of at least 2")
+    if not isinstance(options, list) or not 2 <= len(options) <= max_options:
+        raise ValueError(f"options must contain 2-{max_options} entries")
     ids = []
     for option in options:
         if not isinstance(option, dict) or not isinstance(option.get("id"), str) or not isinstance(option.get("description"), str):
@@ -40,18 +42,25 @@ def validate_row(row: dict) -> None:
         raise ValueError("Option IDs must be unique")
 
 
-def direct_messages(row: dict) -> list[dict]:
-    validate_row(row)
+def direct_messages(row: dict, *, labels: str = LETTERS) -> list[dict]:
+    if not isinstance(labels, str) or len(labels) < 2 or len(labels) != len(set(labels)):
+        raise ValueError("labels must be unique option-label characters")
+    validate_row(row, max_options=len(labels))
+    selected_labels = labels[:len(row["options"])]
+    system = DIRECT_SYSTEM if not any(label.isdigit() for label in selected_labels) else (
+        "Apply the supplied criterion to the supplied evidence. Choose exactly one listed option. "
+        "Respond with only its exact option label, with no explanation or reasoning."
+    )
     payload = {
         "evidence": row["state"],
         "criterion": row["question"],
         "options": [
-            {"letter": LETTERS[index], "description": option["description"]}
+            {"letter": selected_labels[index], "description": option["description"]}
             for index, option in enumerate(row["options"])
         ],
     }
     return [
-        {"role": "system", "content": DIRECT_SYSTEM},
+        {"role": "system", "content": system},
         {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
     ]
 

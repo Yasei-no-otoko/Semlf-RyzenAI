@@ -1,4 +1,23 @@
-# SemIf (formerly OpenJev)
+# Semlf-RyzenAI
+
+A fork of [SemIf (formerly OpenJev)](https://github.com/TheoLeeCJ/SemIf) for
+Windows and AMD Ryzen AI 1.8.0. It adds direct option scoring and a local web
+demo comparing direct logits with streamed JSON generation, using AMD's
+official Qwen3-4B NPU model configuration, including its CPU components.
+
+Start with the [Ryzen AI setup guide](docs/RYZENAI.md). After setup, run
+`./run_semif_npu_demo.ps1`, then open either demo:
+
+- **日本語版 / Japanese:** [http://127.0.0.1:8008/](http://127.0.0.1:8008/)
+- **English:** [http://127.0.0.1:8008/en/](http://127.0.0.1:8008/en/)
+
+Both pages require the local server. They share the same loaded model and
+include localized examples and controls. A plain-text guide is also available
+in [README.txt](README.txt). Use `./run_semif_npu.ps1` for JSONL scoring.
+The demo opens with a 16-option receipt-routing example (up to 32 options are supported)
+for observing the cost of generating the complete probability object.
+
+The upstream project description and its original benchmark results follow.
 
 <div align="center">
 
@@ -35,13 +54,19 @@ This baseline reads typed option probabilities directly from a model. No answer 
 serial prefix reuse, and parallel shared-state decisions on macOS arm64.
 Install `pip install -e '.[test,mlx]'` and add `--backend mlx` to the scorer command.
 
+**Windows Ryzen AI NPU:** see [the Ryzen AI 1.8 guide](docs/RYZENAI.md) for the
+AMD official NPU configuration (CPU host/prefill LM-head, no GPU offload) and
+the SemIf direct-only launcher (`run_semif_npu.ps1`).
+Run `./run_semif_npu_demo.ps1` for the local browser comparison of direct
+option logits and streamed JSON generation at `http://127.0.0.1:8008`.
+
 Python 3.10+, CUDA, and a GPU that can hold a 4B BF16 model:
 
 ```bash
 python -m venv .venv
 . .venv/bin/activate
 export HF_HOME=/path/to/large-drive/huggingface
-pip install -e '.[test]'
+pip install -e '.[test,torch]'
 ```
 
 Run the owned examples:

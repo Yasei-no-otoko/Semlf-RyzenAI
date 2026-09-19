@@ -1,0 +1,5 @@
+/* Small NPU-specific layer; the visual system comes from the existing root style.css. */
+.model-card{display:grid;gap:7px;margin:16px 0 12px;border:1px solid var(--line);padding:12px;background:#fff}.model-card span{color:var(--muted);font-size:.68rem}.option-row{display:flex;align-items:center;gap:9px;margin-top:6px}.option-row b{width:20px}.option-row input{flex:1}.status-error{color:#fff!important;background:var(--red)!important}.status-ok{background:var(--lime)!important}.status-running{background:#ecebe4!important}.validation{min-height:26px}.validation.ok{background:var(--lime);color:var(--ink)}.validation.error{background:var(--red);color:#fff}.phase strong{text-transform:none}
+#load.loading::before{content:"";width:.8em;height:.8em;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:npu-spin .8s linear infinite}@keyframes npu-spin{to{transform:rotate(360deg)}}
+#model-meta{overflow-wrap:anywhere}.hero h1{line-height:1.05}
+@media(max-width:750px){.hero h1{line-height:1.08}.model-card{word-break:break-word}}
