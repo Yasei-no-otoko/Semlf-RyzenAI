@@ -1,10 +1,14 @@
 # Qwen3.5-4B conversion for Ryzen AI 1.8
 
 **Experimental and incomplete.** Quark quantization and OGA export completed.
-A custom NPU-eager artifact scores three short English/Japanese examples with
-finite, correct outputs. **Token Fusion is unsupported by the installed SDK
-recipe, and 16K inference has not completed successfully.** This is not a
-replacement for the working AMD Qwen3-4B demo model.
+A combined eager-prefill and custom DD-token model now scores three owned
+English/Japanese short examples correctly and completes a native greedy
+continuation at EOS. All observed full-vocabulary logits are finite, with
+5,307 NPU submissions/completions and zero errors. **The installed SDK recipe
+does not support this custom integration, and the combined 16K validation
+failed.** The tail-information case passed at exactly 16,384 input tokens;
+the head-information case produced non-finite logits. This is not
+a replacement for the working AMD Qwen3-4B demo model.
 
 The pinned source is [Qwen/Qwen3.5-4B at
 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a](https://huggingface.co/Qwen/Qwen3.5-4B/tree/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a).
@@ -27,14 +31,15 @@ or speed results.
 | v2/no-control-packet MatMul DD | Real layer-0 `in_proj_b` passes direct DD and native ORT checks with DD LLM mode disabled; original mode failed |
 | Projection transaction inventory | Exact M=1 v2/no-control-packet entries exist for all 249 projections across 8 shapes |
 | Representative projection sizes | All eight shapes host-compile and pass one direct-DD NPU check each, including the 248,320-output LM head |
-| All-projection DD graph prototype | 249 projections converted; CPU structural checks pass with the native ORT normalization schema; full model execution untested |
+| All-projection DD graph prototype | 249 projections converted; CPU structural checks pass with the native ORT normalization schema |
 | SDK NPU eager, chunk size 4096 | English short example passes; Japanese 96-token example returns NaNs |
 | SDK NPU eager, chunk size 64 | Three owned short examples pass, including Japanese |
-| Native generation | Finite logits observed, but the original validator checked logits after EOS; normal termination is not validated |
-| 16,384-token prefill | Two attempts interrupted by host reboots; no completed result |
+| Combined eager-prefill / DD-token model | One full-model load, three correct short cases; option logits match the eager baseline exactly |
+| Native generation, combined model | Four generated tokens ending at configured EOS; all seven observed full-vocabulary logit vectors are finite |
+| 16,384-token prefill | Tail-information case passed; head-information case failed the full-vocabulary finite check. Earlier two runs were interrupted by reboots |
 | Full scripted eager post-processing rerun | Interrupted by the second reboot |
 
-The candidate graph contains 1,398 nodes. Its NPU operators include 153
+The eager prefill graph contains 1,398 nodes. Its NPU operators include 153
 `MatMulNBitsBf`, 32 `SSMLP` groups (covering the remaining 96 heavy matmuls),
 and 24 `LinearAttention` operations. The 24 `CausalConvWithState` and 8 GQA
 operations remain on CPU, with other host operations and casts. No GPU
@@ -53,15 +58,18 @@ produced a final result. Windows recorded unexpected reboots at approximately
 Bus/Interconnect errors. The operator subsequently reported simultaneous
 DiffusionGemma localjev testing and a 32-way LichtFeld Studio build during
 these runs. This context and the event correlation do not establish a root
-cause. Resume with isolated, bounded operator checks after checking current
-load, before repeating long model runs.
+cause. Subsequent isolated operator checks and the combined short-model run
+completed successfully on an idle host. The bounded long-context run then
+returned a numerical failure without a reboot or NPU command error. These
+observations do not identify the cause of either the earlier reboots or the
+new numerical failure.
 
 The owned evidence and exact artifact hashes are in
 [the conversion evidence](../results/raw/qwen35-conversion-20260920/evidence.json).
 Weights, caches, machine-identifying hardware reports, and third-party data
 are not committed.
 
-## Why Token Fusion did not complete
+## SDK recipe failure and the custom DD integration
 
 The installed SDK Qwen3.5 strategy specializes the eager path. Its generic
 `llm.dd_graph.llm_token_to_dd` pass recognizes supported MLADF/MHA and LFM2
@@ -193,13 +201,83 @@ the largest projection peaks at approximately 2.03 GiB of process private
 commit; this is not a bound on whole-model runtime memory.
 
 The two operator families require different xclbins and execution interfaces.
-They need separate DD subgraphs, validated BF16/state boundaries, and an
-explicit Qwen3.5 partitioning extension. Removing a partition assertion or
-changing a context-length setting is insufficient. The generic combiner also
-needs output-order validation, custom opset preservation, and transaction
-collection for branches that contain both DD and eager operators. This
-custom route is under development; NPU eager remains a separate experimental
+The combined candidate uses separate DD subgraphs with the checked BF16/state
+boundaries and an explicit Qwen3.5 partitioning extension. Its combiner checks
+output order, captured inputs, custom opset versions, and external data. The
+package retains the complete installed SDK transaction archive, including the
+eager branch's entries, instead of relying on the SDK filter's incomplete
+coverage of mixed branches. Removing a partition assertion or changing a
+context-length setting alone would not provide these contracts.
+
+### Combined-model short validation
+
+The [integrated short-run report](../results/raw/qwen35-conversion-20260920/dd-integrated-short.json)
+records one model load and four generators, with no retry. The combined model
+selects the chunk-64 eager graph for prefill and a token graph containing
+249 MatMul DD nodes and 24 LinearAttention DD nodes for single-token input.
+CPU convolution, GQA, host operations, and casts remain; no GPU provider is
+configured. This is a custom conversion, not an AMD-published Qwen3.5 model.
+
+| Owned short case | Input tokens | Option logits | Correct |
+|---|---:|---|---|
+| English, BLUE first | 94 | `[27.625, 20.875]` | Yes |
+| Japanese, BLUE second | 96 | `[19.25, 28.0]` | Yes |
+| English, BLUE second | 94 | `[21.0, 28.375]` | Yes |
+
+All three recorded option-logit pairs, probabilities, option IDs, and
+prompt/tokenization identities match the earlier eager result exactly.
+These direct cases exercise the eager prefill branch. Full-vocabulary arrays
+were checked for finiteness but were not retained for an equality comparison.
+Three owned color questions are functional checks, not a quality benchmark.
+
+The greedy continuation generated four tokens, ending with the configured
+EOS token `248044`, and decoded to `A\n`. It used OGA's native state/cache
+management. The three direct calls and four greedy steps produced seven
+observed last-position vectors of 248,320 logits, all finite. This validates
+normal termination for this short continuation, not arbitrary generation.
+
+Four process-owned NPU contexts together recorded **5,307 submissions,
+5,307 completions, and zero errors**. After accounting for the repeated
+94-token prefill, the continuation's residual counters are consistent with
+three decode steps: `3 × 249 = 747` MatMul commands and `3 × 24 = 72`
+LinearAttention commands. This is an inference from the graph inventory and
+context counters, not a per-operator execution trace or proof that CPU
+components were offloaded.
+
+The first load, including compilation of all 273 DD metadata files, reached
+the model-loaded stage after 238.50 seconds. Peak process/job commit was
+about 9.60 GiB under a 20 GiB limit. These are single-run observations, not
+speed benchmarks or bounds on all driver/device memory. The evidence retains
+the source/model/runtime hashes, stages, counters, and equality comparison.
+The model's configured 16K ceiling remains separate from this short-run
 result.
+
+### Combined-model 16K failure
+
+The [subsequent supervised run](../results/raw/qwen35-conversion-20260920/dd-integrated-16k-failure.json)
+completed the three short cases and greedy
+continuation, then scored an owned tail-information prompt at exactly
+16,384 input tokens. BLUE was correct, with option logits `[26.25, 22.875]`,
+all 248,320 logits finite, and a single observed forward time of 618.786 seconds.
+The 16,385-token overflow prompt was rejected before inference.
+
+The next generator processed the owned head-information prompt at exactly
+16,384 input tokens but failed the full-vocabulary finite check. Its scores
+were not accepted. The saved event identifies a non-finite vector; it does
+not retain the NaN/Inf counts or establish which layer first failed.
+The overall validator exited with failure. All four NPU contexts together
+recorded 292,539 submissions and completions, with zero reported command
+errors. Process commit peaked at 11,260,719,104 bytes, below the 20 GiB job
+limit; this was neither a timeout nor a host reboot. Numerical correctness
+is therefore unresolved even though the NPU completed its commands.
+
+The counter totals are consistent with all 520 expected prefill chunks
+(four short prompts with two chunks each, plus two 256-chunk long prompts)
+and the three short decode steps: `481 × 520 + 249 × 3 = 250867`,
+`24 × 520 = 12480`, `56 × 520 = 29120`, and `24 × 3 = 72` across
+the four contexts. This is an inference from the previously measured chunk
+and decode counts, not a per-node trace. The failed long case reads prefill
+logits; it does not exercise long-context DD decoding.
 
 An independent OGA exporter memory improvement was submitted as
 [onnxruntime-genai PR #2596](https://github.com/microsoft/onnxruntime-genai/pull/2596).
@@ -345,13 +423,71 @@ prefill graph of the failed Token Fusion run. Its semantic eager strategy
 matches the scripted route. The incomplete `...chunk64-run2` output must not
 be used for inference.
 
-## Validation before deployment
+## Public custom-DD conversion command
 
-After host stability is restored, use a new output directory:
+The [conversion CLI](../benchmarks/prepare_qwen35_token_fusion.py),
+[compatibility profile](../benchmarks/qwen35_rai18_profile.json),
+[DD lowering](../benchmarks/qwen35_dd.py), and
+[packager](../benchmarks/qwen35_package.py) expose the custom route without
+depending on private diagnostic scripts or editing installed SDK packages.
+The public implementation has CPU fixture tests and a tiny installed-ORT
+schema check. **A complete rerun through this new CLI has not yet been
+validated.** The successful short-model evidence above belongs to the
+separately materialized diagnostic candidate.
+
+Use the SDK 1.8 environment, rather than the export environment. The profile
+pins SDK package/file versions and the exact measured OGA and eager artifacts.
+The example paths below identify those artifacts; a different export must
+pass the same profile checks before it can be used. Source, prefill, work,
+output, and plan paths must be separate, and all output paths must be new.
 
 ```powershell
-& .\.venv\Scripts\python.exe benchmarks\validate_qwen35_npu.py `
-  --model $npu --revision $revision `
+$tfWork = 'cache\qwen35-conversion\token-fusion-build-new'
+$tfOutput = 'models\Qwen3.5-4B-token-fusion-new'
+$tfPlan = 'cache\qwen35-conversion\token-fusion-plan-new.json'
+
+& $sdkPython benchmarks\prepare_qwen35_token_fusion.py plan `
+  --source models\Qwen3.5-4B-oga-run2 `
+  --prefill models\Qwen3.5-4B-npu-eager-16k-chunk64-run1 `
+  --sdk-root $sdkRoot --work-dir $tfWork --output $tfOutput `
+  --profile benchmarks\qwen35_rai18_profile.json --plan $tfPlan
+if ($LASTEXITCODE -ne 0) { throw 'Conversion plan validation failed.' }
+
+$tfPlanSha = (Get-FileHash -LiteralPath $tfPlan -Algorithm SHA256).Hash.ToLowerInvariant()
+& $sdkPython benchmarks\prepare_qwen35_token_fusion.py build `
+  --plan $tfPlan --plan-sha256 $tfPlanSha
+```
+
+Planning verifies the pinned inputs, SDK, and code without creating an
+inference session. Building regenerates the token graph, lowers 249 MatMul
+and 24 LinearAttention partitions, and packages them with the supplied eager
+prefill. It copies external data independently, relocates all DD constants,
+preserves the eager protobuf header and weights, and includes the complete
+SDK transaction archive. It uses metadata from the installed ORT in an
+isolated CPU schema check; no model inference or NPU session is performed by
+the conversion command.
+
+The output includes `package-manifest.json`; the work directory contains
+`build-report.json`. `materialized_cpu_checked` means file/graph validation
+completed. Require that status in **`build-report.json`**, which is written
+after the final source/SDK checks; a package manifest alone does not establish
+that the overall build succeeded. It does not mean the new artifact passed
+inference. Runtime initialization still compiles the native DD metadata. Absolute cache and
+constant paths are recorded, so moving a package requires relocation and a
+new manifest. Run short functional validation before attempting the separate
+16K validation.
+
+## Validation before deployment
+
+The combined short run passed after two low-load samples (CPU at most 30%,
+at least 32 GiB available RAM, and no build processes). A supervised full
+validation subsequently failed on non-finite head-information logits, so
+long-context deployment remains unvalidated. The following is the underlying
+validator, which needs a new evidence directory:
+
+```powershell
+& $sdkPython benchmarks\validate_qwen35_npu.py `
+  --model $tfOutput --revision $revision `
   --output cache\qwen35-conversion\validation-new
 ```
 

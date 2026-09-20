@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "name": "Qwen3.5-4B Quark RTN g128 Ryzen AI 1.8.0 custom DD token",
+  "source_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "source_config_sha256": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670",
+  "quantization": {
+    "method": "Quark 0.11 RTN/MinMax",
+    "bits": 4,
+    "symmetric": false,
+    "group_size": 128
+  },
+  "package_versions": {
+    "numpy": "1.26.4",
+    "onnx": "1.23.0",
+    "onnxruntime-genai-directml-ryzenai": "0.14.0",
+    "onnxruntime-providers-ryzenai": "1.8.0",
+    "onnxruntime-vitisai": "1.27.0",
+    "ryzenai-dynamic-dispatch": "1.8.0",
+    "ryzenai_onnx_utils": "1.8.0"
+  },
+  "package_files": {
+    "ryzenai_onnx_utils": {
+      "matcher.py": "d2a6671fab85889267fccbab4c77d8890d13e4ce017b48e7fd3ef681c5043c4f",
+      "typing.py": "d3c24cd052caa7f0c9b1d47fa201fc6faf4427bca315e62ca3b19081e98334db",
+      "optimize.py": "66f9ce7b8845b57fb7e87a8a17312fb34c63e4f782f82eec1c5f838bf0251a42",
+      "transform/dd.py": "70b51757f58d47db2548accd77ee372e7fb3e00aa4411f61be90e2acb009889b",
+      "transform/hybrid_llm.py": "c0324e88027abc5fb7d8c17c01777a5e238e356f58f16bbf2c607de06444380b",
+      "passes/llm/dd/matmulnbits.py": "6bcf550c16c262b47936b890aec65c32dc6424153841a7274dafb76d5f20a5b6",
+      "passes/llm/dd_graph/llm_token_to_dd.py": "2a0d705b8934dced5ebcd422555e17469ae65e13f97c70dee57167c2f6940ba1",
+      "proto/external_data_pb2.py": "11535c7348e169fd16fbda6da598281f8ee68b190f491b2e426358216f450d33",
+      "partitioner.py": "b9b1742af3c55ddea77ba911b8650a12fc495a368e8236795378c68cdbcc699c",
+      "preprocess.py": "48439c593227b603093d1c8971f27564e1ad3216e517dfac3fcca30e17ba989c",
+      "utils.py": "c3fd4d82696555c96875c832508c1adcbf01977e5f639d7b8988733a711b47b3",
+      "model_preprocessing/llm.py": "a5f4cb5d153335c9469aee762dca6fc9039f684e25e1cb45d4f89ddf93937982",
+      "passes/llm/add_fp16_casts.py": "1de099e32c07277fa81957d00d6be3a1567b025e47935dc4ca94d74e31e80a82"
+    },
+    "onnxruntime": {
+      "tools/onnx_model_utils.py": "1bd5ac81f8aae3aa606e461364062ea592a7aa0648f864f446f7ab14f9f6b02e",
+      "tools/symbolic_shape_infer.py": "65db20d68b19c91a7e621eb19aa32a3f0a5ec9254c6bba996f6461e78d1ffd25"
+    },
+    "ryzenai_dynamic_dispatch": {
+      "__init__.py": "87d42eeca130fa9e708c94faa87177f5cd154541306779650aa07e53cf1c0851",
+      "fuse.py": "6b6827447d307967a5b6ddffbc9e939b31b8b67afdc7f602fca287d514112f00",
+      "onnx_graph.py": "04073c013b784b5491e8ed37cc318804f3ce3338d67418bb09aba40bc36190a1",
+      "_DynamicDispatch.cp312-win_amd64.pyd": "38814ad69d2233758b76bf82db922f2e674c0d01aace756ace066135cbf4aaab"
+    }
+  },
+  "sdk_files": {
+    "deployment/onnxruntime_providers_ryzenai.dll": "7e77ad4a8a339195d50c8bbc383635e502f7f6c1034f704af4a2f64b1fb5827f",
+    "deployment/dyn_bins.zip": "9cc1cbe8d6939fcd6eb19c3647e3accd6a2921f918206d0bb5240c18d6093cac",
+    "deployment/dyn_dispatch_core.dll": "14355332ba63c60c5cdfc84edc953eb565ec2e52407494224926673d3ca54d6e"
+  },
+  "source_artifacts": {
+    "chat_template.jinja": "a92e1dd97cb1cb175c9b70c0828e146bea4371c2643319b661b777e89811972e",
+    "config.json": "e2e708466c5735781edc346f7ff3c22ec6780f3fbe4e53bf06595079ba82e44b",
+    "genai_config.json": "ff99afb0fee653720d209499d84d1d02d871a72f418b59405be3d3a1fcc51b6f",
+    "model.onnx": "5f0fbf519adce376930f1ab52922c1a9c3b7b07b430eb55fc1b67aa9e70ddea2",
+    "model.onnx.data": "751fa31b2fef01b1fe7e8492057701bc41f218f66a8f922f001b09f05d752c58",
+    "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+    "tokenizer_config.json": "b78d7687432566598b66847cae8b2d44bf06c733c42bdd10c2ac588e12e59983"
+  },
+  "prefill_artifacts": {
+    "cache/txn_bins.zip": "f83212a6eb31cea75700d83b1d066c3b5f84960c4e070b05c982406f85520e1b",
+    "chat_template.jinja": "a92e1dd97cb1cb175c9b70c0828e146bea4371c2643319b661b777e89811972e",
+    "config.json": "e2e708466c5735781edc346f7ff3c22ec6780f3fbe4e53bf06595079ba82e44b",
+    "genai_config.json": "bcd767f19edc21bcf954d5d8404c75cbf5c583edcbe8b0218732d7edd7518e21",
+    "model.bin": "5449230d8faaa65e655e81262450725fb3433bbdff46b75a23c183fe04f38901",
+    "model.onnx": "755d4ceb2fe5a933206e7b47c543946bc14b486e8fc0eb81aafbb590f193f5b2",
+    "model.onnx.data": "3177116128a7665ecc985d6463ae9dec351d6bf5f7e0c1ab9fbbbdfe687e2aee",
+    "model.pb.bin": "c3b8aa57fad55dec944ec35fb038ee230e5d6b77b8c4a518192cc548d6a7229a",
+    "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+    "tokenizer_config.json": "b78d7687432566598b66847cae8b2d44bf06c733c42bdd10c2ac588e12e59983"
+  },
+  "expected_dd_nodes": 273,
+  "expected_dd_counts": {
+    "MladfMatMul": 249,
+    "linear_attention_token": 24
+  },
+  "token_lowering": {
+    "matmul_count": 249,
+    "linear_attention_count": 24,
+    "input_count": 67,
+    "output_count": 65,
+    "state_tensor_count": 64,
+    "vocab_size": 248320,
+    "bits": 4,
+    "block_size": 128,
+    "max_tensor_bytes": 536870912,
+    "max_projection_bytes": 805306368,
+    "matmul_xclbin": "stx_llama2_mladf_2x4x4_v2_gemmbfp16_silu_mul_mha_rms_rope_unified",
+    "linear_attention_xclbin": "stx_LLM_TPS_10bo_mladf_2x4x4_bfp16_gemm_mlp_flat_rms",
+    "host_count_tensor": "/model/attn_mask_reformat/attn_mask_subgraph/ReduceSum/output_0",
+    "linear_attention": {
+      "k_heads": 16,
+      "v_heads": 32,
+      "k_head_dim": 128,
+      "v_head_dim": 128,
+      "query_scale": 1.0,
+      "chunk_size": 64
+    }
+  },
+  "qualification": "Exact compatibility profile for the recorded source artifacts and SDK; no model, SDK binary, vendor source, or hardware identifier is included.",
+  "fixed_token": {
+    "reference_header_sha256": "6dfce6ed7ce6fafe21588b5b7e66bd3792078e55db19a33afa08b2bb3470fc51",
+    "normalized_graph_sha256": "872aafae985541e01b4f4cc751a213517a1367f2c6248621c2780617504d7cd4",
+    "external_data_sha256": "d0c44cf8e995e1d3b459d6421b2e3e90ee83e1095b09f12624c327f0cd603eaa",
+    "normalization": "Remove only model/graph onnx_utils_load metadata and replace the sole external data location; retain all tensor offsets, lengths, graph nodes, attributes and types."
+  }
+}

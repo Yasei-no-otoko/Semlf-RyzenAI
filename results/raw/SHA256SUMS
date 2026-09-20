@@ -56,3 +56,5 @@ d232faa3c8ae04e81297e43612b194ebf159e3636527dcc821aef3346ccc1b65  qwen35-convers
 729b26b28f8dfba273695e563ba13b1c99971551a6102025b636d152124e2a38  qwen35-conversion-20260920/dd-native-matmul.json
 043de6668e6f3706f15f2548cb831df91ccf7a0f561b61d79dfe897f34e6421b  qwen35-conversion-20260920/dd-all-shapes-npu.json
 68ef209bee8738ba1a1b581868d65755f4375757da49f28f1681deefa7e0dd70  qwen35-conversion-20260920/dd-all-shapes-rows.csv.gz
+14f413dadbfa4f7b90f3426adbc3595b58bf935e20db3ea23a140c1eb0bd5cd0  qwen35-conversion-20260920/dd-integrated-short.json
+1812b9c7d1152907b5c9d900c93982e2c38cb58d7917ecc6079dc5516c85023b  qwen35-conversion-20260920/dd-integrated-16k-failure.json

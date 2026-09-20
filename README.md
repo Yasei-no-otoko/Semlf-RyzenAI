@@ -18,12 +18,17 @@ The demo opens with a 16-option receipt-routing example (up to 32 options are su
 for observing the cost of generating the complete probability object.
 
 An experimental [Qwen3.5-4B conversion](docs/QWEN35_NPU.md) records the Quark
-and OGA workflow and its current limitations. Short NPU-eager scoring works,
-and isolated custom DD LinearAttention and MatMul checks pass through the
-native RyzenAI provider. The installed SDK recipe does not support Qwen3.5
-Token Fusion; the custom integration remains under development. Earlier 16K
-validation was interrupted by host reboots. This is not a completed 16K
-replacement for the default AMD Qwen3-4B model.
+and OGA workflow and its current limitations. A combined eager-prefill and
+273-DD-token candidate now passes three owned English/Japanese short cases
+and a native greedy continuation ending at EOS, with finite full-vocabulary
+logits and 5,307 completed NPU commands without errors.
+[Short-run evidence](results/raw/qwen35-conversion-20260920/dd-integrated-short.json)
+also records exact agreement with the eager baseline's option logits.
+CPU graph components remain. The installed SDK recipe does not support this
+custom Qwen3.5 integration; **16K validation failed: the tail-information
+case passed, but the head-information case produced non-finite logits**.
+It is not a completed 16K replacement for the default
+AMD Qwen3-4B model.
 
 The upstream project description and its original benchmark results follow.
 
