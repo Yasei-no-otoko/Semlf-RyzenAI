@@ -1,0 +1,892 @@
+{
+  "schema_version": 1,
+  "status": "partial_single_projection_direct_npu_validation",
+  "sdk_version": "Ryzen AI 1.8.0",
+  "hardware": "AMD Ryzen AI Max+ 395 NPU",
+  "scope": "One localized Qwen3.5-4B layer-0 linear-attention in_proj_b MatMulNBits projection, one synthetic input vector, direct DynamicDispatch API. Not a model inference or 16K validation.",
+  "projection": {
+    "model_family": "Qwen3.5-4B",
+    "component": "model.layers.0.linear_attn.in_proj_b",
+    "M": 1,
+    "K": 2560,
+    "N": 32,
+    "bits": 4,
+    "block_size": 128,
+    "input_shape": [
+      1,
+      1,
+      2560
+    ],
+    "output_shape": [
+      1,
+      1,
+      32
+    ],
+    "input_and_output_storage": "BF16",
+    "dd_operator": "MladfMatMul",
+    "op_version": "v2",
+    "control_packets": false,
+    "source_graph_header_sha256": "6dfce6ed7ce6fafe21588b5b7e66bd3792078e55db19a33afa08b2bb3470fc51"
+  },
+  "input": {
+    "origin": "Owned synthetic standard-normal vector, rounded to BF16; not a captured model RMSNorm activation",
+    "seed": 20260920,
+    "vectors": 1,
+    "raw_bf16_sha256": "f357f6fd2cbf475cde3cb56b339a964462efa67d05ac351eef0ec1208f9062a1",
+    "raw_bf16_bytes": 5120
+  },
+  "reference": {
+    "linear": "FP64 MatMul+bias from the same quantized projection and BF16-rounded input",
+    "sigmoid": "CPU sigmoid of the FP64 linear reference",
+    "actual_sigmoid": "CPU postprocessing of the NPU linear output; sigmoid was not executed on NPU"
+  },
+  "npu_attempts": [
+    {
+      "case": "llm_mode_enabled",
+      "status": "failed",
+      "execute_calls": 1,
+      "retries": 0,
+      "device_counters": {
+        "after_init": {
+          "command_submissions": 0,
+          "command_completions": 0,
+          "errors": 0
+        },
+        "after_execute": {
+          "command_submissions": 1,
+          "command_completions": 0,
+          "errors": 1
+        }
+      },
+      "error_type": "RuntimeError",
+      "error_code": "ERT_CMD_STATE_ERROR",
+      "partition": 0,
+      "pdi_id": 0,
+      "execute_wall_seconds": 0.011978499998804182,
+      "numerical_result": null
+    },
+    {
+      "case": "llm_mode_disabled",
+      "status": "one_call_passed",
+      "execute_calls": 1,
+      "retries": 0,
+      "device_counters": {
+        "after_init": {
+          "command_submissions": 0,
+          "command_completions": 0,
+          "errors": 0
+        },
+        "after_execute": {
+          "command_submissions": 1,
+          "command_completions": 1,
+          "errors": 0
+        }
+      },
+      "partition": 0,
+      "pdi_id": 0,
+      "execute_wall_seconds": 0.0049122000054921955,
+      "numerical_result": {
+        "pass": true,
+        "finite": true,
+        "linear_max_abs": 0.008925845322664827,
+        "linear_relative_rmse": 0.00874631811713941,
+        "linear_components_pass": true,
+        "sigmoid_max_abs": 0.0020208262928806953,
+        "cpu_sigmoid_components_pass": true,
+        "sigmoid_execution_location": "CPU postprocessing of raw DD linear output"
+      }
+    }
+  ],
+  "configuration_excluding_local_cache_directory": {
+    "buffer_reuse_version": "v3",
+    "const_iter_key": "",
+    "constbo_sharing_key": "",
+    "dealloc_elfs": false,
+    "dealloc_input_bo": false,
+    "dealloc_output_bo": false,
+    "dealloc_scratch_bo": false,
+    "eager_mode": false,
+    "en_check_constbo": false,
+    "en_dynamic_subgraph_lazy_loading": false,
+    "en_lazy_constbo": false,
+    "enable_preemption": false,
+    "instr_xrt_bo_stack_size_mb": 0,
+    "model_name": "real_in_proj_b_v2",
+    "optimize_memory_noop": true,
+    "optimize_pm_swap": true,
+    "optimize_scratch": true,
+    "pm_swap": false,
+    "profile": 0,
+    "reload_const": false,
+    "txn_opt": false,
+    "use_elf_flow": false,
+    "use_lazy_input_bo": false,
+    "use_lazy_output_bo": false,
+    "use_lazy_scratch_bo": true
+  },
+  "xclbin": {
+    "resource": "stx_llama2_mladf_2x4x4_v2_gemmbfp16_silu_mul_mha_rms_rope_unified",
+    "sha256": "290fa567afa44f3c0c43d39b6fa0d21ca78fabcb5c66c3e5fe11cd8ca759f82b"
+  },
+  "change": {
+    "aux_info_is_llm": {
+      "before": true,
+      "after": false
+    },
+    "state_table_updates_removed": [
+      {
+        "state_table_idx": 0,
+        "update_func": 1,
+        "update_arg": 1
+      }
+    ],
+    "before": {
+      "op_types": [
+        "CREATE_STATE",
+        "UPDATE_STATE",
+        "SYNC_STATE",
+        "MladfMatMul"
+      ],
+      "pdi_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "fused_tensors": {
+        "ctrl_pkt": {
+          "buffer_size": 0,
+          "xrt_arg_id": 4
+        },
+        "super_instr": {
+          "buffer_size": 0,
+          "xrt_arg_id": 4
+        },
+        "out": {
+          "buffer_size": 64,
+          "xrt_arg_id": 1
+        },
+        "in": {
+          "buffer_size": 5120,
+          "xrt_arg_id": 0
+        },
+        "const": {
+          "buffer_size": 45696,
+          "xrt_arg_id": 3
+        },
+        "scratch": {
+          "buffer_size": 5184,
+          "xrt_arg_id": 2
+        }
+      },
+      "max_op_scratch_pad_bytes": 23040,
+      "total_runtime_scratch_bytes": 28224
+    },
+    "after": {
+      "op_types": [
+        "MladfMatMul"
+      ],
+      "pdi_ids": [
+        0
+      ],
+      "fused_tensors": {
+        "super_instr": {
+          "buffer_size": 0,
+          "xrt_arg_id": 4
+        },
+        "out": {
+          "buffer_size": 64,
+          "xrt_arg_id": 1
+        },
+        "ctrl_pkt": {
+          "buffer_size": 0,
+          "xrt_arg_id": 4
+        },
+        "in": {
+          "buffer_size": 5120,
+          "xrt_arg_id": 0
+        },
+        "scratch": {
+          "buffer_size": 0,
+          "xrt_arg_id": 2
+        },
+        "const": {
+          "buffer_size": 45696,
+          "xrt_arg_id": 3
+        }
+      },
+      "max_op_scratch_pad_bytes": 23040,
+      "total_runtime_scratch_bytes": 23040
+    },
+    "transaction_bytes": 49256,
+    "changed_32bit_words": [
+      {
+        "offset": 35836,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 36028,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 36220,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 36412,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 36604,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 36796,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 36988,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 37180,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 40484,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 40724,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 40964,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 41204,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 41444,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 41684,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 41924,
+        "before": 5184,
+        "after": 0
+      },
+      {
+        "offset": 42164,
+        "before": 5184,
+        "after": 0
+      }
+    ],
+    "causal_limit": "Disabling LLM mode simultaneously removed CREATE_STATE/UPDATE_STATE/SYNC_STATE and input/output scratch copies. Sixteen patched offset words changed from 5184 to zero. This comparison does not isolate which change caused success."
+  },
+  "invariance_validation": {
+    "report_sha256": "2069206605830a43aeeb294844a683da3598edbc9724f17d3218ddcc4196dd3c",
+    "checks": {
+      "metadata_only_expected_semantic_changes": true,
+      "configuration_identical_except_output_cache_directory": true,
+      "xclbin_metadata_identical": true,
+      "xclbin_sha256_verified": true,
+      "localized_tensor_and_graph_bytes_identical": true,
+      "packed_weight_bias_scale_zero_bytes_identical": true,
+      "compiled_pure_matmul": true,
+      "pdi_unchanged_zero": true,
+      "all_non_scratch_fused_buffers_identical": true,
+      "scratch_reduction_equals_input_plus_output": true,
+      "max_op_scratch_unchanged": true,
+      "only_16_scratch_offset_words_changed": true
+    },
+    "packed_weight_bias_scale_zero_sha256": "484594e05b4728e865c6c0ef83d6a654554ccb28b9a18dbed294d901d123fd7e",
+    "preserved": "Localized source graph and all input/output interfaces, weight, bias, scale, zero-point bytes, xclbin, and runtime configuration except the output cache directory",
+    "compile_report_note": "Run2 compile/save succeeded. Its immutable original report records failure of an overly strict postcondition requiring unchanged scratch/transaction bytes; the separately hash-pinned CPU validation verifies the expected changes."
+  },
+  "predeclared_tolerance": {
+    "bf16_unit_roundoff": 0.00390625,
+    "fp32_accumulation_gamma_K": 0.00015261117724262125,
+    "component_budget": "(4*u_bf16 + gamma_K_fp32)*sum(abs(x*w)) + u_bf16*abs(reference_linear)",
+    "relative_rmse_limit": 0.03125,
+    "sigmoid_component_budget": "linear_component_budget/4 (global sigmoid Lipschitz constant)",
+    "pass_rule": "All finite, every linear component within its budget, and linear normalized RMSE <= 8*u_bf16; derived CPU Sigmoid also within its declared budget",
+    "qualification": "Predeclared BF16-based diagnostic thresholds; not a guarantee of the undocumented internal BFP16 reduction order"
+  },
+  "numerical_summary": {
+    "pass": true,
+    "finite": true,
+    "linear_max_abs": 0.008925845322664827,
+    "linear_relative_rmse": 0.00874631811713941,
+    "linear_components_pass": true,
+    "sigmoid_max_abs": 0.0020208262928806953,
+    "cpu_sigmoid_components_pass": true,
+    "sigmoid_execution_location": "CPU postprocessing of raw DD linear output"
+  },
+  "output_rows": [
+    {
+      "output_index": 0,
+      "actual_linear_float64": 0.1376953125,
+      "cpu_sigmoid_of_actual_linear": 0.5343695414044832,
+      "linear_component_budget": 0.18830108184346006,
+      "reference_linear_float64": 0.13668081574724056,
+      "reference_sigmoid_float64": 0.534117106825997,
+      "sigmoid_component_budget": 0.047075270460865015,
+      "actual_linear_bf16_bits_uint16": 15885,
+      "reference_linear_bf16_bits_uint16": 15884,
+      "linear_abs_error": 0.0010144967527594417,
+      "sigmoid_abs_error": 0.00025243457848622697,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 1,
+      "actual_linear_float64": 0.169921875,
+      "cpu_sigmoid_of_actual_linear": 0.5423785498964897,
+      "linear_component_budget": 0.3560635798423186,
+      "reference_linear_float64": 0.16807613737182692,
+      "reference_sigmoid_float64": 0.5419203946195421,
+      "sigmoid_component_budget": 0.08901589496057966,
+      "actual_linear_bf16_bits_uint16": 15918,
+      "reference_linear_bf16_bits_uint16": 15916,
+      "linear_abs_error": 0.001845737628173083,
+      "sigmoid_abs_error": 0.0004581552769475916,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 2,
+      "actual_linear_float64": 0.78515625,
+      "cpu_sigmoid_of_actual_linear": 0.6867903384638052,
+      "linear_component_budget": 0.30605279395035984,
+      "reference_linear_float64": 0.788616769888904,
+      "reference_sigmoid_float64": 0.6875342471163637,
+      "sigmoid_component_budget": 0.07651319848758996,
+      "actual_linear_bf16_bits_uint16": 16201,
+      "reference_linear_bf16_bits_uint16": 16202,
+      "linear_abs_error": 0.0034605198889039457,
+      "sigmoid_abs_error": 0.000743908652558467,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 3,
+      "actual_linear_float64": 0.330078125,
+      "cpu_sigmoid_of_actual_linear": 0.581778385736369,
+      "linear_component_budget": 0.3108281521284776,
+      "reference_linear_float64": 0.3327030611690134,
+      "reference_sigmoid_float64": 0.5824169275435523,
+      "sigmoid_component_budget": 0.0777070380321194,
+      "actual_linear_bf16_bits_uint16": 16041,
+      "reference_linear_bf16_bits_uint16": 16042,
+      "linear_abs_error": 0.002624936169013381,
+      "sigmoid_abs_error": 0.0006385418071833682,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 4,
+      "actual_linear_float64": 0.3671875,
+      "cpu_sigmoid_of_actual_linear": 0.5907792048683922,
+      "linear_component_budget": 0.15702119160294714,
+      "reference_linear_float64": 0.368665686895838,
+      "reference_sigmoid_float64": 0.5911365220421576,
+      "sigmoid_component_budget": 0.039255297900736785,
+      "actual_linear_bf16_bits_uint16": 16060,
+      "reference_linear_bf16_bits_uint16": 16061,
+      "linear_abs_error": 0.0014781868958380073,
+      "sigmoid_abs_error": 0.0003573171737654146,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 5,
+      "actual_linear_float64": -0.314453125,
+      "cpu_sigmoid_of_actual_linear": 0.42202815538864985,
+      "linear_component_budget": 0.19906319209853715,
+      "reference_linear_float64": -0.30617364804493263,
+      "reference_sigmoid_float64": 0.42404898168153055,
+      "sigmoid_component_budget": 0.04976579802463429,
+      "actual_linear_bf16_bits_uint16": 48801,
+      "reference_linear_bf16_bits_uint16": 48797,
+      "linear_abs_error": 0.008279476955067366,
+      "sigmoid_abs_error": 0.0020208262928806953,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 6,
+      "actual_linear_float64": 0.984375,
+      "cpu_sigmoid_of_actual_linear": 0.7279754489059774,
+      "linear_component_budget": 0.2194347630594929,
+      "reference_linear_float64": 0.9758240032824688,
+      "reference_sigmoid_float64": 0.7262788219181583,
+      "sigmoid_component_budget": 0.05485869076487322,
+      "actual_linear_bf16_bits_uint16": 16252,
+      "reference_linear_bf16_bits_uint16": 16250,
+      "linear_abs_error": 0.008550996717531234,
+      "sigmoid_abs_error": 0.0016966269878191387,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 7,
+      "actual_linear_float64": 0.30859375,
+      "cpu_sigmoid_of_actual_linear": 0.5765419743991187,
+      "linear_component_budget": 0.2043963088499144,
+      "reference_linear_float64": 0.31349913094891235,
+      "reference_sigmoid_float64": 0.5777391287161231,
+      "sigmoid_component_budget": 0.0510990772124786,
+      "actual_linear_bf16_bits_uint16": 16030,
+      "reference_linear_bf16_bits_uint16": 16033,
+      "linear_abs_error": 0.004905380948912352,
+      "sigmoid_abs_error": 0.0011971543170044008,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 8,
+      "actual_linear_float64": 0.6953125,
+      "cpu_sigmoid_of_actual_linear": 0.6671476749870738,
+      "linear_component_budget": 0.17606654944587066,
+      "reference_linear_float64": 0.6890826163580641,
+      "reference_sigmoid_float64": 0.665762819130651,
+      "sigmoid_component_budget": 0.044016637361467666,
+      "actual_linear_bf16_bits_uint16": 16178,
+      "reference_linear_bf16_bits_uint16": 16176,
+      "linear_abs_error": 0.006229883641935885,
+      "sigmoid_abs_error": 0.0013848558564227842,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 9,
+      "actual_linear_float64": 0.251953125,
+      "cpu_sigmoid_of_actual_linear": 0.5626571729912544,
+      "linear_component_budget": 0.1662098285451573,
+      "reference_linear_float64": 0.2561618695035577,
+      "reference_sigmoid_float64": 0.5636925613487449,
+      "sigmoid_component_budget": 0.04155245713628933,
+      "actual_linear_bf16_bits_uint16": 16001,
+      "reference_linear_bf16_bits_uint16": 16003,
+      "linear_abs_error": 0.004208744503557682,
+      "sigmoid_abs_error": 0.0010353883574905076,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 10,
+      "actual_linear_float64": -0.53515625,
+      "cpu_sigmoid_of_actual_linear": 0.3693150796290263,
+      "linear_component_budget": 0.33529220985985514,
+      "reference_linear_float64": -0.5369173731887713,
+      "reference_sigmoid_float64": 0.368904970752949,
+      "sigmoid_component_budget": 0.08382305246496378,
+      "actual_linear_bf16_bits_uint16": 48905,
+      "reference_linear_bf16_bits_uint16": 48905,
+      "linear_abs_error": 0.0017611231887713075,
+      "sigmoid_abs_error": 0.0004101088760773419,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 11,
+      "actual_linear_float64": -0.87890625,
+      "cpu_sigmoid_of_actual_linear": 0.2934044820389496,
+      "linear_component_budget": 0.3555900324655291,
+      "reference_linear_float64": -0.8699804046773352,
+      "reference_sigmoid_float64": 0.29525837939731475,
+      "sigmoid_component_budget": 0.08889750811638228,
+      "actual_linear_bf16_bits_uint16": 48993,
+      "reference_linear_bf16_bits_uint16": 48991,
+      "linear_abs_error": 0.008925845322664827,
+      "sigmoid_abs_error": 0.0018538973583651641,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 12,
+      "actual_linear_float64": 0.283203125,
+      "cpu_sigmoid_of_actual_linear": 0.5703313371401575,
+      "linear_component_budget": 0.21610933737457438,
+      "reference_linear_float64": 0.2815605404903181,
+      "reference_sigmoid_float64": 0.569928769635896,
+      "sigmoid_component_budget": 0.054027334343643596,
+      "actual_linear_bf16_bits_uint16": 16017,
+      "reference_linear_bf16_bits_uint16": 16016,
+      "linear_abs_error": 0.0016425845096819103,
+      "sigmoid_abs_error": 0.00040256750426148624,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 13,
+      "actual_linear_float64": 0.5859375,
+      "cpu_sigmoid_of_actual_linear": 0.6424324776295581,
+      "linear_component_budget": 0.20604939943438752,
+      "reference_linear_float64": 0.5828409916721284,
+      "reference_sigmoid_float64": 0.6417208561578069,
+      "sigmoid_component_budget": 0.05151234985859688,
+      "actual_linear_bf16_bits_uint16": 16150,
+      "reference_linear_bf16_bits_uint16": 16149,
+      "linear_abs_error": 0.003096508327871561,
+      "sigmoid_abs_error": 0.0007116214717511893,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 14,
+      "actual_linear_float64": 0.482421875,
+      "cpu_sigmoid_of_actual_linear": 0.6183196019638634,
+      "linear_component_budget": 0.39415325789381545,
+      "reference_linear_float64": 0.4760963299195282,
+      "reference_sigmoid_float64": 0.6168256571998997,
+      "sigmoid_component_budget": 0.09853831447345386,
+      "actual_linear_bf16_bits_uint16": 16119,
+      "reference_linear_bf16_bits_uint16": 16116,
+      "linear_abs_error": 0.006325545080471784,
+      "sigmoid_abs_error": 0.001493944763963695,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 15,
+      "actual_linear_float64": 0.076171875,
+      "cpu_sigmoid_of_actual_linear": 0.519033766568577,
+      "linear_component_budget": 0.38442489958508436,
+      "reference_linear_float64": 0.07990026863990352,
+      "reference_sigmoid_float64": 0.519964447115983,
+      "sigmoid_component_budget": 0.09610622489627109,
+      "actual_linear_bf16_bits_uint16": 15772,
+      "reference_linear_bf16_bits_uint16": 15780,
+      "linear_abs_error": 0.0037283936399035156,
+      "sigmoid_abs_error": 0.000930680547405971,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 16,
+      "actual_linear_float64": -0.09423828125,
+      "cpu_sigmoid_of_actual_linear": 0.47645784997496715,
+      "linear_component_budget": 0.09689157059497394,
+      "reference_linear_float64": -0.09248133699293248,
+      "reference_sigmoid_float64": 0.4768961302985662,
+      "sigmoid_component_budget": 0.024222892648743485,
+      "actual_linear_bf16_bits_uint16": 48577,
+      "reference_linear_bf16_bits_uint16": 48573,
+      "linear_abs_error": 0.0017569442570675164,
+      "sigmoid_abs_error": 0.00043828032359904956,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 17,
+      "actual_linear_float64": -0.011962890625,
+      "cpu_sigmoid_of_actual_linear": 0.497009313010287,
+      "linear_component_budget": 0.09906653518586166,
+      "reference_linear_float64": -0.010141515173017979,
+      "reference_sigmoid_float64": 0.49746464293690074,
+      "sigmoid_component_budget": 0.024766633796465414,
+      "actual_linear_bf16_bits_uint16": 48196,
+      "reference_linear_bf16_bits_uint16": 48166,
+      "linear_abs_error": 0.0018213754519820213,
+      "sigmoid_abs_error": 0.0004553299266137345,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 18,
+      "actual_linear_float64": -0.1318359375,
+      "cpu_sigmoid_of_actual_linear": 0.4670886703572909,
+      "linear_component_budget": 0.1195680344282054,
+      "reference_linear_float64": -0.13201971324451733,
+      "reference_sigmoid_float64": 0.46704292575569784,
+      "sigmoid_component_budget": 0.02989200860705135,
+      "actual_linear_bf16_bits_uint16": 48647,
+      "reference_linear_bf16_bits_uint16": 48647,
+      "linear_abs_error": 0.0001837757445173338,
+      "sigmoid_abs_error": 4.574460159306737e-05,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 19,
+      "actual_linear_float64": 0.3046875,
+      "cpu_sigmoid_of_actual_linear": 0.575588013330038,
+      "linear_component_budget": 0.14960670932140352,
+      "reference_linear_float64": 0.30394981388235465,
+      "reference_sigmoid_float64": 0.5754077965647356,
+      "sigmoid_component_budget": 0.03740167733035088,
+      "actual_linear_bf16_bits_uint16": 16028,
+      "reference_linear_bf16_bits_uint16": 16028,
+      "linear_abs_error": 0.0007376861176453531,
+      "sigmoid_abs_error": 0.00018021676530233233,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 20,
+      "actual_linear_float64": 0.486328125,
+      "cpu_sigmoid_of_actual_linear": 0.6192410517539716,
+      "linear_component_budget": 0.353885418685315,
+      "reference_linear_float64": 0.48647328838706017,
+      "reference_sigmoid_float64": 0.6192752780130107,
+      "sigmoid_component_budget": 0.08847135467132874,
+      "actual_linear_bf16_bits_uint16": 16121,
+      "reference_linear_bf16_bits_uint16": 16121,
+      "linear_abs_error": 0.0001451633870601654,
+      "sigmoid_abs_error": 3.4226259039149554e-05,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 21,
+      "actual_linear_float64": 0.400390625,
+      "cpu_sigmoid_of_actual_linear": 0.598781508347227,
+      "linear_component_budget": 0.3918255445445904,
+      "reference_linear_float64": 0.39953387290006503,
+      "reference_sigmoid_float64": 0.5985756629178569,
+      "sigmoid_component_budget": 0.0979563861361476,
+      "actual_linear_bf16_bits_uint16": 16077,
+      "reference_linear_bf16_bits_uint16": 16077,
+      "linear_abs_error": 0.0008567520999349654,
+      "sigmoid_abs_error": 0.00020584542937007733,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 22,
+      "actual_linear_float64": 0.43359375,
+      "cpu_sigmoid_of_actual_linear": 0.6067314954360127,
+      "linear_component_budget": 0.17871512785237634,
+      "reference_linear_float64": 0.4313908918411471,
+      "reference_sigmoid_float64": 0.6062057516046806,
+      "sigmoid_component_budget": 0.044678781963094084,
+      "actual_linear_bf16_bits_uint16": 16094,
+      "reference_linear_bf16_bits_uint16": 16093,
+      "linear_abs_error": 0.002202858158852905,
+      "sigmoid_abs_error": 0.0005257438313320817,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 23,
+      "actual_linear_float64": 0.52734375,
+      "cpu_sigmoid_of_actual_linear": 0.6288633710372709,
+      "linear_component_budget": 0.1832106762425775,
+      "reference_linear_float64": 0.5206242857675534,
+      "reference_sigmoid_float64": 0.6272937336140926,
+      "sigmoid_component_budget": 0.045802669060644376,
+      "actual_linear_bf16_bits_uint16": 16135,
+      "reference_linear_bf16_bits_uint16": 16133,
+      "linear_abs_error": 0.006719464232446626,
+      "sigmoid_abs_error": 0.0015696374231782828,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 24,
+      "actual_linear_float64": 0.2197265625,
+      "cpu_sigmoid_of_actual_linear": 0.5547116952425464,
+      "linear_component_budget": 0.44575415710453264,
+      "reference_linear_float64": 0.2166730664903298,
+      "reference_sigmoid_float64": 0.5539573360436599,
+      "sigmoid_component_budget": 0.11143853927613316,
+      "actual_linear_bf16_bits_uint16": 15969,
+      "reference_linear_bf16_bits_uint16": 15966,
+      "linear_abs_error": 0.003053496009670198,
+      "sigmoid_abs_error": 0.0007543591988864451,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 25,
+      "actual_linear_float64": -0.01708984375,
+      "cpu_sigmoid_of_actual_linear": 0.495727643045024,
+      "linear_component_budget": 0.45457741776082256,
+      "reference_linear_float64": -0.016616893000900745,
+      "reference_sigmoid_float64": 0.4958458723362047,
+      "sigmoid_component_budget": 0.11364435444020564,
+      "actual_linear_bf16_bits_uint16": 48268,
+      "reference_linear_bf16_bits_uint16": 48264,
+      "linear_abs_error": 0.0004729507490992546,
+      "sigmoid_abs_error": 0.0001182292911807159,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 26,
+      "actual_linear_float64": 0.49609375,
+      "cpu_sigmoid_of_actual_linear": 0.6215409097858048,
+      "linear_component_budget": 0.16129939977503407,
+      "reference_linear_float64": 0.49476552580017596,
+      "reference_sigmoid_float64": 0.621228424120007,
+      "sigmoid_component_budget": 0.04032484994375852,
+      "actual_linear_bf16_bits_uint16": 16126,
+      "reference_linear_bf16_bits_uint16": 16125,
+      "linear_abs_error": 0.0013282241998240352,
+      "sigmoid_abs_error": 0.00031248566579777926,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 27,
+      "actual_linear_float64": 0.86328125,
+      "cpu_sigmoid_of_actual_linear": 0.7033457453210089,
+      "linear_component_budget": 0.18583368032189246,
+      "reference_linear_float64": 0.8645486899185926,
+      "reference_sigmoid_float64": 0.7036101291290666,
+      "sigmoid_component_budget": 0.046458420080473115,
+      "actual_linear_bf16_bits_uint16": 16221,
+      "reference_linear_bf16_bits_uint16": 16221,
+      "linear_abs_error": 0.0012674399185925722,
+      "sigmoid_abs_error": 0.000264383808057711,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 28,
+      "actual_linear_float64": 0.515625,
+      "cpu_sigmoid_of_actual_linear": 0.6261241772283034,
+      "linear_component_budget": 0.2620038742095367,
+      "reference_linear_float64": 0.509904908016324,
+      "reference_sigmoid_float64": 0.6247841824230876,
+      "sigmoid_component_budget": 0.06550096855238417,
+      "actual_linear_bf16_bits_uint16": 16132,
+      "reference_linear_bf16_bits_uint16": 16131,
+      "linear_abs_error": 0.005720091983675957,
+      "sigmoid_abs_error": 0.0013399948052157384,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 29,
+      "actual_linear_float64": 0.427734375,
+      "cpu_sigmoid_of_actual_linear": 0.6053325285300184,
+      "linear_component_budget": 0.2268868704964047,
+      "reference_linear_float64": 0.4233391094603576,
+      "reference_sigmoid_float64": 0.6042819926899287,
+      "sigmoid_component_budget": 0.05672171762410118,
+      "actual_linear_bf16_bits_uint16": 16091,
+      "reference_linear_bf16_bits_uint16": 16089,
+      "linear_abs_error": 0.004395265539642423,
+      "sigmoid_abs_error": 0.001050535840089739,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 30,
+      "actual_linear_float64": -0.361328125,
+      "cpu_sigmoid_of_actual_linear": 0.4106381023930074,
+      "linear_component_budget": 0.4089846907489683,
+      "reference_linear_float64": -0.36370975204044953,
+      "reference_sigmoid_float64": 0.4100618371487418,
+      "sigmoid_component_budget": 0.10224617268724208,
+      "actual_linear_bf16_bits_uint16": 48825,
+      "reference_linear_bf16_bits_uint16": 48826,
+      "linear_abs_error": 0.00238162704044953,
+      "sigmoid_abs_error": 0.000576265244265628,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    },
+    {
+      "output_index": 31,
+      "actual_linear_float64": -0.447265625,
+      "cpu_sigmoid_of_actual_linear": 0.3900110845418967,
+      "linear_component_budget": 0.39587238496798327,
+      "reference_linear_float64": -0.45136720984010026,
+      "reference_sigmoid_float64": 0.389035748876233,
+      "sigmoid_component_budget": 0.09896809624199582,
+      "actual_linear_bf16_bits_uint16": 48869,
+      "reference_linear_bf16_bits_uint16": 48871,
+      "linear_abs_error": 0.004101584840100259,
+      "sigmoid_abs_error": 0.0009753356656637124,
+      "linear_component_pass": true,
+      "cpu_sigmoid_component_pass": true
+    }
+  ],
+  "limitations": [
+    "Only one of 249 MatMulNBits projections and one synthetic input vector were executed successfully on NPU; the other 248 projections are unvalidated here.",
+    "This direct DynamicDispatch probe does not validate ORT wrapper integration, complete model generation, EOS handling, or 16K context.",
+    "No fused 16K Token Fusion model has been established by this result.",
+    "The single successful execute timing is diagnostic evidence, not a throughput benchmark or repeatability estimate.",
+    "The BF16-derived thresholds are predeclared diagnostic budgets, not a proof of the undocumented internal BFP16 reduction order."
+  ],
+  "provenance": {
+    "source_hashes": [
+      {
+        "role": "failure_report",
+        "sha256": "21eff726777e534203620d04d05f6262ac3a66afe944054b71e18ddc831256ba",
+        "bytes": 2736
+      },
+      {
+        "role": "success_report",
+        "sha256": "e69325c472f7c76c1a1324a3da006c98a39e56d278194cfd6f2447635e522d98",
+        "bytes": 3024
+      },
+      {
+        "role": "success_arrays",
+        "sha256": "a588e01356a27afe2ae731f3a4fe0afca0e2565b49aa5a1862dbe80fbd44ae08",
+        "bytes": 13291
+      },
+      {
+        "role": "success_raw_bf16",
+        "sha256": "85c6ecd831ab3114cbb3a2392ab75d3269ccfdd943b11e732466ad5d91b43002",
+        "bytes": 296
+      },
+      {
+        "role": "failure_prepared",
+        "sha256": "3ff02e526602e0b693c204f79ceeb8e2fa97e2bf72aefedbebead9477cd01791",
+        "bytes": 2310
+      },
+      {
+        "role": "success_prepared",
+        "sha256": "d28414a119296e4cc43f0cb304e9290e347cc482b7dee1e101faa3e7d00b9502",
+        "bytes": 2310
+      },
+      {
+        "role": "validation",
+        "sha256": "2069206605830a43aeeb294844a683da3598edbc9724f17d3218ddcc4196dd3c",
+        "bytes": 7036
+      },
+      {
+        "role": "compile_before",
+        "sha256": "51b410eef9e07c804850dbebc9b8fc70da76167cf87212f592566128b56c017f",
+        "bytes": 14246
+      },
+      {
+        "role": "compile_after",
+        "sha256": "e8f0e7b98f3b6dc3b5215cafee2679795ceba9b9c758ffa820e561484aa276ca",
+        "bytes": 9536
+      },
+      {
+        "role": "adapter_manifest",
+        "sha256": "c62c5085cc32e2e63f6d2c661499f1ff1fad6ce8ea48b347bdc4ea2d4fbf0d18",
+        "bytes": 1043
+      }
+    ],
+    "generator_sha256": "454f91b22a8d0da17842408590a28a678e86601f587d7cf28387190c53c0b559",
+    "local_paths_and_process_ids_omitted": true,
+    "model_weight_contents_included": false,
+    "numeric_rows_origin": "Owned synthetic-input probe outputs and computed CPU reference values; no model weights included"
+  }
+}

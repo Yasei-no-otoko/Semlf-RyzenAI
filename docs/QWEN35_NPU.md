@@ -24,7 +24,7 @@ or speed results.
 | CPU direct scoring | Three owned short examples are finite and correct |
 | SDK default Token Fusion recipe | Failed: missing Qwen3.5 DD partition and incompatible default projection format |
 | Custom DD LinearAttention | Two direct-DD single-token NPU calls complete; nonzero-state reference identifies the state/gate/head contract |
-| v2/no-control-packet MatMul DD | Host compilation succeeds; first real layer-0 `in_proj_b` NPU execution fails with `ERT_CMD_STATE_ERROR` |
+| v2/no-control-packet MatMul DD | Real layer-0 `in_proj_b` direct-NPU check passes with DD LLM mode disabled; original mode failed |
 | Projection transaction inventory | Exact M=1 v2/no-control-packet entries exist for all 249 projections across 8 shapes |
 | All-projection DD graph prototype | 249 projections converted; CPU structural checks pass with the native ORT normalization schema; full model execution untested |
 | SDK NPU eager, chunk size 4096 | English short example passes; Japanese 96-token example returns NaNs |
@@ -123,9 +123,20 @@ observations, not model-quality, speed, or 16K results.
 The [first real MatMul NPU report](../results/raw/qwen35-conversion-20260920/dd-matmul-npu-failure.json)
 records successful initialization followed by `ERT_CMD_STATE_ERROR` on the
 single execution attempt: one submission, zero completions, and one error.
-Its output cannot be used for numerical comparison. The failure is under
-investigation; successful host compilation and weight-layout equivalence
-do not establish that this runtime configuration works.
+Its output cannot be used for numerical comparison.
+
+A [subsequent controlled MatMul check](../results/raw/qwen35-conversion-20260920/dd-matmul-npu-no-state.json)
+uses the same weights, input, xclbin, PDI, and predeclared numerical thresholds,
+with metadata `aux_info.is_llm=false` and no state-table updates. This removes
+three state-management instructions and disables LLM input/output scratch
+copies together; it does not isolate either change as the sole cause. The
+single NPU call completes with zero errors. All 32 outputs are finite and
+within their component budgets; relative RMSE is 0.875% versus the FP64
+dequantized reference, below the predeclared 3.125% diagnostic limit. The
+report preserves every output row and both failed/successful attempt records.
+Sigmoid is evaluated separately on CPU. Other projection shapes, native
+provider integration, full-model behavior, and 16K context remain unverified
+by this single-projection check.
 
 The two operator families require different xclbins and execution interfaces.
 They need separate DD subgraphs, validated BF16/state boundaries, and an

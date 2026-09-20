@@ -51,3 +51,4 @@ f17723d42ffc843a7328f2faa34a721e318f0d8571573c5e13f59b3d1952570c  qwen35-convers
 bdb94db2edc970ea42358b3d9a903d60e4c18d41b523f2e5bdc133cd10863d93  qwen35-conversion-20260920/dd-projection-graph.json
 bc1cd86821b9d3db2a45d1537e4d75bc81a29fa68fbf52b3470dac2f582215eb  qwen35-conversion-20260920/dd-linear-token-npu.json
 951d52de60beabb24aab1fea87a3db65f3fc9de481b2f9173a35c37a9b7b9d5d  qwen35-conversion-20260920/dd-matmul-npu-failure.json
+d232faa3c8ae04e81297e43612b194ebf159e3636527dcc821aef3346ccc1b65  qwen35-conversion-20260920/dd-matmul-npu-no-state.json
