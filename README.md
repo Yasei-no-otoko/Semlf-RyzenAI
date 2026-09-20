@@ -22,7 +22,8 @@ for observing the cost of generating the complete probability object.
 **日本語:** Qwen3.5-4BのNPU・16K対応モデルを変換し、実機検証まで完了しました。
 16,384トークンの先頭・末尾に置いた情報を問うテストは両方正解し、
 16,380入力＋4トークン生成も終了トークンで正常終了しました。
-一部CPU処理を含む実験版で、16K入力処理には約15分かかります。
+一部CPU処理を含む実験版です。従来の1トークン単位の実装では、
+16K入力処理に約15分かかりました。
 
 **English:** The experimental Qwen3.5-4B conversion passes the owned 16K
 prefill and near-boundary generation checks on Ryzen AI 1.8.0 hardware.
@@ -53,6 +54,51 @@ These owned functional checks are not general quality or speed benchmarks.
 See the [conversion and validation guide](docs/QWEN35_NPU.md) for exact
 revisions, model identities, the original failures, and reproduction commands.
 
+### Prefill speed improvement
+
+**日本語:** NPUで処理する区間を入力に応じてまとめ、途中結果のコピーを減らしました。
+同じ短文の回答時間は英語で約6.69秒から3.12秒、日本語で約6.85秒から3.42秒に短縮しました。
+1K・2K入力を含む7件の直接判定はすべて正解しました。
+16K入力も先頭・末尾とも正解し、約908～930秒から約132～160秒に短縮しました。
+
+The experimental `adaptive` prefill groups tokens using a per-head log-gate
+budget of 64, keeps native computation and recurrent state in BF16, and
+collects attention outputs without repeatedly copying the entire prefix.
+Other prefill projections use a global chunk size of 1,024. Weights and the
+DD decode branch are unchanged.
+
+| Owned input | Previous token loop | Adaptive prefill |
+|---|---:|---:|
+| English, 94 tokens | 6.689 s | 3.121 s |
+| Japanese, 96 tokens | 6.850 s | 3.422 s |
+| English with reversed options, 94 tokens | 6.740 s | 3.114 s |
+| Head sentinel, 1,024 tokens | Not measured | 8.246 s |
+| Tail sentinel, 2,048 tokens | Not measured | 14.304 s |
+| Head sentinel, 16,384 tokens | 907.923 s | 160.317 s |
+| Tail sentinel, 16,384 tokens | 929.666 s | 132.207 s |
+
+English adaptive timing is the median of three identical inputs; the other
+entries are individual observations. The previous timings come from the
+earlier run on the same PC and model weights. Timings exclude model loading
+and include host work and logit readout. All observed full-vocabulary logits
+and all 64 states read for the regression prefix were finite; the supervised
+short/2K run completed 9,216 NPU commands with zero errors and exit code 0.
+See the [row-level evidence](results/raw/qwen35-speed-20260920/short-2k.json)
+and [reproduction instructions](docs/QWEN35_NPU.md#adaptive-prefill).
+
+The separate [16K run](results/raw/qwen35-speed-20260920/long-16k.json)
+also passed near-boundary generation: 16,380 input tokens, four sampled
+tokens including EOS, and three DD decode steps. All observed logits and
+all 64 final states were finite; 64,903 NPU commands completed with zero
+errors and exit code 0. The head and tail timings are single observations
+in that order, not randomized repeats. Cold model loading still takes
+approximately 217–222 seconds and is excluded from the table.
+
+Native batched attention has greater rounding error than per-token execution
+in the captured operator check. These owned checks do not establish general
+model quality or replace the SemIf Speed and Quality suites. Those full
+comparisons were deferred while addressing prefill speed.
+
 ### Run the converted model
 
 Follow the [runtime setup](docs/RYZENAI.md) and
@@ -63,7 +109,7 @@ conversion output directory when reproducing it elsewhere.
 
 ```powershell
 .\run_semif_npu.ps1 `
-  -Model 'models/Qwen3.5-4B-stable-prefill-dd-token-16k-run1' `
+  -Model 'models/Qwen3.5-4B-adaptive-prefill-dd-token-16k-chunk1024-run1' `
   -Revision '851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a' `
   -MaxTokens 16384
 ```

@@ -26,6 +26,11 @@ asymmetric group size 128**, not AWQ. It has no activation or KV-cache
 quantization calibration. It does not inherit the reference model's quality
 or speed results.
 
+The newer [adaptive prefill](#adaptive-prefill) reduces NPU call and host-copy
+overhead. Its short/2K/16K hardware checks are reported separately from the
+original single-token implementation below, so their model identities and
+timings remain distinguishable.
+
 ## What has been verified
 
 | Stage | Result |
@@ -726,6 +731,106 @@ inference. Runtime initialization still compiles the native DD metadata. Absolut
 constant paths are recorded, so moving a package requires relocation and a
 new manifest. Run short functional validation before attempting the separate
 16K validation.
+
+## Adaptive prefill
+
+The `adaptive` mode replaces the 24 prefill LinearAttention calls with
+variable-length native NPU segments. For each segment, the sum of absolute
+log-gates must stay within 64 for every head, with a maximum of 64 tokens.
+An individual token exceeding that budget uses the already tested
+single-token path. Gates are not clamped or otherwise changed. This bound
+addresses the observed batched numerical failure; it is not a proof of the
+closed-source kernel's stability on every input.
+
+Native inputs, outputs and recurrent state remain BF16. Attention outputs
+are collected in a FLOAT tensor sequence and converted back once; every
+finite BF16 value round-trips exactly. The four isolated NPU fixtures are
+bit-identical to the earlier adaptive graph using a growing BF16 Concat.
+The sequence removes repeated dense-prefix copying. It still has sequence
+bookkeeping overhead. CPU convolution, GQA and host operations remain, and
+the 273 DD token partitions and model weights are unchanged.
+
+The global OGA prefill chunk is 1,024, independently of the maximum
+64-token LinearAttention segment. On the same PC, the 94-token English
+case improved from 6.688625 seconds in the earlier token-loop run to a
+3.121026-second median over three adaptive runs. The Japanese case improved
+from 6.850415 to 3.421538 seconds. The exact 1,024-token head and 2,048-token
+tail cases took 8.246494 and 14.303909 seconds respectively. All seven
+direct observations were correct; greedy generation produced the same four
+tokens as the previous model and ended at EOS. The regression prefix's
+248,320 logits and all 64 read states were finite. The supervised run
+returned exit 0 with 9,216 completed NPU commands and no errors.
+
+A separate load passed the exact 16,384-token head and tail inputs in
+160.316846 and 132.207098 seconds, respectively, versus 907.923050 and
+929.666151 seconds in the historical token-loop run. These are 5.66× and
+7.03× improvements on the same input IDs and weights. They are individual
+observations in head-then-tail order. The 16,380-token head prefill took
+133.019769 seconds and generated four tokens including EOS through three
+DD forwards. The API returns 16,383 sequence tokens because the terminating
+EOS is sampled but omitted from the returned sequence; the logical sampled
+length is 16,384. All observed logits and all 64 final states were finite.
+The long run completed 64,903 NPU commands with zero errors and clean exit 0.
+Cold model loading took approximately 217–222 seconds across these runs;
+the reported inference times exclude it.
+
+[Operator evidence](../results/raw/qwen35-speed-20260920/operators.json) and
+[short/2K evidence](../results/raw/qwen35-speed-20260920/short-2k.json), plus
+[16K evidence](../results/raw/qwen35-speed-20260920/long-16k.json), retain
+individual timings, input identities, numerical checks and source hashes.
+Operator warm medians exclude one initial call and use three measured
+calls: the mixed fixture improved from 51.4473 to 23.2257 ms, and the
+captured fixture from 44.3498 to 11.7470 ms. These are operator wall times,
+not model speedups.
+
+Batching also changes numerical rounding. On the captured fixture, the
+adaptive final state's relative RMSE against FP64 was 4.841%, compared
+with 1.449% for token-loop execution. Much of this error is also present in
+the original native batched operator. The finite/correct owned cases do
+not establish general model quality; the full SemIf Speed/Quality
+comparison remains separate.
+
+To reproduce the conversion from the same pinned inputs, run the following
+from the repository root in the SDK 1.8 environment. Use fresh paths for
+each build:
+
+```powershell
+$adaptiveSdk = 'C:\Program Files\RyzenAI\1.8.0'
+$adaptivePython = Join-Path $env:USERPROFILE 'miniforge3\envs\ryzen-ai-1.8.0\python.exe'
+$adaptiveWork = 'cache\qwen35-conversion\adaptive-build-new'
+$adaptiveOutput = 'models\Qwen3.5-4B-adaptive-new'
+$adaptivePlan = 'cache\qwen35-conversion\adaptive-plan-new.json'
+
+& $adaptivePython benchmarks\prepare_qwen35_token_fusion.py plan `
+  --source models\Qwen3.5-4B-oga-run2 `
+  --prefill models\Qwen3.5-4B-npu-eager-16k-chunk64-run1 `
+  --sdk-root $adaptiveSdk --work-dir $adaptiveWork --output $adaptiveOutput `
+  --profile benchmarks\qwen35_rai18_profile.json --plan $adaptivePlan `
+  --prefill-linear-attention adaptive --prefill-chunk-size 1024
+if ($LASTEXITCODE -ne 0) { throw 'Adaptive plan validation failed.' }
+
+$adaptivePlanSha = (Get-FileHash -LiteralPath $adaptivePlan -Algorithm SHA256).Hash.ToLowerInvariant()
+& $adaptivePython benchmarks\prepare_qwen35_token_fusion.py build `
+  --plan $adaptivePlan --plan-sha256 $adaptivePlanSha
+if ($LASTEXITCODE -ne 0) { throw 'Adaptive build failed.' }
+```
+
+The input profile still requires the original chunk-64 eager artifact.
+The packager changes only its copied configuration and records both the
+source chunk and output chunk, the transform and its validator hashes.
+Selecting `adaptive` defaults to 1,024; the explicit chunk override belongs
+to this mode. A chunk size of 4,096 is accepted for experimentation but has
+not been measured for this adaptive model. `native` and `token_loop`
+retain their existing defaults and behavior. Building checks files and
+graphs; it does not run inference.
+
+The measured local candidate is
+`models/Qwen3.5-4B-adaptive-prefill-dd-token-16k-chunk1024-run1`, package
+manifest SHA256
+`b481a79b77ffcf83daa89fac5bdce74ae143e9a6313543936122387e91afecfd`.
+It was built with the experimental transformation; the public transform
+produces the same prefill graph bytes. A fresh build has its own manifest
+and needs runtime validation.
 
 ## Validation before deployment
 

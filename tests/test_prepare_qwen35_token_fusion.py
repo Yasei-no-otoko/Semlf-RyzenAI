@@ -58,9 +58,9 @@ def small_inputs(tmp_path, monkeypatch):
                            output=tmp_path / "output", profile=profile_path, plan=tmp_path / "plan.json")
 
 
-def _plan(inputs):
+def _plan(inputs, **kwargs):
     return conversion.create_plan(inputs.source, inputs.prefill, inputs.sdk,
-                                  inputs.work, inputs.output, inputs.profile)
+                                  inputs.work, inputs.output, inputs.profile, **kwargs)
 
 
 def _save_plan(inputs):
@@ -306,3 +306,61 @@ def test_regeneration_retains_dynamic_prefill_fix_before_static_token(tmp_path, 
     assert fixed == work / "fixed-token" / "token.onnx"
     assert Path.cwd() == before_cwd
     assert (source / "model.onnx").read_bytes() == b"tiny source"
+
+
+@pytest.mark.parametrize("requested,resolved", [(None, 1024), (1024, 1024), (4096, 4096)])
+def test_adaptive_plan_keeps_source64_and_resolves_global_chunk(small_inputs, requested, resolved):
+    before = (small_inputs.prefill / "genai_config.json").read_bytes()
+    plan = _plan(small_inputs, prefill_linear_attention="adaptive", prefill_chunk_size=requested)
+    assert plan["prefill_chunk_size"] == resolved
+    assert plan["prefill_linear_attention"] == "adaptive"
+    assert {"qwen35_adaptive_prefill.py", "qwen35_prefill.py"} <= plan["code_sha256"].keys()
+    assert (small_inputs.prefill / "genai_config.json").read_bytes() == before
+    assert not small_inputs.work.exists() and not small_inputs.output.exists()
+
+
+@pytest.mark.parametrize("mode,chunk", [("native", 1024), ("token_loop", 4096), ("adaptive", 64),
+                                        ("adaptive", 1024.0), ("adaptive", True)])
+def test_plan_rejects_incompatible_chunk_requests(small_inputs, mode, chunk):
+    with pytest.raises(ValueError, match="chunk"):
+        _plan(small_inputs, prefill_linear_attention=mode, prefill_chunk_size=chunk)
+    assert not small_inputs.work.exists()
+
+
+@pytest.mark.parametrize("mode,requested,resolved", [("native", None, None), ("token_loop", None, None),
+                                                     ("adaptive", None, 1024), ("adaptive", 4096, 4096)])
+def test_build_passes_pinned_mode_and_chunk_to_packager(small_inputs, monkeypatch, mode, requested, resolved):
+    from benchmarks import qwen35_dd, qwen35_package
+    plan = _plan(small_inputs, prefill_linear_attention=mode, prefill_chunk_size=requested)
+    conversion.write_new(small_inputs.plan, plan)
+    monkeypatch.setattr(conversion, "regenerate_token", lambda *args: small_inputs.source / "source.bin")
+    monkeypatch.setattr(qwen35_dd, "lower_token_graph", lambda *args, **kwargs: {"owned": True})
+    received = []
+    def package(*args, **kwargs):
+        received.append((args, kwargs))
+        return {"owned": True}
+    monkeypatch.setattr(qwen35_package, "package_model", package)
+    report = conversion.build(small_inputs.plan, conversion.sha256(small_inputs.plan))
+    assert len(received) == 1
+    assert received[0][1]["prefill_linear_attention"] == mode
+    assert received[0][1]["prefill_chunk_size"] == resolved
+    assert report["prefill_chunk_size"] == resolved and report["status"] == "materialized_cpu_checked"
+    assert report["runtime_validated"] is False
+
+
+def test_adaptive_plan_still_rejects_non64_source_config(small_inputs):
+    path = small_inputs.prefill / "genai_config.json"
+    config = json.loads(path.read_text())
+    config["search"]["chunk_size"] = 1024
+    _write_json(path, config)
+    with pytest.raises(RuntimeError, match="chunk_size"):
+        _plan(small_inputs, prefill_linear_attention="adaptive")
+    assert not small_inputs.work.exists()
+
+
+def test_cli_help_exposes_adaptive_flag_from_repository():
+    import subprocess
+    completed = subprocess.run([sys.executable, str(conversion.HERE / "prepare_qwen35_token_fusion.py"),
+                                "plan", "--help"], cwd=conversion.HERE.parent,
+                               capture_output=True, text=True, timeout=30, check=True)
+    assert "adaptive" in completed.stdout and "--prefill-chunk-size {1024,4096}" in completed.stdout

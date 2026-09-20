@@ -85,8 +85,8 @@ def fixture(tmp_path, monkeypatch):
                            output=tmp_path / "package", header=header, metadata=metadata, config=config)
 
 
-def _package(f):
-    return package.package_model(f.prefill, f.token, f.output, sdk_root=f.sdk, profile=f.profile)
+def _package(f, **kwargs):
+    return package.package_model(f.prefill, f.token, f.output, sdk_root=f.sdk, profile=f.profile, **kwargs)
 
 
 def test_package_copies_relocates_and_preserves_eager_configuration(fixture):
@@ -194,4 +194,89 @@ def test_source_mutation_during_packaging_never_writes_success_manifest(fixture,
     with pytest.raises(package.PackagingError, match="Source changed"):
         _package(fixture)
     assert fixture.output.is_dir()  # Partial evidence is retained, never reused.
+    assert not (fixture.output / "package-manifest.json").exists()
+
+
+@pytest.mark.parametrize("requested,expected", [(None, 1024), (1024, 1024), (4096, 4096)])
+def test_adaptive_package_changes_only_copied_chunk_and_records_both_helpers(fixture, monkeypatch, requested, expected):
+    from benchmarks import qwen35_adaptive_prefill, qwen35_prefill
+    calls = []
+
+    def transform(model):
+        calls.append(model.SerializeToString())
+        return copy.deepcopy(model), {"native_nodes": 24, "gate_values_changed": False}
+
+    monkeypatch.setattr(qwen35_adaptive_prefill, "transform_prefill_adaptive_attention", transform)
+    original = (fixture.prefill / "genai_config.json").read_bytes()
+    result = _package(fixture, prefill_linear_attention="adaptive", prefill_chunk_size=requested)
+    assert len(calls) == 1
+    assert (fixture.prefill / "genai_config.json").read_bytes() == original
+    config = json.loads((fixture.output / "genai_config.json").read_text())
+    assert config["search"] == {**fixture.config["search"], "chunk_size": expected}
+    options = config["model"]["decoder"]["session_options"]["provider_options"][0]["RyzenAI"]
+    assert options["hybrid_opt_token_backend"] == "npu"
+    assert options["hybrid_opt_max_seq_length"] == "4096"
+    transformation = result["prefill_transformation"]
+    assert transformation["source_global_chunk_size"] == 64
+    assert transformation["observed_global_chunk_size"] == expected
+    assert transformation["source_model_sha256"] == package._sha256(fixture.prefill / "model.onnx")
+    assert transformation["transformer_sha256"] == package._sha256(package.Path(qwen35_adaptive_prefill.__file__))
+    assert {row["path"]: row["sha256"] for row in transformation["transformation_dependencies"]} == {
+        str(package.Path(module.__file__).resolve()): package._sha256(package.Path(module.__file__))
+        for module in (qwen35_adaptive_prefill, qwen35_prefill)
+    }
+    assert result["runtime_unverified"] is True
+
+
+@pytest.mark.parametrize("mode,chunk", [("native", 1024), ("token_loop", 4096), ("adaptive", 64),
+                                        ("adaptive", 1024.0), ("adaptive", True), ("adaptive", "1024")])
+def test_chunk_override_validation_precedes_packaging(fixture, mode, chunk):
+    with pytest.raises(package.PackagingError, match="chunk"):
+        _package(fixture, prefill_linear_attention=mode, prefill_chunk_size=chunk)
+    assert not fixture.output.exists()
+
+
+@pytest.mark.parametrize("mode", ["token_loop", "adaptive"])
+def test_transformation_rejects_changed_source_chunk_before_rewrite(fixture, monkeypatch, mode):
+    from benchmarks import qwen35_adaptive_prefill, qwen35_prefill
+    fixture.config["search"]["chunk_size"] = 1024
+    _json(fixture.prefill / "genai_config.json", fixture.config)
+    def forbidden(*args, **kwargs):
+        pytest.fail("must validate source configuration before transforming")
+    monkeypatch.setattr(qwen35_adaptive_prefill, "transform_prefill_adaptive_attention", forbidden)
+    monkeypatch.setattr(qwen35_prefill, "transform_prefill_linear_attention", forbidden)
+    with pytest.raises(package.PackagingError, match="chunk64"):
+        _package(fixture, prefill_linear_attention=mode)
+    assert not fixture.output.exists()
+
+
+def test_token_loop_configuration_and_manifest_contract_stay_unchanged(fixture, monkeypatch):
+    from benchmarks import qwen35_prefill
+    monkeypatch.setattr(qwen35_prefill, "transform_prefill_linear_attention",
+                        lambda model: (copy.deepcopy(model), {"changed_nodes": 24}))
+    result = _package(fixture, prefill_linear_attention="token_loop")
+    config = json.loads((fixture.output / "genai_config.json").read_text())
+    assert config["search"] == fixture.config["search"]
+    assert result["prefill_transformation"] == {
+        "changed_nodes": 24, "observed_global_chunk_size": 64,
+        "transformer_sha256": package._sha256(package.Path(qwen35_prefill.__file__)),
+        "source_model_sha256": package._sha256(fixture.prefill / "model.onnx"),
+    }
+
+
+def test_adaptive_helper_change_prevents_success_manifest(fixture, monkeypatch):
+    from benchmarks import qwen35_adaptive_prefill, qwen35_prefill
+    helper = fixture.prefill.parent / "owned_helper.py"
+    helper.write_bytes(b"owned helper version one")
+    monkeypatch.setattr(qwen35_prefill, "__file__", str(helper))
+    monkeypatch.setattr(qwen35_adaptive_prefill, "transform_prefill_adaptive_attention",
+                        lambda model: (copy.deepcopy(model), {}))
+    original_copy = package._copy_independent
+    def copy_then_change(source, target):
+        digest = original_copy(source, target)
+        helper.write_bytes(b"owned helper version two")
+        return digest
+    monkeypatch.setattr(package, "_copy_independent", copy_then_change)
+    with pytest.raises(package.PackagingError, match="Source changed|Source header/config changed"):
+        _package(fixture, prefill_linear_attention="adaptive")
     assert not (fixture.output / "package-manifest.json").exists()

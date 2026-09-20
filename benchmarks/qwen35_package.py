@@ -559,7 +559,7 @@ def _transaction_coverage(archive, eager_archive):
 
 
 def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_root: Path, profile: dict,
-                  prefill_linear_attention: str = "native") -> dict:
+                  prefill_linear_attention: str = "native", prefill_chunk_size: int | None = None) -> dict:
     """Create a fresh package from an eager prefill and a lowered DD token graph.
 
     ``profile['source_revision']`` is required. Optional ``expected_dd_nodes``
@@ -567,10 +567,19 @@ def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_r
     version/hash/source authorization belongs to the calling profile validator.
     ``prefill_linear_attention='token_loop'`` applies the guarded pure header
     transform before final copying. The default preserves native batched prefill.
+    ``'adaptive'`` uses unchanged gates with adaptive native segments and a FLOAT
+    sequence accumulator. Only this mode accepts a global chunk size, 1024
+    (the default) or 4096; the source configuration must still use chunk64.
     Token inputs are ``model.onnx`` and ``cache/<node.name>_meta.json`` plus their
     referenced constants. This function never initializes/executes the runtime.
     """
-    _require(prefill_linear_attention in {"native", "token_loop"}, "Unsupported prefill LinearAttention mode")
+    _require(prefill_linear_attention in {"native", "token_loop", "adaptive"}, "Unsupported prefill LinearAttention mode")
+    if prefill_linear_attention == "adaptive":
+        prefill_chunk_size = 1024 if prefill_chunk_size is None else prefill_chunk_size
+        _require(type(prefill_chunk_size) is int and prefill_chunk_size in (1024, 4096),
+                 "Adaptive prefill chunk size must be 1024 or 4096")
+    else:
+        _require(prefill_chunk_size is None, "A prefill chunk override requires adaptive mode")
     prefill_dir, token_dir = (Path(p).resolve(strict=True) for p in (prefill_dir, token_dir))
     sdk_root, output_dir = Path(sdk_root).resolve(strict=True), Path(output_dir).absolute()
     _require(isinstance(profile.get("source_revision"), str) and profile["source_revision"], "Source revision is required")
@@ -602,6 +611,7 @@ def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_r
                      "Eager external-data extent is out of bounds")
     prefill_transformation = None
     transformer_path = None
+    transformation_dependencies = {}
     if prefill_linear_attention == "token_loop":
         _require(config["search"]["chunk_size"] == 64 and options.get("hybrid_opt_token_backend") == "npu",
                  "Token Loop requires unchanged chunk64 and NPU token backend")
@@ -613,7 +623,30 @@ def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_r
         prefill, prefill_transformation = qwen35_prefill.transform_prefill_linear_attention(prefill)
         prefill_transformation["transformer_sha256"] = _sha256(transformer_path)
         prefill_transformation["observed_global_chunk_size"] = config["search"]["chunk_size"]
+    elif prefill_linear_attention == "adaptive":
+        _require(config["search"]["chunk_size"] == 64 and options.get("hybrid_opt_token_backend") == "npu",
+                 "Adaptive prefill requires source chunk64 and NPU token backend")
+        try:
+            from benchmarks import qwen35_adaptive_prefill, qwen35_prefill
+        except ModuleNotFoundError as error:
+            if error.name != "benchmarks":
+                raise
+            import qwen35_adaptive_prefill
+            import qwen35_prefill
+        transformer_path = Path(qwen35_adaptive_prefill.__file__).resolve(strict=True)
+        helper_path = Path(qwen35_prefill.__file__).resolve(strict=True)
+        transformation_dependencies = {path: _sha256(path) for path in (transformer_path, helper_path)}
+        prefill, prefill_transformation = qwen35_adaptive_prefill.transform_prefill_adaptive_attention(prefill)
+        prefill_transformation.update(
+            transformer_sha256=transformation_dependencies[transformer_path],
+            transformation_dependencies=[dict(path=str(path), sha256=digest)
+                                         for path, digest in transformation_dependencies.items()],
+            source_global_chunk_size=config["search"]["chunk_size"],
+            observed_global_chunk_size=prefill_chunk_size,
+        )
+        config["search"]["chunk_size"] = prefill_chunk_size
     source_paths = {prefill_path, token_path, config_path, header_path, eager_weights}
+    source_paths.update(transformation_dependencies)
     if transformer_path is not None:
         source_paths.add(transformer_path)
     metadata, constants, dd_types = [], {}, {}
@@ -684,6 +717,7 @@ def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_r
     source_paths.update(support_files)
     before = {p: _stat(p) for p in source_paths}
     hashes = {p: _sha256(p) for p in (prefill_path, token_path, config_path, header_path)}
+    hashes.update(transformation_dependencies)
     if prefill_transformation is None:
         _combine_branches(prefill_path, prefill_path, token_path, output_dir)
     else:

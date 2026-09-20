@@ -104,15 +104,22 @@ def separate_paths(source: Path, prefill: Path, work: Path, output: Path) -> Non
 
 
 def code_hashes() -> dict[str, str]:
-    names = ("prepare_qwen35_token_fusion.py", "prepare_qwen35.py", "qwen35_dd.py", "qwen35_package.py", "qwen35_prefill.py")
+    names = ("prepare_qwen35_token_fusion.py", "prepare_qwen35.py", "qwen35_dd.py", "qwen35_package.py", "qwen35_prefill.py",
+             "qwen35_adaptive_prefill.py")
     return {name: sha256(HERE / name) for name in names}
 
 
 def create_plan(source: Path, prefill: Path, sdk_root: Path, work: Path,
                 output: Path, profile_path: Path = DEFAULT_PROFILE, *,
-                prefill_linear_attention: str = "native") -> dict:
-    if prefill_linear_attention not in {"native", "token_loop"}:
+                prefill_linear_attention: str = "native", prefill_chunk_size: int | None = None) -> dict:
+    if prefill_linear_attention not in {"native", "token_loop", "adaptive"}:
         raise ValueError("Unsupported prefill LinearAttention mode")
+    if prefill_linear_attention == "adaptive":
+        prefill_chunk_size = 1024 if prefill_chunk_size is None else prefill_chunk_size
+        if type(prefill_chunk_size) is not int or prefill_chunk_size not in (1024, 4096):
+            raise ValueError("Adaptive prefill chunk size must be 1024 or 4096")
+    elif prefill_chunk_size is not None:
+        raise ValueError("A prefill chunk override requires adaptive mode")
     source, prefill, sdk_root, work, output, profile_path = (
         p.resolve() for p in (source, prefill, sdk_root, work, output, profile_path))
     separate_paths(source, prefill, work, output)
@@ -126,6 +133,7 @@ def create_plan(source: Path, prefill: Path, sdk_root: Path, work: Path,
     assert_ryzenai_genai_config(prefill, chunk_size=64)
     return {"schema_version": 1, "status": "plan_only", "source_revision": SOURCE_REVISION,
             "prefill_linear_attention": prefill_linear_attention,
+            "prefill_chunk_size": prefill_chunk_size,
             "source": str(source), "prefill": str(prefill), "sdk_root": str(sdk_root),
             "work": str(work), "output": str(output), "profile": str(profile_path),
             "profile_sha256": sha256(profile_path), "code_sha256": code_hashes(),
@@ -221,7 +229,8 @@ def build(plan_path: Path, plan_sha256: str) -> dict:
         raise ValueError("Plan hash mismatch")
     plan = read_json(plan_path)
     fresh = create_plan(*(Path(plan[name]) for name in ("source", "prefill", "sdk_root", "work", "output", "profile")),
-                        prefill_linear_attention=plan.get("prefill_linear_attention", "native"))
+                        prefill_linear_attention=plan.get("prefill_linear_attention", "native"),
+                        prefill_chunk_size=plan.get("prefill_chunk_size"))
     if fresh != plan:
         raise ValueError("Plan inputs, code, profile, or SDK changed")
     profile = read_json(Path(plan["profile"]))
@@ -229,6 +238,7 @@ def build(plan_path: Path, plan_sha256: str) -> dict:
     work.mkdir(exist_ok=False)
     report = {"status": "failed", "plan_sha256": plan_sha256, "source_revision": SOURCE_REVISION,
               "prefill_linear_attention": plan["prefill_linear_attention"],
+              "prefill_chunk_size": plan["prefill_chunk_size"],
               "code_sha256": plan["code_sha256"], "profile_sha256": plan["profile_sha256"],
               "runtime_validated": False, "stages": []}
     try:
@@ -246,7 +256,8 @@ def build(plan_path: Path, plan_sha256: str) -> dict:
         report["stages"].append("token_lowered")
         report["package"] = package_model(Path(plan["prefill"]), token, output,
                                             sdk_root=Path(plan["sdk_root"]), profile=profile,
-                                            prefill_linear_attention=plan["prefill_linear_attention"])
+                                            prefill_linear_attention=plan["prefill_linear_attention"],
+                                            prefill_chunk_size=plan["prefill_chunk_size"])
         for name in ("source", "prefill"):
             if input_identities(Path(plan[name]), profile[name + "_artifacts"]) != plan[name + "_artifacts"]:
                 raise ValueError(f"Original {name} files changed during conversion")
@@ -269,7 +280,9 @@ def main() -> None:
     for name in ("source", "prefill", "sdk-root", "work-dir", "output", "plan"):
         plan.add_argument("--" + name, required=True, type=Path)
     plan.add_argument("--profile", type=Path, default=DEFAULT_PROFILE)
-    plan.add_argument("--prefill-linear-attention", choices=("native", "token_loop"), default="native")
+    plan.add_argument("--prefill-linear-attention", choices=("native", "token_loop", "adaptive"), default="native")
+    plan.add_argument("--prefill-chunk-size", type=int, choices=(1024, 4096),
+                      help="Global OGA chunk size for adaptive mode only (default: 1024)")
     run = sub.add_parser("build")
     run.add_argument("--plan", required=True, type=Path)
     run.add_argument("--plan-sha256", required=True)
@@ -279,7 +292,8 @@ def main() -> None:
         if target.exists() or any(target.is_relative_to(p.resolve()) for p in (args.source, args.prefill, args.output, args.work_dir)):
             parser.error("Plan must be a new file outside all input/output directories")
         result = create_plan(args.source, args.prefill, args.sdk_root, args.work_dir, args.output, args.profile,
-                             prefill_linear_attention=args.prefill_linear_attention)
+                             prefill_linear_attention=args.prefill_linear_attention,
+                             prefill_chunk_size=args.prefill_chunk_size)
         write_new(target, result)
         print(json.dumps({"status": result["status"], "plan": str(target), "sha256": sha256(target)}))
     else:

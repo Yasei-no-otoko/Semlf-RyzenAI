@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "status": "curated_completed_short_operator_and_long_evidence",
+  "created_utc": "2026-09-20T09:40:42.094190+00:00",
+  "curators": [
+    {
+      "path": "cache/qwen35-speed-20260920/curate_long_speed_evidence.py",
+      "sha256": "6aad63f29c5ba9dabe60e8af4268ebab6ff49c42d5ef3463ca37fe2363d8f992",
+      "bytes": 22079
+    },
+    {
+      "path": "cache/qwen35-speed-20260920/curate_speed_evidence.py",
+      "sha256": "40df93df373261b7e185bd76a980b71bd8d7c80a79e2e3def3bf759b8b6b2f79",
+      "bytes": 27396
+    }
+  ],
+  "new_npu_executions": 0,
+  "new_model_loads": 0,
+  "artifacts": [
+    {
+      "path": "short-2k.json",
+      "sha256": "7dec74d6cd9fe05c4c4267b2ecd351a21439b32a6715c48cb503a4b67f0ee70e",
+      "bytes": 1027263
+    },
+    {
+      "path": "operators.json",
+      "sha256": "4725fb6bf9a4eec9d4c4b78e11ea78dc13ee94120446ffc2eb877cf27b506800",
+      "bytes": 106497
+    },
+    {
+      "path": "long-16k.json",
+      "sha256": "1a2c9560cd97191a508908bd2a3a93611eb25bc90992031467a700dc5a210e80",
+      "bytes": 953559
+    }
+  ],
+  "long_16k": {
+    "included": true,
+    "clean_exit_zero_verified": true,
+    "near_full_boundary_decode_coverage": true
+  },
+  "policy": "Create-only LF JSON; no raw arrays/weights/activations/account paths/device IDs/PIDs. Original measured reports, raw arrays and first publication candidate remain unchanged."
+}
