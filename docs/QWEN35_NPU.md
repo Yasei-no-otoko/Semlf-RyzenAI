@@ -23,9 +23,10 @@ or speed results.
 | Public OGA 0.14 export | Complete; repaired graph loads on CPU |
 | CPU direct scoring | Three owned short examples are finite and correct |
 | SDK default Token Fusion recipe | Failed: missing Qwen3.5 DD partition and incompatible default projection format |
-| Custom DD conversion | Host-only LinearAttention compilation succeeds; full model conversion remains incomplete |
-| v2/no-control-packet MatMul DD | Synthetic and real layer-0 `in_proj_b` host compilation succeeds; NPU execution remains untested |
+| Custom DD LinearAttention | Two direct-DD single-token NPU calls complete; nonzero-state reference identifies the state/gate/head contract |
+| v2/no-control-packet MatMul DD | Host compilation succeeds; first real layer-0 `in_proj_b` NPU execution fails with `ERT_CMD_STATE_ERROR` |
 | Projection transaction inventory | Exact M=1 v2/no-control-packet entries exist for all 249 projections across 8 shapes |
+| All-projection DD graph prototype | 249 projections converted; CPU structural checks pass with the native ORT normalization schema; full model execution untested |
 | SDK NPU eager, chunk size 4096 | English short example passes; Japanese 96-token example returns NaNs |
 | SDK NPU eager, chunk size 64 | Three owned short examples pass, including Japanese |
 | Native generation | Finite logits observed, but the original validator checked logits after EOS; normal termination is not validated |
@@ -97,6 +98,34 @@ and present in the transaction archive's index. This includes the
 `(2560, 248320)` output projection. No shape is missing from this inventory;
 only the small `(2560, 32)` projection has been host-compiled in these tests.
 Inventory presence alone does not prove all projections can compile or run.
+
+The [all-projection graph report](../results/raw/qwen35-conversion-20260920/dd-projection-graph.json)
+records a CPU-only conversion of all 249 projections into separate DD nodes.
+The 1,297 surrounding nodes and the exact 67-input/65-output protobufs are
+preserved. SSA, topological references, and external-data ranges were checked.
+The standard ONNX checker rejects the source model's existing default-domain
+`SimplifiedLayerNormalization`; importing that operator's actual ORT 1.27
+schema permits the structural check. This does not shape-infer custom
+operators or validate their execution. Constants use independent files.
+
+The [direct-DD LinearAttention NPU report](../results/raw/qwen35-conversion-20260920/dd-linear-token-npu.json)
+contains two owned synthetic single-token cases, including an asymmetric
+nonzero recurrent state. Both calls complete: the process's NPU context
+records two submissions, two completions, and zero errors. Among the tested
+contracts, the nonzero case agrees best with K-major input/output state,
+log-decay gate values, and the kernel's internal `repeat_interleave(2)` head
+mapping. No external gate exponentiation or Q/K head replication is needed.
+The query has already been scaled upstream. Attention relative RMSE versus
+the FP32 reference is 0.305% and 0.328%; state relative RMSE is 0.236% and
+0.284%. All 32 case/hypothesis rows are retained. These are diagnostic
+observations, not model-quality, speed, or 16K results.
+
+The [first real MatMul NPU report](../results/raw/qwen35-conversion-20260920/dd-matmul-npu-failure.json)
+records successful initialization followed by `ERT_CMD_STATE_ERROR` on the
+single execution attempt: one submission, zero completions, and one error.
+Its output cannot be used for numerical comparison. The failure is under
+investigation; successful host compilation and weight-layout equivalence
+do not establish that this runtime configuration works.
 
 The two operator families require different xclbins and execution interfaces.
 They need separate DD subgraphs, validated BF16/state boundaries, and an

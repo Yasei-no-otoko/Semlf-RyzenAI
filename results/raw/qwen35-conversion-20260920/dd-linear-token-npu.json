@@ -1,0 +1,1570 @@
+{
+  "scope": "Maximum two synthetic single-token NPU executions; no model weights",
+  "seed": 20260920,
+  "input_sha256": "b6d7e448927f7f3ce2f2983803f85312f6f0853f86357dcc89837a083630237f",
+  "compiled_report_sha256": "13c75def12c8c17be2e15eb883de3a84de90b4db7ae7a4f62df6ee989345fd0e",
+  "status": "two_calls_completed",
+  "execute_calls_started": 2,
+  "cases": [
+    {
+      "case": "zero_state",
+      "seconds": 0.0018184000000474043,
+      "output_sha256": "e3949c75b7ac218e856017eb09b6605756330e2f606d6ea765d961693f91594c",
+      "hypotheses": [
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002593994140625,
+            "rmse": 2.615408402907175e-05,
+            "relative_rmse": 0.002362040743523053,
+            "expected_rms": 0.011072664220881375
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.118672267393573e-05,
+            "relative_rmse": 0.0028165170342639716,
+            "expected_rms": 0.011072797463866794
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0972563624382019,
+            "rmse": 0.014862750959541258,
+            "relative_rmse": 1.3474758426147966,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.09716796875,
+            "rmse": 0.014862851804946016,
+            "relative_rmse": 1.3474691367222316,
+            "expected_rms": 0.011030198317640471
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002593994140625,
+            "rmse": 2.615408402907175e-05,
+            "relative_rmse": 0.002362040743523053,
+            "expected_rms": 0.011072664220881375
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.118672267393573e-05,
+            "relative_rmse": 0.0028165170342639716,
+            "expected_rms": 0.011072797463866794
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0972563624382019,
+            "rmse": 0.014862750959541258,
+            "relative_rmse": 1.3474758426147966,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.09716796875,
+            "rmse": 0.014862851804946016,
+            "relative_rmse": 1.3474691367222316,
+            "expected_rms": 0.011030198317640471
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015586066134393247,
+            "relative_rmse": 1.4076166154303027,
+            "expected_rms": 0.011072664220881373
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015586169731359857,
+            "relative_rmse": 1.4076090330579314,
+            "expected_rms": 0.011072797463866796
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015640308141739227,
+            "relative_rmse": 1.4179701624157208,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015640395935466612,
+            "relative_rmse": 1.4179614441249986,
+            "expected_rms": 0.011030198317640471
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015586066134393247,
+            "relative_rmse": 1.4076166154303027,
+            "expected_rms": 0.011072664220881373
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015586169731359857,
+            "relative_rmse": 1.4076090330579314,
+            "expected_rms": 0.011072797463866796
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015640308141739227,
+            "relative_rmse": 1.4179701624157208,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015640395935466612,
+            "relative_rmse": 1.4179614441249986,
+            "expected_rms": 0.011030198317640471
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002593994140625,
+            "rmse": 2.615408402907175e-05,
+            "relative_rmse": 0.002362040743523053,
+            "expected_rms": 0.011072664220881375
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.118672267393573e-05,
+            "relative_rmse": 0.0028165170342639716,
+            "expected_rms": 0.011072797463866794
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0972563624382019,
+            "rmse": 0.014862750959541258,
+            "relative_rmse": 1.3474758426147966,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.09716796875,
+            "rmse": 0.014862851804946016,
+            "relative_rmse": 1.3474691367222316,
+            "expected_rms": 0.011030198317640471
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002593994140625,
+            "rmse": 2.615408402907175e-05,
+            "relative_rmse": 0.002362040743523053,
+            "expected_rms": 0.011072664220881375
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.118672267393573e-05,
+            "relative_rmse": 0.0028165170342639716,
+            "expected_rms": 0.011072797463866794
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0972563624382019,
+            "rmse": 0.014862750959541258,
+            "relative_rmse": 1.3474758426147966,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.09716796875,
+            "rmse": 0.014862851804946016,
+            "relative_rmse": 1.3474691367222316,
+            "expected_rms": 0.011030198317640471
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015586066134393247,
+            "relative_rmse": 1.4076166154303027,
+            "expected_rms": 0.011072664220881373
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015586169731359857,
+            "relative_rmse": 1.4076090330579314,
+            "expected_rms": 0.011072797463866796
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015640308141739227,
+            "relative_rmse": 1.4179701624157208,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015640395935466612,
+            "relative_rmse": 1.4179614441249986,
+            "expected_rms": 0.011030198317640471
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015586066134393247,
+            "relative_rmse": 1.4076166154303027,
+            "expected_rms": 0.011072664220881373
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015586169731359857,
+            "relative_rmse": 1.4076090330579314,
+            "expected_rms": 0.011072797463866796
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015640308141739227,
+            "relative_rmse": 1.4179701624157208,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015640395935466612,
+            "relative_rmse": 1.4179614441249986,
+            "expected_rms": 0.011030198317640471
+          }
+        }
+      ]
+    },
+    {
+      "case": "asymmetric_state",
+      "seconds": 0.0006099000020185485,
+      "output_sha256": "40512fb937a57c53cbe376e8c9053a0ab5bbecfeb8f011c1c2e0768dc5854bc2",
+      "hypotheses": [
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0004407241940498352,
+            "rmse": 7.601884171418482e-05,
+            "relative_rmse": 0.0032774794882767574,
+            "expected_rms": 0.02319429976178256
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.000477813184261322,
+            "rmse": 6.95649633399218e-05,
+            "relative_rmse": 0.002837996188356841,
+            "expected_rms": 0.024512000271641982
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.00048828125,
+            "rmse": 8.392390030248578e-05,
+            "relative_rmse": 0.0036180279892920556,
+            "expected_rms": 0.02319603401379636
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.00048828125,
+            "rmse": 7.957505785083846e-05,
+            "relative_rmse": 0.0032463888378132465,
+            "expected_rms": 0.024511868980069518
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.1297830566763878,
+            "rmse": 0.03189457876604723,
+            "relative_rmse": 1.3872090557377441,
+            "expected_rms": 0.02299190495774632
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09731075167655945,
+            "rmse": 0.014895876501186057,
+            "relative_rmse": 0.6082697977762263,
+            "expected_rms": 0.024488930003830366
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1298828125,
+            "rmse": 0.03189392333480267,
+            "relative_rmse": 1.3871909135324458,
+            "expected_rms": 0.02299173316640722
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.097412109375,
+            "rmse": 0.014895846902461908,
+            "relative_rmse": 0.6082689412911514,
+            "expected_rms": 0.024488915825363385
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11074532195925713,
+            "rmse": 0.03560393158257968,
+            "relative_rmse": 1.8686561776901975,
+            "expected_rms": 0.01905322766577042
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.08386458456516266,
+            "rmse": 0.03860325203115501,
+            "relative_rmse": 1.7702531113826012,
+            "expected_rms": 0.021806628545341256
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.11083984375,
+            "rmse": 0.03560426367679675,
+            "relative_rmse": 1.8686524542821257,
+            "expected_rms": 0.019053443349086936
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.083984375,
+            "rmse": 0.03860330471539355,
+            "relative_rmse": 1.770248288392074,
+            "expected_rms": 0.021806717717805076
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11776718497276306,
+            "rmse": 0.02975719250403516,
+            "relative_rmse": 1.5064898694703384,
+            "expected_rms": 0.01975266684965986
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.16103486716747284,
+            "rmse": 0.04134922763485741,
+            "relative_rmse": 1.8984547189410588,
+            "expected_rms": 0.021780465566185136
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1177978515625,
+            "rmse": 0.029758414259654895,
+            "relative_rmse": 1.5064632687943067,
+            "expected_rms": 0.019753826645552367
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1611328125,
+            "rmse": 0.04134926684132275,
+            "relative_rmse": 1.898454163597026,
+            "expected_rms": 0.021780492589285248
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0004407241940498352,
+            "rmse": 7.601884171418482e-05,
+            "relative_rmse": 0.0032774794882767574,
+            "expected_rms": 0.02319429976178256
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.12607865035533905,
+            "rmse": 0.03463291035405312,
+            "relative_rmse": 1.4128961312928856,
+            "expected_rms": 0.024512000271641986
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.00048828125,
+            "rmse": 8.392390030248578e-05,
+            "relative_rmse": 0.0036180279892920556,
+            "expected_rms": 0.02319603401379636
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.126220703125,
+            "rmse": 0.03463277337282939,
+            "relative_rmse": 1.4128981107474556,
+            "expected_rms": 0.02451186898006952
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.1297830566763878,
+            "rmse": 0.03189457876604723,
+            "relative_rmse": 1.3872090557377441,
+            "expected_rms": 0.02299190495774632
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.1345100998878479,
+            "rmse": 0.03465486499083167,
+            "relative_rmse": 1.4151236899860968,
+            "expected_rms": 0.024488930003830366
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1298828125,
+            "rmse": 0.03189392333480267,
+            "relative_rmse": 1.3871909135324458,
+            "expected_rms": 0.02299173316640722
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.13427734375,
+            "rmse": 0.0346548154571876,
+            "relative_rmse": 1.4151224866106693,
+            "expected_rms": 0.024488915825363382
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11074532195925713,
+            "rmse": 0.03560393158257968,
+            "relative_rmse": 1.8686561776901975,
+            "expected_rms": 0.01905322766577042
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14599798619747162,
+            "rmse": 0.03276448718546033,
+            "relative_rmse": 1.5025012746621986,
+            "expected_rms": 0.02180662854534126
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.11083984375,
+            "rmse": 0.03560426367679675,
+            "relative_rmse": 1.8686524542821257,
+            "expected_rms": 0.019053443349086936
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14599609375,
+            "rmse": 0.0327645413290645,
+            "relative_rmse": 1.5024976134905628,
+            "expected_rms": 0.021806717717805076
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11776718497276306,
+            "rmse": 0.02975719250403516,
+            "relative_rmse": 1.5064898694703384,
+            "expected_rms": 0.01975266684965986
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14599798619747162,
+            "rmse": 0.03279006282079943,
+            "relative_rmse": 1.5054803452735668,
+            "expected_rms": 0.021780465566185136
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1177978515625,
+            "rmse": 0.029758414259654895,
+            "relative_rmse": 1.5064632687943067,
+            "expected_rms": 0.019753826645552367
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14599609375,
+            "rmse": 0.03279005533249678,
+            "relative_rmse": 1.5054781336133602,
+            "expected_rms": 0.021780492589285248
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.12441253662109375,
+            "rmse": 0.03256383072697275,
+            "relative_rmse": 1.2429367537325138,
+            "expected_rms": 0.026199105167004057
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.10381580144166946,
+            "rmse": 0.03090677919232652,
+            "relative_rmse": 1.2615052570837297,
+            "expected_rms": 0.02449992104176792
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.12451171875,
+            "rmse": 0.032564294857310855,
+            "relative_rmse": 1.2428889774314404,
+            "expected_rms": 0.02620048568184132
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.103759765625,
+            "rmse": 0.030906728850055794,
+            "relative_rmse": 1.2615117331168895,
+            "expected_rms": 0.02449975536390198
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14676835387945175,
+            "rmse": 0.034536794756580017,
+            "relative_rmse": 1.3200354995134027,
+            "expected_rms": 0.026163534821079526
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14097552746534348,
+            "rmse": 0.03429557552344067,
+            "relative_rmse": 1.4013284239287596,
+            "expected_rms": 0.024473617274735432
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14697265625,
+            "rmse": 0.03453558559587263,
+            "relative_rmse": 1.3200429453673785,
+            "expected_rms": 0.026162471241616383
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14111328125,
+            "rmse": 0.03429552204124593,
+            "relative_rmse": 1.4013245665849883,
+            "expected_rms": 0.02447364647636466
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09303833544254303,
+            "rmse": 0.030139933536687,
+            "relative_rmse": 1.2890931850588345,
+            "expected_rms": 0.023380725215230585
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.07800357043743134,
+            "rmse": 0.028815913815298258,
+            "relative_rmse": 1.3217623264544454,
+            "expected_rms": 0.021801131140267372
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0930023193359375,
+            "rmse": 0.030139119211335705,
+            "relative_rmse": 1.289109152804446,
+            "expected_rms": 0.023379803910140818
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.078125,
+            "rmse": 0.028815806115515805,
+            "relative_rmse": 1.3217665146270823,
+            "expected_rms": 0.021800980579119736
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11151532828807831,
+            "rmse": 0.03212010416686574,
+            "relative_rmse": 1.3841390308218393,
+            "expected_rms": 0.023205836589836118
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.16099175065755844,
+            "rmse": 0.03241524247264424,
+            "relative_rmse": 1.4887116640644737,
+            "expected_rms": 0.02177402330827737
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.111328125,
+            "rmse": 0.032119631188837296,
+            "relative_rmse": 1.3841789598959338,
+            "expected_rms": 0.02320482547376109
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.160888671875,
+            "rmse": 0.03241515866883223,
+            "relative_rmse": 1.4887164453225832,
+            "expected_rms": 0.02177389708475232
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.12441253662109375,
+            "rmse": 0.03256383072697275,
+            "relative_rmse": 1.2429367537325138,
+            "expected_rms": 0.026199105167004057
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09335384517908096,
+            "rmse": 0.0156325262201138,
+            "relative_rmse": 0.6380643510427311,
+            "expected_rms": 0.02449992104176792
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.12451171875,
+            "rmse": 0.032564294857310855,
+            "relative_rmse": 1.2428889774314404,
+            "expected_rms": 0.02620048568184132
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.09326171875,
+            "rmse": 0.01563244291703983,
+            "relative_rmse": 0.6380652657484378,
+            "expected_rms": 0.024499755363901976
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14676835387945175,
+            "rmse": 0.034536794756580017,
+            "relative_rmse": 1.3200354995134027,
+            "expected_rms": 0.026163534821079526
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09335384517908096,
+            "rmse": 0.01567828263879681,
+            "relative_rmse": 0.6406197523968713,
+            "expected_rms": 0.02447361727473544
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14697265625,
+            "rmse": 0.03453558559587263,
+            "relative_rmse": 1.3200429453673785,
+            "expected_rms": 0.026162471241616383
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.09326171875,
+            "rmse": 0.01567836478072215,
+            "relative_rmse": 0.640622344359819,
+            "expected_rms": 0.024473646476364658
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09303833544254303,
+            "rmse": 0.030139933536687,
+            "relative_rmse": 1.2890931850588345,
+            "expected_rms": 0.023380725215230585
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.15120691061019897,
+            "rmse": 0.04161288691320524,
+            "relative_rmse": 1.908748983961889,
+            "expected_rms": 0.021801131140267372
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0930023193359375,
+            "rmse": 0.030139119211335705,
+            "relative_rmse": 1.289109152804446,
+            "expected_rms": 0.023379803910140818
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1513671875,
+            "rmse": 0.041612783615976846,
+            "relative_rmse": 1.9087574279035968,
+            "expected_rms": 0.021800980579119732
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11151532828807831,
+            "rmse": 0.03212010416686574,
+            "relative_rmse": 1.3841390308218393,
+            "expected_rms": 0.023205836589836118
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.1626320481300354,
+            "rmse": 0.04162932035105786,
+            "relative_rmse": 1.9118800306984391,
+            "expected_rms": 0.021774023308277365
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.111328125,
+            "rmse": 0.032119631188837296,
+            "relative_rmse": 1.3841789598959338,
+            "expected_rms": 0.02320482547376109
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.16259765625,
+            "rmse": 0.041629209636087516,
+            "relative_rmse": 1.9118860291316133,
+            "expected_rms": 0.021773897084752317
+          }
+        }
+      ]
+    }
+  ],
+  "npu_snapshots": {
+    "before_init": {
+      "available": true,
+      "contexts": []
+    },
+    "after_init": {
+      "available": true,
+      "contexts": [
+        {
+          "context_id": 6,
+          "command_submissions": 0,
+          "command_completions": 0,
+          "errors": 0
+        }
+      ]
+    },
+    "after_execute-zero_state": {
+      "available": true,
+      "contexts": [
+        {
+          "context_id": 6,
+          "command_submissions": 1,
+          "command_completions": 1,
+          "errors": 0
+        }
+      ]
+    },
+    "after_execute-asymmetric_state": {
+      "available": true,
+      "contexts": [
+        {
+          "context_id": 6,
+          "command_submissions": 2,
+          "command_completions": 2,
+          "errors": 0
+        }
+      ]
+    }
+  },
+  "publication_provenance": {
+    "original_report": {
+      "path": "cache/qwen35-conversion/dd-linear-token-supervised-run2/probe/report.json",
+      "sha256": "dca74fcfdb1f958c1261663e4d793659537ab2a115aaf75bd6d9062d2a633ea3"
+    },
+    "cpu_preparation": {
+      "path": "cache/qwen35-conversion/dd-linear-token-probe-prepare-run1/prepared.json",
+      "sha256": "70e34ce7b94f978a76389d20739dc8d68e6520066fd0c8171b6bfab2dfc84ee3"
+    },
+    "original_host_compile": {
+      "path": "cache/qwen35-conversion/dd-linear-token-compile-run2/report.json",
+      "sha256": "13c75def12c8c17be2e15eb883de3a84de90b4db7ae7a4f62df6ee989345fd0e"
+    },
+    "published_host_compile": {
+      "path": "results/raw/qwen35-conversion-20260920/dd-linear-host-compile.json",
+      "sha256": "75c344b306ab2bd66f5f7fab39cfab4acd7b0167a74c7da7f1700376ca4f52c9"
+    },
+    "original_contract_source_audit": {
+      "path": "cache/qwen35-conversion/dd-linear-contract-run1/contract_audit.json",
+      "sha256": "4934723616ea1d9fe28f77c1f407b01b9342e3f628792b8f2fbcc39327d00d82"
+    },
+    "probe_script": {
+      "path": "cache/qwen35-conversion/dd-linear-contract-run1/token_probe.py",
+      "sha256": "2bb78e3c2a4b72c33f7f594ca0123578edb60096df56b3fdfc1f18bccf807468"
+    },
+    "synthetic_onnx": {
+      "path": "cache/qwen35-conversion/dd-linear-token-compile-run1/synthetic.onnx",
+      "sha256": "5dd0e20bc06e787cb810db0c7da11473db9dbd8c28628d2a399d5665152defbc"
+    },
+    "metadata": {
+      "path": "cache/qwen35-conversion/dd-linear-token-compile-run1/meta.json",
+      "sha256": "95d7e6ea33e8fd9c06935763fc6e2e0660c3d4a181857feab838c86f541c5f5c"
+    },
+    "host_compile_script": {
+      "path": "cache/qwen35-conversion/dd-linear-token-compile-run2/compile_host.py",
+      "sha256": "74b56e7f45f6a5c874bd82c99756ac7327b7f4ec6959fa93126d1787f79645de"
+    },
+    "xclbin_extractor_source": {
+      "path": "cache/qwen35-conversion/dd-linear-token-compile-run2/extract_xclbin.cpp",
+      "sha256": "448c9fd9a0e3a19bd4b12e063124bffd4f845b4c53d829ffc2d4234392f01379"
+    },
+    "source_hashes": [
+      {
+        "path": "ryzenai_dynamic_dispatch/include/ryzenai/dynamic_dispatch/ops/llm_ops/linear_attention/linear_attention.cpp",
+        "sha256": "1b69a992426d0cfde1f9ff30edfabcfa420be6b81457b027445ea81b908e7697",
+        "anchor_lines": [
+          165,
+          188,
+          248,
+          275,
+          303,
+          349,
+          447,
+          478,
+          559,
+          626
+        ]
+      },
+      {
+        "path": "ryzenai_dynamic_dispatch/include/ryzenai/dynamic_dispatch/ops/llm_ops/linear_attention/linear_attention.hpp",
+        "sha256": "8aaf304a98aef402034405304ba34b5e48a543e17cf8eadf023eb6245fcc5850",
+        "anchor_lines": [
+          41,
+          46,
+          55,
+          108,
+          115
+        ]
+      },
+      {
+        "path": "ryzenai_onnx_utils/passes/llm/eager/linear_attention.py",
+        "sha256": "710be3245bb5746e13fa4c140f17495e2371bf37e2757cff5dacae3b378e7b2e",
+        "anchor_lines": [
+          50,
+          110,
+          167,
+          193,
+          280
+        ]
+      },
+      {
+        "path": "ryzenai_onnx_utils/passes/llm/absorb_transformation_ops.py",
+        "sha256": "1cd7f55739395a7b7944ba349d6719e0126bdeb7adcba4ffae5b2b4bc67abd7d",
+        "anchor_lines": [
+          85,
+          95,
+          109
+        ]
+      },
+      {
+        "path": "onnxruntime_genai/models/builders/base.py",
+        "sha256": "b4c570339b46bea1a86c5b037844141d2a0592a7462fd409893dae667db42502",
+        "anchor_lines": [
+          2492
+        ]
+      },
+      {
+        "path": "onnxruntime_genai/models/builders/qwen.py",
+        "sha256": "03882d6982f5c0170e2652ad1d51690372d884a2b29fbcfd169e92ab695319ad",
+        "anchor_lines": [
+          1715,
+          1818,
+          1828,
+          1833,
+          1897,
+          1932
+        ]
+      },
+      {
+        "path": "onnxruntime_providers_ryzenai-1.8.0.dist-info/RECORD",
+        "sha256": "56ef347617f72a54f66a26af56c6c14c5b1b3426c96920ad2f36c3d6c9502f66",
+        "anchor_lines": [
+          1
+        ]
+      }
+    ],
+    "redactions": [
+      "Removed top-level process ID",
+      "SDK source paths are relative to site-packages"
+    ],
+    "raw_numeric_values_changed": false,
+    "all_hypotheses_preserved": {
+      "cases": 2,
+      "per_case": 16,
+      "total": 32
+    },
+    "own_process_context_counters_preserved": true
+  },
+  "cpu_preparation_evidence": {
+    "scope": "CPU preparation only",
+    "seed": 20260920,
+    "raw_dtype": "uint16 BF16 bits",
+    "cases": [
+      "zero_state",
+      "asymmetric_state"
+    ],
+    "maximum_npu_execute_calls": 2,
+    "query_scale": 1.0,
+    "input_shapes_dd_order": {
+      "state": [
+        1,
+        32,
+        128,
+        128
+      ],
+      "query": [
+        1,
+        16,
+        128
+      ],
+      "key": [
+        1,
+        16,
+        128
+      ],
+      "value": [
+        1,
+        32,
+        128
+      ],
+      "gate": [
+        1,
+        32
+      ],
+      "beta": [
+        1,
+        32
+      ]
+    },
+    "reference_head_mapping": "Qwen3.5 repeat_interleave(2); tiled mapping is a diagnostic alternative",
+    "gate_wire_values": "negative log-decay; compare both exp(wire) and direct-wire hypotheses explicitly",
+    "state_storage": "raw input array indexed [B,H,K,V], nonzero fixture is nonsymmetric in K/V",
+    "cpu_provider": [
+      "CPUExecutionProvider"
+    ],
+    "onnxruntime_version": "1.27.0",
+    "cpu_reference_checks": [
+      {
+        "case": "zero_state",
+        "attention": {
+          "finite": true,
+          "max_abs": 2.7939677238464355e-08,
+          "rmse": 2.49272115972475e-09,
+          "relative_rmse": 2.5994768846169143e-07,
+          "expected_rms": 0.00958931842970438
+        },
+        "state": {
+          "finite": true,
+          "max_abs": 0.0,
+          "rmse": 0.0,
+          "relative_rmse": 0.0,
+          "expected_rms": 0.011072664221700466
+        }
+      },
+      {
+        "case": "asymmetric_state",
+        "attention": {
+          "finite": true,
+          "max_abs": 4.470348358154297e-08,
+          "rmse": 5.739590424031841e-09,
+          "relative_rmse": 2.4745693907803485e-07,
+          "expected_rms": 0.023194299765511434
+        },
+        "state": {
+          "finite": true,
+          "max_abs": 1.1175870895385742e-08,
+          "rmse": 1.5288630769778585e-09,
+          "relative_rmse": 6.237202431543276e-08,
+          "expected_rms": 0.024512000271884243
+        }
+      }
+    ],
+    "input_sha256": "b6d7e448927f7f3ce2f2983803f85312f6f0853f86357dcc89837a083630237f"
+  },
+  "host_compile_evidence": {
+    "scope": "Synthetic single-token LinearAttention DynamicDispatch host compilation only; no device init, execute or model weights",
+    "package_version": "1.8.0",
+    "xclbin_resource": "stx_LLM_TPS_10bo_mladf_2x4x4_bfp16_gemm_mlp_flat_rms",
+    "xclbin_sha256": "8d7beceb22c996d90fd9d8d96a8d50dee1127039041a148396e530de1359431a",
+    "metadata_sha256": "95d7e6ea33e8fd9c06935763fc6e2e0660c3d4a181857feab838c86f541c5f5c",
+    "config": {
+      "use_elf_flow": true,
+      "cache_dir": "artifacts",
+      "model_name": "linear_token",
+      "profile": 0
+    },
+    "status": "compiled_and_saved",
+    "compile_success": true,
+    "elapsed_seconds": 0.057768899998336565,
+    "artifacts": [
+      {
+        "path": "artifacts\\linear_token",
+        "size": 12834,
+        "sha256": "b874cee06c15e92a7e10919bf17455cbf1584b59573a4fa71b42f2b60d9b5471"
+      },
+      {
+        "path": "artifacts\\linear_token.ctrlpkt",
+        "size": 36552,
+        "sha256": "44d20bae8872d5b26ec9a4f9ce6c525d70ab01acffdc267f4f104631821e9e66"
+      },
+      {
+        "path": "artifacts\\linear_token.fconst",
+        "size": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "artifacts\\linear_token.super",
+        "size": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "interpretation": {
+    "kind": "Closest contract among the 16 explicitly tested hypotheses per fixture",
+    "selected_contract": {
+      "state_in_layout": "K_major",
+      "state_out_layout": "K_major",
+      "gate_semantics": "wire_is_log_decay",
+      "head_map": "repeat_interleave",
+      "query_scale": 1.0
+    },
+    "selection_basis": [
+      {
+        "case": "zero_state",
+        "selected_metrics": {
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002593994140625,
+            "rmse": 2.615408402907175e-05,
+            "relative_rmse": 0.002362040743523053,
+            "expected_rms": 0.011072664220881375
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.118672267393573e-05,
+            "relative_rmse": 0.0028165170342639716,
+            "expected_rms": 0.011072797463866794
+          }
+        },
+        "joint_minimum_relative_rmse_hypotheses": [
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0
+          }
+        ],
+        "joint_minimum_tie_count": 4
+      },
+      {
+        "case": "asymmetric_state",
+        "selected_metrics": {
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0004407241940498352,
+            "rmse": 7.601884171418482e-05,
+            "relative_rmse": 0.0032774794882767574,
+            "expected_rms": 0.02319429976178256
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.000477813184261322,
+            "rmse": 6.95649633399218e-05,
+            "relative_rmse": 0.002837996188356841,
+            "expected_rms": 0.024512000271641982
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.00048828125,
+            "rmse": 8.392390030248578e-05,
+            "relative_rmse": 0.0036180279892920556,
+            "expected_rms": 0.02319603401379636
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.00048828125,
+            "rmse": 7.957505785083846e-05,
+            "relative_rmse": 0.0032463888378132465,
+            "expected_rms": 0.024511868980069518
+          }
+        },
+        "joint_minimum_relative_rmse_hypotheses": [
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0
+          }
+        ],
+        "joint_minimum_tie_count": 1
+      }
+    ],
+    "zero_state_limit": "With zero recurrent state, input-state orientation and gate decay do not affect this step; zero-state ties are retained.",
+    "nonzero_state_role": "The asymmetric nonzero fixture distinguishes the state orientation and log-decay interpretation; the selected contract jointly minimizes attention and state relative RMSE.",
+    "numeric_qualification": "Approximate BF16 output agreement, not bit equality or a predeclared numerical pass threshold.",
+    "bridge_implication": "For this q_seq=1 kernel and these fixtures, raw state uses K-major input/output, gate carries log-decay, and the kernel handles the 16-to-32 repeat_interleave head mapping. The caller's query is already scaled; diagnostic query_scale=1.0.",
+    "established": [
+      "Two direct-DD single-token calls completed",
+      "Own NPU context submissions/completions advance from 0 to 2 with errors remaining 0"
+    ],
+    "not_established": [
+      "ORT or OGA execution",
+      "Complete Qwen3.5 model conversion/inference",
+      "16K context",
+      "Prefill kernel correctness",
+      "Arbitrary input coverage",
+      "Native eager bridge cast-absorption equivalence"
+    ]
+  }
+}

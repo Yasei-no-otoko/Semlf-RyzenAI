@@ -1,0 +1,168 @@
+{
+  "status": "failed",
+  "execute_calls_started": 1,
+  "maximum_execute_calls": 1,
+  "retry_count": 0,
+  "tolerance": {
+    "bf16_unit_roundoff": 0.00390625,
+    "fp32_accumulation_gamma_K": 0.00015261117724262125,
+    "component_budget": "(4*u_bf16 + gamma_K_fp32)*sum(abs(x*w)) + u_bf16*abs(reference_linear)",
+    "relative_rmse_limit": 0.03125,
+    "sigmoid_component_budget": "linear_component_budget/4 (global sigmoid Lipschitz constant)",
+    "pass_rule": "All finite, every linear component within its budget, and linear normalized RMSE <= 8*u_bf16; derived CPU Sigmoid also within its declared budget",
+    "qualification": "Predeclared BF16-based diagnostic thresholds; not a guarantee of the undocumented internal BFP16 reduction order"
+  },
+  "prepared_manifest_sha256": "3ff02e526602e0b693c204f79ceeb8e2fa97e2bf72aefedbebead9477cd01791",
+  "npu_snapshots": {
+    "after_init": {
+      "available": true,
+      "contexts": [
+        {
+          "context_id": 7,
+          "command_submissions": 0,
+          "command_completions": 0,
+          "errors": 0
+        }
+      ]
+    },
+    "after_execute": {
+      "available": true,
+      "contexts": [
+        {
+          "context_id": 7,
+          "command_submissions": 1,
+          "command_completions": 0,
+          "errors": 1
+        }
+      ]
+    }
+  },
+  "config": {
+    "buffer_reuse_version": "v3",
+    "cache_dir": "real-in-proj-b-run1",
+    "const_iter_key": "",
+    "constbo_sharing_key": "",
+    "dealloc_elfs": false,
+    "dealloc_input_bo": false,
+    "dealloc_output_bo": false,
+    "dealloc_scratch_bo": false,
+    "eager_mode": false,
+    "en_check_constbo": false,
+    "en_dynamic_subgraph_lazy_loading": false,
+    "en_lazy_constbo": false,
+    "enable_preemption": false,
+    "instr_xrt_bo_stack_size_mb": 0,
+    "model_name": "real_in_proj_b_v2",
+    "optimize_memory_noop": true,
+    "optimize_pm_swap": true,
+    "optimize_scratch": true,
+    "pm_swap": false,
+    "profile": 0,
+    "reload_const": false,
+    "txn_opt": false,
+    "use_elf_flow": false,
+    "use_lazy_input_bo": false,
+    "use_lazy_output_bo": false,
+    "use_lazy_scratch_bo": true
+  },
+  "execute_seconds": 0.011978499998804182,
+  "error_type": "RuntimeError",
+  "error": "[ERROR] Kernel partition: 0 pdi_id: 0 timeout (Detail : Command failed to complete successfully (ERT_CMD_STATE_ERROR))",
+  "artifacts": [
+    {
+      "name": "raw_linear_output_bf16.npz",
+      "sha256": "888de5fe05a31bd514659c6209efcd26aa218abfce9bbdaf80cc7a1b325e6d5a"
+    }
+  ],
+  "publication_provenance": {
+    "original_report": {
+      "path": "cache/qwen35-conversion/dd-matmul-prototype-new/real-in-proj-b-supervised-run1/probe/report.json",
+      "sha256": "21eff726777e534203620d04d05f6262ac3a66afe944054b71e18ddc831256ba"
+    },
+    "original_cpu_preparation": {
+      "path": "cache/qwen35-conversion/dd-matmul-prototype-new/real-in-proj-b-prepared-run1/prepared.json",
+      "sha256": "3ff02e526602e0b693c204f79ceeb8e2fa97e2bf72aefedbebead9477cd01791"
+    },
+    "original_host_compile": {
+      "path": "cache/qwen35-conversion/dd-matmul-prototype-new/real-in-proj-b-run1/report.json",
+      "sha256": "51b410eef9e07c804850dbebc9b8fc70da76167cf87212f592566128b56c017f"
+    },
+    "published_host_compile": {
+      "path": "results/raw/qwen35-conversion-20260920/dd-matmul-host-compile.json",
+      "sha256": "3542b40399de92e52d5d05050998da0b3b4db0034ed6cbbbb04e6183445d2697"
+    },
+    "probe_script": {
+      "path": "cache/qwen35-conversion/dd-matmul-prototype-new/real_projection_probe.py",
+      "sha256": "f1c1da9d419a3d09e3ab34355d6c440654fc3a5a41e3bab0a5eb73709c6393e8"
+    },
+    "source_model_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "redactions": [
+      "Removed top-level process ID",
+      "config.cache_dir reduced to basename",
+      "CPU preparation compiled_directory reduced to basename",
+      "Removed only the leading SDK build-machine source path from error"
+    ],
+    "raw_numeric_values_changed": false,
+    "own_process_context_counters_preserved": true
+  },
+  "cpu_preparation_evidence": {
+    "scope": "CPU-only fixture and dequant references for one execute",
+    "seed": 20260920,
+    "maximum_npu_execute_calls": 1,
+    "retry_count": 0,
+    "compiled_directory": "real-in-proj-b-run1",
+    "compiled_report_sha256": "51b410eef9e07c804850dbebc9b8fc70da76167cf87212f592566128b56c017f",
+    "source_projection_sha256": "819c83d9882fd6080e0f2434dde951f4d18592545111ad29f403e34161a17f13",
+    "metadata_sha256": "ac17d3d90a0b5faff2a373f1a194ef519b58dbc4473407951fe0995f0631d037",
+    "xclbin_sha256": "290fa567afa44f3c0c43d39b6fa0d21ca78fabcb5c66c3e5fe11cd8ca759f82b",
+    "helper_sha256": "2bb78e3c2a4b72c33f7f594ca0123578edb60096df56b3fdfc1f18bccf807468",
+    "probe_sha256": "f1c1da9d419a3d09e3ab34355d6c440654fc3a5a41e3bab0a5eb73709c6393e8",
+    "fixture_sha256": "039b4965449ffe5a95790287f055fa7d8ba693c6390d9cb11113d940b7be6fe6",
+    "input": {
+      "shape": [
+        1,
+        1,
+        2560
+      ],
+      "storage": "uint16 raw BF16 RNE",
+      "sdk_view": "int16 bit reinterpretation"
+    },
+    "raw_output": {
+      "shape": [
+        1,
+        1,
+        32
+      ],
+      "meaning": "linear projection before Sigmoid",
+      "storage": "uint16 raw BF16"
+    },
+    "activation": "Sigmoid retained in original ONNX wrapper but computed separately on CPU in this raw DD probe",
+    "upstream_norm": "external input; fixture is not a captured model/RMSNorm activation",
+    "tolerance": {
+      "bf16_unit_roundoff": 0.00390625,
+      "fp32_accumulation_gamma_K": 0.00015261117724262125,
+      "component_budget": "(4*u_bf16 + gamma_K_fp32)*sum(abs(x*w)) + u_bf16*abs(reference_linear)",
+      "relative_rmse_limit": 0.03125,
+      "sigmoid_component_budget": "linear_component_budget/4 (global sigmoid Lipschitz constant)",
+      "pass_rule": "All finite, every linear component within its budget, and linear normalized RMSE <= 8*u_bf16; derived CPU Sigmoid also within its declared budget",
+      "qualification": "Predeclared BF16-based diagnostic thresholds; not a guarantee of the undocumented internal BFP16 reduction order"
+    },
+    "reference": "FP64 dequant MatMul+bias using BF16-rounded input; CPU Sigmoid",
+    "reference_rms": 0.47050305632156564,
+    "linear_budget_min": 0.09689157059497394,
+    "linear_budget_max": 0.45457741776082256
+  },
+  "interpretation": {
+    "npu_execution_outcome": "One command submitted, zero completions, one error; ERT_CMD_STATE_ERROR before numerical evaluation",
+    "numerical_comparison_evaluated": false,
+    "numerical_accuracy_passed": null,
+    "output_artifact_qualification": "Output storage was saved after failure for diagnosis; its presence or hash is not evidence of a valid completed output.",
+    "activation_qualification": "The raw DD operator is a linear projection. The separate CPU Sigmoid comparison was not reached.",
+    "not_established": [
+      "Numerical MatMul correctness",
+      "Qwen3.5 decoder correctness",
+      "16K context",
+      "Cause of the command error"
+    ]
+  }
+}
