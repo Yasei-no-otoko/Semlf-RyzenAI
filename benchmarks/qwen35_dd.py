@@ -319,7 +319,14 @@ def _pack_external(model, source_dir, destination):
 
 
 def _check_final_model(path):
-    from benchmarks.qwen35_package import check_model_with_installed_ort_schema
+    try:
+        from benchmarks.qwen35_package import check_model_with_installed_ort_schema
+    except ModuleNotFoundError as error:
+        if error.name not in ("benchmarks", "benchmarks.qwen35_package"):
+            raise
+        # Direct file invocation puts benchmarks/ itself on sys.path. Lowering
+        # also changes cwd, so the repository root need not be importable.
+        from qwen35_package import check_model_with_installed_ort_schema
     return check_model_with_installed_ort_schema(path)
 
 

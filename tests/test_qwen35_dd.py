@@ -4,14 +4,16 @@ from __future__ import annotations
 import copy
 import json
 from pathlib import Path
+import subprocess
+import sys
 from types import SimpleNamespace
 
 import numpy as np
-import onnx
-from onnx import TensorProto as T, helper as h, numpy_helper as nh
 import pytest
 
-from benchmarks import qwen35_dd as dd
+onnx = pytest.importorskip("onnx")
+T, h, nh = onnx.TensorProto, onnx.helper, onnx.numpy_helper
+from benchmarks import qwen35_dd as dd  # noqa: E402
 
 
 def _profile():
@@ -262,3 +264,22 @@ def test_checker_failure_never_publishes_success(tmp_path, monkeypatch):
         dd.lower_token_graph(source, tmp_path / "failed", profile=_profile())
     report = json.loads((tmp_path / "failed/lowering-manifest.json").read_text())
     assert report["status"] == "failed" and "artifacts" not in report
+
+
+def test_checker_import_from_direct_script_path_and_changed_cwd(tmp_path):
+    directory = str(Path(dd.__file__).resolve().parent)
+    script = f"""
+import importlib.util
+import sys
+sys.path.insert(0, {directory!r})
+assert importlib.util.find_spec('benchmarks') is None
+import qwen35_dd
+import qwen35_package
+qwen35_package.check_model_with_installed_ort_schema = lambda path: {{'checked': path}}
+assert qwen35_dd._check_final_model('owned-fixture.onnx') == {{'checked': 'owned-fixture.onnx'}}
+print('direct-script checker import passed')
+"""
+    result = subprocess.run([sys.executable, "-I", "-c", script], cwd=tmp_path,
+                            capture_output=True, text=True, timeout=60)
+    assert result.returncode == 0, result.stderr
+    assert result.stdout.strip() == "direct-script checker import passed"
