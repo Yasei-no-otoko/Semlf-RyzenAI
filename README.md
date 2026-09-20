@@ -27,8 +27,16 @@ also records exact agreement with the eager baseline's option logits.
 CPU graph components remain. The installed SDK recipe does not support this
 custom Qwen3.5 integration; **16K validation failed: the tail-information
 case passed, but the head-information case produced non-finite logits**.
-It is not a completed 16K replacement for the default
-AMD Qwen3-4B model.
+A [fresh-process head check](results/raw/qwen35-conversion-20260920/dd-fresh-head-failure.json)
+also returned all-NaN logits, so a preceding generator is not required to
+trigger this failure. A diagnostic using only its
+[first 64 tokens](results/raw/qwen35-conversion-20260920/dd-head-prefix64-failure.json)
+also returned all-NaN logits. Chunk-related numerical behavior remains a hypothesis,
+not an established cause or fix. This is not a completed 16K replacement
+for the default AMD Qwen3-4B model.
+The [public CLI rebuild](results/raw/qwen35-conversion-20260920/dd-public-build-reproducibility.json)
+completed CPU conversion and matched the diagnostic candidate's content
+under the documented comparison; the rebuilt package has not run inference.
 
 The upstream project description and its original benchmark results follow.
 

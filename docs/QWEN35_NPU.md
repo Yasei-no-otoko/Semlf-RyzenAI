@@ -3,12 +3,13 @@
 **Experimental and incomplete.** Quark quantization and OGA export completed.
 A combined eager-prefill and custom DD-token model now scores three owned
 English/Japanese short examples correctly and completes a native greedy
-continuation at EOS. All observed full-vocabulary logits are finite, with
+continuation at EOS. That short run's full-vocabulary logits are finite, with
 5,307 NPU submissions/completions and zero errors. **The installed SDK recipe
 does not support this custom integration, and the combined 16K validation
 failed.** The tail-information case passed at exactly 16,384 input tokens;
-the head-information case produced non-finite logits. This is not
-a replacement for the working AMD Qwen3-4B demo model.
+the head-information case produced non-finite logits. A fresh-process head
+check also returned all-NaN logits. This is not a replacement for the working
+AMD Qwen3-4B demo model.
 
 The pinned source is [Qwen/Qwen3.5-4B at
 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a](https://huggingface.co/Qwen/Qwen3.5-4B/tree/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a).
@@ -37,6 +38,9 @@ or speed results.
 | Combined eager-prefill / DD-token model | One full-model load, three correct short cases; option logits match the eager baseline exactly |
 | Native generation, combined model | Four generated tokens ending at configured EOS; all seven observed full-vocabulary logit vectors are finite |
 | 16,384-token prefill | Tail-information case passed; head-information case failed the full-vocabulary finite check. Earlier two runs were interrupted by reboots |
+| Fresh-process 16,384-token head prefill | All 248,320 logits are NaN; 64 final states read, with the lowest-numbered non-finite state at layer 14, head 5 |
+| Exact first 64 tokens of the head input | All logits are NaN after one eager chunk; same lowest non-finite state at layer 14, head 5. Incomplete prompt, no answer-quality check |
+| Public custom-DD CLI rebuild | CPU conversion completes; independent artifact/graph comparison matches the diagnostic candidate under documented normalization. New package runtime is untested |
 | Full scripted eager post-processing rerun | Interrupted by the second reboot |
 
 The eager prefill graph contains 1,398 nodes. Its NPU operators include 153
@@ -47,12 +51,13 @@ provider is configured. The 64 recurrent/conv/KV state inputs are float16 at
 the graph boundary. The final artifact is text-only: vision and MTP are not
 exported, and embeddings and depthwise convolution weights remain raw.
 
-The chunk-4096 Japanese failure first appears in layer 8 `LinearAttention`,
-in one of 32 state heads. CPU evaluation of the same layer remains finite.
+The chunk-4096 Japanese failure's lowest-numbered non-finite final state is
+layer 8's recurrent state, in one of 32 heads. CPU evaluation of the same
+layer remains finite.
 Chunk size 64 avoids the observed short-example failure; this does not prove
 stability for arbitrary inputs or long contexts.
 
-Both long runs reached the 16,384-token tail-sentinel stage, but neither
+The two earlier long runs reached the 16,384-token tail-sentinel stage, but neither
 produced a final result. Windows recorded unexpected reboots at approximately
 00:47 and 00:59 JST on 2026-09-20, with preceding WHEA corrected
 Bus/Interconnect errors. The operator subsequently reported simultaneous
@@ -279,6 +284,53 @@ the four contexts. This is an inference from the previously measured chunk
 and decode counts, not a per-node trace. The failed long case reads prefill
 logits; it does not exercise long-context DD decoding.
 
+The [fresh-process head check](../results/raw/qwen35-conversion-20260920/dd-fresh-head-failure.json)
+then used the same model/configuration and head-prompt construction, with one
+model, one generator, exactly 16,384 input tokens, and no generated tokens.
+All 248,320 logits were NaN. The [compressed original NumPy tensor](../results/raw/qwen35-conversion-20260920/dd-fresh-head-logits.npy.gz)
+preserves every output bit; decompression reproduces the original file and
+its SHA256 recorded in the report. The report also retains the complete
+owned prompt, token IDs, source/runtime hashes, timings, and final-state
+statistics. A preceding tail generator is therefore not required to trigger
+this failure.
+
+All 64 final states were read. Using zero-based layer/head indices, the
+lowest-numbered non-finite state was `present.14.recurrent_state`: all
+16,384 elements of head 5 were NaN, while its other 31 heads, layer 14's
+convolution state, and all shallower saved states were finite. Both layer 15
+KV outputs had their first recorded non-finite coordinate at `[0, 0, 40, 0]`.
+Only the first 16 bad coordinates and aggregate counts were retained for KV,
+so the complete distribution across token positions is unknown. These final
+observations do not identify the first failing operation or chunk.
+
+The fresh run completed 143,616 NPU submissions/completions with zero errors;
+reading the states added no NPU commands. It exited with numerical failure,
+not a timeout.
+
+A [separate prefix diagnostic](../results/raw/qwen35-conversion-20260920/dd-head-prefix64-failure.json)
+used only the exact first 64 token IDs of that saved head input, with the
+same model/configuration and a 16K generator limit. All logits were NaN
+after one eager chunk: 561 NPU submissions/completions, zero errors, and
+zero additional commands for the 64 final-state reads. Layer 14, head 5
+again contained 16,384 NaNs; both layer 15 KV tensors had their first
+recorded bad coordinate at `[0, 0, 40, 0]`, with 24,576 NaNs each. The
+[compressed original logits](../results/raw/qwen35-conversion-20260920/dd-head-prefix64-logits.npy.gz)
+and all state/head statistics are retained. This incomplete prompt was a
+finiteness diagnostic, not an answer-quality test. Its first 64 tokens are
+sufficient to reproduce the failure; processing the full long context is
+not required. KV statistics include unused allocated positions and do not
+recover the complete distribution across valid tokens. The record preserves
+all 273 changed generated DD `.state` hashes relative to the fresh-head run;
+original model/configuration identities match, and no causal significance is
+assigned to those serialization differences.
+
+Chunk-dependent arithmetic or valid-token masking is a
+candidate for further investigation, informed by the earlier short Japanese
+case's improvement at chunk size 64. The native mechanism is unconfirmed:
+OGA's `search.chunk_size=64` does not establish a 64-token native NPU kernel.
+A smaller OGA chunk is a controlled follow-up, not an established fix. Neither
+failed long-prefill check validates DD decoding near the 16K boundary.
+
 An independent OGA exporter memory improvement was submitted as
 [onnxruntime-genai PR #2596](https://github.com/microsoft/onnxruntime-genai/pull/2596).
 Its bit-packing equivalence and allocation tests pass (157 tests). The change
@@ -430,10 +482,21 @@ The [conversion CLI](../benchmarks/prepare_qwen35_token_fusion.py),
 [DD lowering](../benchmarks/qwen35_dd.py), and
 [packager](../benchmarks/qwen35_package.py) expose the custom route without
 depending on private diagnostic scripts or editing installed SDK packages.
-The public implementation has CPU fixture tests and a tiny installed-ORT
-schema check. **A complete rerun through this new CLI has not yet been
-validated.** The successful short-model evidence above belongs to the
-separately materialized diagnostic candidate.
+The [public CLI rebuild report](../results/raw/qwen35-conversion-20260920/dd-public-build-reproducibility.json)
+records successful CPU conversion from the pinned existing OGA export and
+eager prefill. The supervised build returned exit code 0 in 1,051.109 seconds,
+with peak process commit of 21,489,287,168 bytes. These are single-build
+observations, not inference performance measurements.
+
+The independent comparison verified all 1,280 manifested artifacts in each
+package against their recorded hashes. All three graph comparisons and all
+273 DD contracts/constants matched after the documented name/path
+normalization; graph I/O, 64 state boundaries, opsets, and configuration
+apart from package paths also matched. The report retains every artifact
+hash and comparison row, plus code, profile, and SDK identities.
+**The rebuilt package has not run inference.** The short success and 16K
+failures above belong to the separately materialized diagnostic candidate;
+CPU reproducibility does not establish long-context numerical correctness.
 
 Use the SDK 1.8 environment, rather than the export environment. The profile
 pins SDK package/file versions and the exact measured OGA and eager artifacts.
