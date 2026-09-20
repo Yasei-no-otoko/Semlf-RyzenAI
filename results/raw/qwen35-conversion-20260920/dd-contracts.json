@@ -1,0 +1,668 @@
+{
+  "generated_utc": "2026-09-20T01:34:56.223266+00:00",
+  "safety": {
+    "npu_execution": false,
+    "real_model_weights_loaded": false,
+    "sdk_mutations": false,
+    "zip_members_decompressed": false
+  },
+  "source_sha256": {
+    "ryzenai_dynamic_dispatch/__init__.py": "87d42eeca130fa9e708c94faa87177f5cd154541306779650aa07e53cf1c0851",
+    "ryzenai_dynamic_dispatch/include/ryzenai/dynamic_dispatch/ops/ops_common/matmulnbits_pack_impl.cpp": "5db79f326c0bb716c9fdf20627e08a4a92e48ed08af635dcbe8026db7e37b724",
+    "ryzenai_dynamic_dispatch/include/ryzenai/dynamic_dispatch/ops/llm_ops/mladfmatmulbias/mladfmatmulbias.cpp": "ba2b6a2547be3a3bd099029f25ed5e62760fce4c909e8e31c42d793cd2aba0ed",
+    "ryzenai_dynamic_dispatch/include/ryzenai/dynamic_dispatch/ops/llm_ops/mladfmatmulbias/matmulbias_tiling/matmulbias_tiling.cpp": "0cec3b358096e4edb15b8f9d48d028420bcf8cd9cb0984a706317a2ace4edf1f",
+    "ryzenai_dynamic_dispatch/include/ryzenai/dynamic_dispatch/ops/llm_ops/mladfmatmulbias/matmulbias_txn/matmulbias_txn_utils.cpp": "868f68e70d835db69cffb499f2e4e5266ad05461b20b36bf03cb449cd6ac5f5c",
+    "ryzenai_dynamic_dispatch/include/ryzenai/dynamic_dispatch/ops/llm_ops/llm_common/llm_common.cpp": "af63ce68fb434e762d04cef9ef8d0c6bc227c5f9a8d0cca44ccb5097cab5ab09",
+    "ryzenai_dynamic_dispatch/include/ryzenai/dynamic_dispatch/ops/llm_ops/llm_common/llm_common.hpp": "d13a4b200144d15bbf5d16ecc254f9bc22c0001df66d6457eef9e00d24963c3b",
+    "ryzenai_dynamic_dispatch/include/ryzenai/dynamic_dispatch/ops/llm_ops/linear_attention/linear_attention.cpp": "1b69a992426d0cfde1f9ff30edfabcfa420be6b81457b027445ea81b908e7697",
+    "ryzenai_dynamic_dispatch/include/ryzenai/dynamic_dispatch/ops/llm_ops/causal_conv_state_split_rmsnorm/causal_conv_state_split_rmsnorm.cpp": "0e5177e191559ed882b5c5208af42611ce1e485f9853acb64c35b434834008e2",
+    "ryzenai_dynamic_dispatch/include/ryzenai/dynamic_dispatch/ops/op_depot/mladfmatmulbias/mladfmatmulbias_schema.hpp": "795b86b44d2aba14c29420363146a8028cc67fdb93765375d2f3199eedd5f2e1",
+    "ryzenai_dynamic_dispatch/include/ryzenai/dynamic_dispatch/ops/ops_common.hpp": "cf7795f500e19cde7d1d66a4fca1dff468f9f96ad96d03b6c369d4cfd9336d0b",
+    "ryzenai_dynamic_dispatch/include/ryzenai/dynamic_dispatch/op_fuser/fusion_config.hpp": "2e957278b2851de44e1a4e480a7dce13c4fdc4747369d0c2d5c0ed3d78993278",
+    "ryzenai_onnx_utils/strategy_builder/llm/builder.py": "bdf084018904a672c1310470c59436f5c724efdd36adeba39c8c29f024e6d9f1",
+    "ryzenai_onnx_utils/passes/llm/dd/matmulnbits.py": "6bcf550c16c262b47936b890aec65c32dc6424153841a7274dafb76d5f20a5b6",
+    "ryzenai_onnx_utils/transform/hybrid_llm.py": "c0324e88027abc5fb7d8c17c01777a5e238e356f58f16bbf2c607de06444380b",
+    "ryzenai_onnx_utils/transform/dd.py": "70b51757f58d47db2548accd77ee372e7fb3e00aa4411f61be90e2acb009889b",
+    "ryzenai_onnx_utils/typing.py": "d3c24cd052caa7f0c9b1d47fa201fc6faf4427bca315e62ca3b19081e98334db"
+  },
+  "transaction_queries": [
+    {
+      "attributes": {
+        "K": 2560,
+        "N": 32,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "flat",
+        "op_version": "flat",
+        "enable_ctrl_pkt": false,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "count": 0,
+      "keys": []
+    },
+    {
+      "attributes": {
+        "K": 2560,
+        "N": 32,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "flat",
+        "op_version": "flat",
+        "enable_ctrl_pkt": true,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "count": 0,
+      "keys": []
+    },
+    {
+      "attributes": {
+        "K": 2560,
+        "N": 32,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "v2",
+        "op_version": "v2",
+        "enable_ctrl_pkt": false,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "count": 10,
+      "keys": [
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_1024_2560_32_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_128_2560_32_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_1536_2560_32_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_1_2560_32_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_2048_2560_32_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_256_2560_32_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_3072_2560_32_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_4096_2560_32_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_512_2560_32_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_768_2560_32_128"
+      ]
+    },
+    {
+      "attributes": {
+        "K": 2560,
+        "N": 32,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "v2",
+        "op_version": "v2",
+        "enable_ctrl_pkt": true,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "count": 0,
+      "keys": []
+    },
+    {
+      "attributes": {
+        "K": 2560,
+        "N": 8192,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "flat",
+        "op_version": "flat",
+        "enable_ctrl_pkt": false,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "count": 0,
+      "keys": []
+    },
+    {
+      "attributes": {
+        "K": 2560,
+        "N": 8192,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "flat",
+        "op_version": "flat",
+        "enable_ctrl_pkt": true,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "count": 0,
+      "keys": []
+    },
+    {
+      "attributes": {
+        "K": 2560,
+        "N": 8192,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "v2",
+        "op_version": "v2",
+        "enable_ctrl_pkt": false,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "count": 10,
+      "keys": [
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_1024_2560_8192_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_128_2560_8192_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_1536_2560_8192_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_1_2560_8192_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_2048_2560_8192_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_256_2560_8192_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_3072_2560_8192_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_4096_2560_8192_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_512_2560_8192_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_768_2560_8192_128"
+      ]
+    },
+    {
+      "attributes": {
+        "K": 2560,
+        "N": 8192,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "v2",
+        "op_version": "v2",
+        "enable_ctrl_pkt": true,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "count": 0,
+      "keys": []
+    },
+    {
+      "attributes": {
+        "K": 9216,
+        "N": 2560,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "flat",
+        "op_version": "flat",
+        "enable_ctrl_pkt": false,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "count": 0,
+      "keys": []
+    },
+    {
+      "attributes": {
+        "K": 9216,
+        "N": 2560,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "flat",
+        "op_version": "flat",
+        "enable_ctrl_pkt": true,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "count": 0,
+      "keys": []
+    },
+    {
+      "attributes": {
+        "K": 9216,
+        "N": 2560,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "v2",
+        "op_version": "v2",
+        "enable_ctrl_pkt": false,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "count": 10,
+      "keys": [
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_1024_9216_2560_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_128_9216_2560_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_1536_9216_2560_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_1_9216_2560_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_2048_9216_2560_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_256_9216_2560_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_3072_9216_2560_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_4096_9216_2560_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_512_9216_2560_128",
+        "mladfmatmulbias_mladf_2x4x4_v2_abfp16wbfp16acc16f_768_9216_2560_128"
+      ]
+    },
+    {
+      "attributes": {
+        "K": 9216,
+        "N": 2560,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "v2",
+        "op_version": "v2",
+        "enable_ctrl_pkt": true,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "count": 0,
+      "keys": []
+    }
+  ],
+  "preformat": [
+    {
+      "attributes": {
+        "K": 2560,
+        "N": 32,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "flat",
+        "op_version": "flat",
+        "enable_ctrl_pkt": false,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "synthetic_weight_bytes": 40960,
+      "success": false,
+      "error": "[G:\\xmc\\src\\voe\\dod\\src\\ops\\llm_ops\\llm_common\\llm_common.cpp:164] [ERROR] flat version is not supported for matmulbias"
+    },
+    {
+      "attributes": {
+        "K": 2560,
+        "N": 32,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "flat",
+        "op_version": "flat",
+        "enable_ctrl_pkt": true,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "synthetic_weight_bytes": 40960,
+      "success": false,
+      "error": "Exact K/N dims not supported for mladfmatmulbias! Current shape:  padding_k: 2560 padding_n: 640 actual_k: 2560 actual_n: 32"
+    },
+    {
+      "attributes": {
+        "K": 2560,
+        "N": 32,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "v2",
+        "op_version": "v2",
+        "enable_ctrl_pkt": false,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "synthetic_weight_bytes": 40960,
+      "success": true,
+      "outputs": [
+        {
+          "shape": [
+            81920
+          ],
+          "dtype": "int8",
+          "all_finite": true,
+          "all_zero": true,
+          "sha256": "fa569e2360c540e6280e34a4627516770f1a5f34d81d35689334a99cc1013357"
+        },
+        {
+          "shape": [
+            32
+          ],
+          "dtype": "float32",
+          "all_finite": true,
+          "all_zero": true,
+          "sha256": "38723a2e5e8a17aa7950dc008209944e898f69a7bd10a23c839d341e935fd5ca"
+        },
+        {
+          "shape": [
+            640
+          ],
+          "dtype": "float32",
+          "all_finite": true,
+          "all_zero": false,
+          "sha256": "71f3f0e94575685f1a2bdf9de61e7afedd35f1309b25791d3f8c7879ec1d576b"
+        },
+        {
+          "shape": [
+            640
+          ],
+          "dtype": "int8",
+          "all_finite": true,
+          "all_zero": true,
+          "sha256": "9e132485d5107211de325a45e7917cbe3e4b5b9cde3e4ee91d7d2102317759ee"
+        }
+      ]
+    },
+    {
+      "attributes": {
+        "K": 2560,
+        "N": 32,
+        "group_size": 128,
+        "block_size": 128,
+        "mladf_version": "v2",
+        "op_version": "v2",
+        "enable_ctrl_pkt": true,
+        "allow_weights_pad": false,
+        "asymmetric_quant": true,
+        "bias_en": true,
+        "verify": true,
+        "lora": false
+      },
+      "synthetic_weight_bytes": 40960,
+      "success": false,
+      "error": "Exact K/N dims not supported for mladfmatmulbias! Current shape:  padding_k: 11008 padding_n: 2048 actual_k: 2560 actual_n: 32"
+    }
+  ],
+  "inventory": [
+    {
+      "folder": "mladfmatmulbias_pctrlpkt",
+      "version": "flat",
+      "dtype_prefix": "a16fw4acc16f",
+      "shape_count": 133,
+      "first_M": 1,
+      "M_count": 1,
+      "all_KN_Gs_count": 133,
+      "first_M_KN_Gs_count": 133,
+      "targets": [
+        {
+          "K": 2560,
+          "N": 32,
+          "group_size": 128,
+          "exact_M": [],
+          "first_M_padding": [
+            1,
+            2560,
+            640,
+            128
+          ],
+          "all_M_min_KN_Gs": [
+            [
+              2560,
+              640,
+              128
+            ]
+          ]
+        },
+        {
+          "K": 2560,
+          "N": 8192,
+          "group_size": 128,
+          "exact_M": [],
+          "first_M_padding": [
+            1,
+            2560,
+            64000,
+            128
+          ],
+          "all_M_min_KN_Gs": [
+            [
+              2560,
+              64000,
+              128
+            ]
+          ]
+        },
+        {
+          "K": 9216,
+          "N": 2560,
+          "group_size": 128,
+          "exact_M": [],
+          "first_M_padding": [
+            1,
+            9728,
+            2560,
+            128
+          ],
+          "all_M_min_KN_Gs": [
+            [
+              9728,
+              2560,
+              128
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "folder": "mladfmatmulbias",
+      "version": "v2",
+      "dtype_prefix": "abfp16wbfp16acc16f",
+      "shape_count": 2905,
+      "first_M": 1,
+      "M_count": 20,
+      "all_KN_Gs_count": 285,
+      "first_M_KN_Gs_count": 246,
+      "targets": [
+        {
+          "K": 2560,
+          "N": 32,
+          "group_size": 128,
+          "exact_M": [
+            1,
+            128,
+            256,
+            512,
+            768,
+            1024,
+            1536,
+            2048,
+            3072,
+            4096
+          ],
+          "first_M_padding": [
+            1,
+            2560,
+            32,
+            128
+          ],
+          "all_M_min_KN_Gs": [
+            [
+              2560,
+              32,
+              128
+            ]
+          ]
+        },
+        {
+          "K": 2560,
+          "N": 8192,
+          "group_size": 128,
+          "exact_M": [
+            1,
+            128,
+            256,
+            512,
+            768,
+            1024,
+            1536,
+            2048,
+            3072,
+            4096
+          ],
+          "first_M_padding": [
+            1,
+            2560,
+            8192,
+            128
+          ],
+          "all_M_min_KN_Gs": [
+            [
+              2560,
+              8192,
+              128
+            ]
+          ]
+        },
+        {
+          "K": 9216,
+          "N": 2560,
+          "group_size": 128,
+          "exact_M": [
+            1,
+            128,
+            256,
+            512,
+            768,
+            1024,
+            1536,
+            2048,
+            3072,
+            4096
+          ],
+          "first_M_padding": [
+            1,
+            9216,
+            2560,
+            128
+          ],
+          "all_M_min_KN_Gs": [
+            [
+              9216,
+              2560,
+              128
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "candidate_regression": {
+    "candidate_M_K_N_Gs": [
+      [
+        1,
+        128,
+        128,
+        128
+      ],
+      [
+        128,
+        256,
+        256,
+        128
+      ]
+    ],
+    "exact_later_M": [
+      128,
+      256,
+      256,
+      128
+    ],
+    "padded_later_M": null,
+    "relevance": "The flat+ctrl inventory has only M=1. Removing its first-M boundary cannot fix these Qwen3.5 shapes."
+  },
+  "contracts": {
+    "matmul_v2_no_ctrl": {
+      "xclbin": "stx_llama2_mladf_2x4x4_v2_gemmbfp16_silu_mul_mha_rms_rope_unified",
+      "kernel": "PDISelector pdi_name attribute or xrt_context default; exact default kernel name not established",
+      "abi": "legacy kernel(2,instr,words,A+DDR_offset,W+DDR_offset,Y+DDR_offset,scratch+DDR_offset)",
+      "buffer_args": {
+        "0": "BF16 activation",
+        "1": "packed constant weights",
+        "2": "BF16 output",
+        "3": "scratch"
+      },
+      "sources": [
+        "llm_common.cpp:134-149",
+        "mladfmatmulbias.cpp:891-906",
+        "mladfmatmulbias.cpp:1562-1585"
+      ]
+    },
+    "linear_attention_token": {
+      "xclbin": "stx_LLM_TPS_10bo_mladf_2x4x4_bfp16_gemm_mlp_flat_rms",
+      "kernel": "DPU_3_ELF",
+      "abi": "ELF_OPCODE + 9 buffer arguments, including control packet at argument 3",
+      "buffer_args": {
+        "0": "state in",
+        "1": "query",
+        "2": "key",
+        "3": "ctrl",
+        "4": "value",
+        "5": "gate",
+        "6": "beta",
+        "7": "attention output",
+        "8": "state out"
+      },
+      "sources": [
+        "linear_attention.cpp:47-68",
+        "linear_attention.cpp:488-498",
+        "linear_attention.cpp:621-642"
+      ]
+    },
+    "linear_attention_prefill": {
+      "xclbin": "same unified v2 xclbin as MatMul v2/no-ctrl",
+      "kernel": "DPU_11",
+      "abi": "legacy opcode 2; state,qkvgb,attention output,state output,valid_seq",
+      "sources": [
+        "linear_attention.cpp:455-470",
+        "linear_attention.cpp:600-614"
+      ]
+    },
+    "partition_boundary": {
+      "finding": "Current ONNX DD node carries one xclbin. Token LinearAttention and v2/no-ctrl MatMul are not interchangeable in a single TPS partition. Separate nodes/conversion units must preserve BF16/state edges and their distinct runtime contracts.",
+      "sources": [
+        "typing.py:93-101",
+        "typing.py:146-162",
+        "transform/dd.py:build_dd_node"
+      ],
+      "qualification": "Multiple PDI partitions inside one xclbin are a separate concept. A working cross-xclbin execution/zero-copy path has not been validated."
+    }
+  },
+  "interpretation": {
+    "direct_failure": "Token strategy forces flat + enable_ctrl_pkt=true; exact Qwen3.5 KN transactions exist in v2/no-ctrl but not this flat/ctrl inventory.",
+    "padding": "allow_weights_pad=false rejects padded K/N. Enabling padding alone is not validated; ONNX transform reshapes preformatted weights to original K,N.",
+    "public_comparison": "Public older implementation restricts search to first M; SDK adds an all-M exact-match pass but retains first-M padding fallback.",
+    "public_source": "https://github.com/amd/DynamicDispatch/blob/b3051f03e20aab237cda3bbe4cd2081f76b72b06/src/ops/mladfmatmulbias/mladfmatmulbias.cpp#L1031-L1058"
+  },
+  "not_tested": [
+    "NPU or OGA inference",
+    "16K graph build or execution",
+    "real model weights",
+    "numerical accuracy beyond synthetic format outputs",
+    "v2 MatMul inside a TPS xclbin",
+    "cross-xclbin partition runtime/buffer sharing",
+    "default unified v2 kernel name",
+    "CausalConv runtime and graph fusion",
+    "candidate-selector C++ patch or SDK rebuild"
+  ],
+  "diagnostic_script_sha256": "93c45bbf83edbc9f32de3da7dcdedbc1f7efb3425c19324ccc9250b021794793",
+  "source_report_sha256": "5ae75aaba34711035425bc8219ba3d4e5f6a34af323ce1e328d8e381a5fc9bc2",
+  "scope": "CPU-only transaction and synthetic weight-format probes; not a model inference result"
+}

@@ -1,0 +1,41 @@
+{
+  "scope": "Synthetic single-token LinearAttention DynamicDispatch host compilation only; no device init, execute or model weights",
+  "package_version": "1.8.0",
+  "xclbin_resource": "stx_LLM_TPS_10bo_mladf_2x4x4_bfp16_gemm_mlp_flat_rms",
+  "xclbin_sha256": "8d7beceb22c996d90fd9d8d96a8d50dee1127039041a148396e530de1359431a",
+  "metadata_sha256": "95d7e6ea33e8fd9c06935763fc6e2e0660c3d4a181857feab838c86f541c5f5c",
+  "config": {
+    "use_elf_flow": true,
+    "cache_dir": "artifacts",
+    "model_name": "linear_token",
+    "profile": 0
+  },
+  "status": "compiled_and_saved",
+  "compile_success": true,
+  "elapsed_seconds": 0.057768899998336565,
+  "artifacts": [
+    {
+      "path": "artifacts\\linear_token",
+      "size": 12834,
+      "sha256": "b874cee06c15e92a7e10919bf17455cbf1584b59573a4fa71b42f2b60d9b5471"
+    },
+    {
+      "path": "artifacts\\linear_token.ctrlpkt",
+      "size": 36552,
+      "sha256": "44d20bae8872d5b26ec9a4f9ce6c525d70ab01acffdc267f4f104631821e9e66"
+    },
+    {
+      "path": "artifacts\\linear_token.fconst",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts\\linear_token.super",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "diagnostic_script_sha256": "74b56e7f45f6a5c874bd82c99756ac7327b7f4ec6959fa93126d1787f79645de",
+  "xclbin_extractor_source_sha256": "448c9fd9a0e3a19bd4b12e063124bffd4f845b4c53d829ffc2d4234392f01379",
+  "npu_executed": false
+}

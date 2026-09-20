@@ -22,7 +22,8 @@ or speed results.
 | Quark weight-only quantization | Complete; 249 packed projections |
 | Public OGA 0.14 export | Complete; repaired graph loads on CPU |
 | CPU direct scoring | Three owned short examples are finite and correct |
-| SDK Token Fusion | Failed: missing Qwen3.5 DD pattern and unsupported projection shapes |
+| SDK default Token Fusion recipe | Failed: missing Qwen3.5 DD partition and incompatible default projection format |
+| Custom DD conversion | Host-only LinearAttention compilation succeeds; full model conversion remains incomplete |
 | SDK NPU eager, chunk size 4096 | English short example passes; Japanese 96-token example returns NaNs |
 | SDK NPU eager, chunk size 64 | Three owned short examples pass, including Japanese |
 | Native generation | Finite logits observed, but the original validator checked logits after EOS; normal termination is not validated |
@@ -45,8 +46,11 @@ stability for arbitrary inputs or long contexts.
 Both long runs reached the 16,384-token tail-sentinel stage, but neither
 produced a final result. Windows recorded unexpected reboots at approximately
 00:47 and 00:59 JST on 2026-09-20, with preceding WHEA corrected
-Bus/Interconnect errors. This correlation does not establish a root cause.
-Further long hardware runs require resolving the host instability first.
+Bus/Interconnect errors. The operator subsequently reported simultaneous
+DiffusionGemma localjev testing and a 32-way LichtFeld Studio build during
+these runs. This context and the event correlation do not establish a root
+cause. Resume with isolated, bounded operator checks after checking current
+load, before repeating long model runs.
 
 The owned evidence and exact artifact hashes are in
 [the conversion evidence](../results/raw/qwen35-conversion-20260920/evidence.json).
@@ -62,12 +66,33 @@ patterns, but has no partition/state contract for Qwen3.5's recurrent
 valid token partitions. Weight prepacking also rejects decode projections
 with `(K, N)` equal to `(2560, 32)`, `(2560, 8192)`, and `(9216, 2560)`.
 
-Removing the partition assertion or changing a context-length setting would
-not supply these missing compiled operator/transaction contracts.
-`split_dd_fusion` operates after a valid partition is found. The available
-SDK cannot produce the requested Qwen3.5 Token Fusion artifact with a
-Python-only post-processing change. NPU eager is a separate experimental
-route, not a Token Fusion result.
+Follow-up inspection corrects the earlier conclusion that a Python
+post-processing extension could not work. The installed DD 1.8 binary
+contains `linear_attention_token` and the required projection transactions.
+For all three projection sizes above, transactions exist in **v2 format
+without control packets**, whereas the default token strategy selects flat
+format with control packets. A synthetic `(2560, 32)` UINT4 group-128 weight
+prepack succeeds with v2/no-control-packet settings. A synthetic single-token
+LinearAttention DD graph also compiles and saves successfully on the host.
+Neither result alone proves numerical correctness or 16K inference.
+The [transaction and packing results](../results/raw/qwen35-conversion-20260920/dd-contracts.json)
+and [host compilation report](../results/raw/qwen35-conversion-20260920/dd-linear-host-compile.json)
+record the exact SDK source and generated artifact hashes.
+
+The two operator families require different xclbins and execution interfaces.
+They need separate DD subgraphs, validated BF16/state boundaries, and an
+explicit Qwen3.5 partitioning extension. Removing a partition assertion or
+changing a context-length setting is insufficient. The generic combiner also
+needs output-order validation, custom opset preservation, and transaction
+collection for branches that contain both DD and eager operators. This
+custom route is under development; NPU eager remains a separate experimental
+result.
+
+An independent OGA exporter memory improvement was submitted as
+[onnxruntime-genai PR #2596](https://github.com/microsoft/onnxruntime-genai/pull/2596).
+Its bit-packing equivalence and allocation tests pass (157 tests). The change
+reduces intermediate packing allocations; it does not implement Token Fusion
+or establish whole-model memory usage. The PR is not yet merged.
 
 ### Official availability check (2026-09-20 JST)
 
