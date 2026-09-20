@@ -1,8 +1,11 @@
 """Offline integrity checks for Ryzen AI evidence."""
 
 import importlib
+import hashlib
 import json
 from pathlib import Path
+import re
+import subprocess
 import sys
 
 import pytest
@@ -89,6 +92,56 @@ def test_verifier_rejects_an_unpinned_model_revision(tmp_path, verifier):
 
     with pytest.raises(AssertionError, match="40-character"):
         verifier.verify(tmp_path)
+
+
+def test_code_hash_current_source_passes(verifier):
+    path = ROOT / "benchmarks/ryzenai_speed.py"
+    expected = hashlib.sha256(path.read_text(encoding="utf-8").encode()).hexdigest()
+
+    assert verifier.verify_code_hash("benchmarks/ryzenai_speed.py", expected) == "working_tree"
+
+
+def test_code_hash_mismatch_fails_closed(verifier):
+    assert verifier.verify_code_hash("benchmarks/ryzenai_speed.py", "0" * 64) is None
+
+
+def test_code_hash_normalizes_crlf_current_source(tmp_path, verifier, monkeypatch):
+    path = tmp_path / "source.py"
+    path.write_bytes(b"value = 1\r\n")
+    monkeypatch.setattr(verifier, "ROOT", tmp_path)
+    expected = hashlib.sha256(b"value = 1\n").hexdigest()
+
+    assert verifier.verify_code_hash("source.py", expected) == "working_tree"
+
+
+def test_code_hash_exact_historical_source_passes(tmp_path, verifier, monkeypatch):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    path = repo / "benchmarks" / "source.py"
+    path.parent.mkdir()
+    historical = "value = 1\n"
+    path.write_text(historical, encoding="utf-8", newline="\n")
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+    subprocess.run(["git", "add", "benchmarks/source.py"], cwd=repo, check=True)
+    subprocess.run(["git", "-c", "user.name=Test", "-c", "user.email=test@example.com", "-c", "commit.gpgsign=false",
+                    "commit", "-q", "-m", "source"], cwd=repo, check=True)
+    path.write_text("value = 2\r\n", encoding="utf-8", newline="")
+    monkeypatch.setattr(verifier, "ROOT", repo)
+    expected = hashlib.sha256(historical.encode()).hexdigest()
+
+    revision = verifier.verify_code_hash("benchmarks/source.py", expected)
+
+    assert re.fullmatch(r"[0-9a-f]{40}", revision)
+
+
+def test_code_hash_without_git_fails_closed(tmp_path, verifier, monkeypatch):
+    monkeypatch.setattr(verifier, "ROOT", tmp_path)
+
+    def missing_git(*args, **kwargs):
+        raise FileNotFoundError("Git unavailable")
+
+    monkeypatch.setattr(verifier.subprocess, "run", missing_git)
+    assert verifier.verify_code_hash("source.py", "0" * 64) is None
 
 
 def test_context_limit_rows_must_match_the_preflight_population(tmp_path, verifier):

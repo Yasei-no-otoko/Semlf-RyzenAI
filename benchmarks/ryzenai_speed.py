@@ -60,6 +60,7 @@ def _validate_generation_rows(rows: list[dict]) -> None:
 
 
 def _eos_ids(tokenizer: RyzenAiTokenizer, metadata: dict) -> set[int]:
+    """Use the loaded OGA model's stop IDs, which may differ from HF metadata."""
     value = getattr(tokenizer.reference, "eos_token_id", None)
     values = value if isinstance(value, (list, tuple, set)) else [value]
     if not values or any(not isinstance(token, int) or isinstance(token, bool) for token in values):
@@ -69,17 +70,23 @@ def _eos_ids(tokenizer: RyzenAiTokenizer, metadata: dict) -> set[int]:
     config_path = Path(source) / "genai_config.json" if isinstance(source, str) else None
     if config_path is not None and config_path.is_file():
         try:
-            configured = json.loads(config_path.read_text(encoding="utf-8"))["model"]["eos_token_id"]
+            model_config = json.loads(config_path.read_text(encoding="utf-8"))["model"]
+            configured = model_config["eos_token_id"]
         except (OSError, json.JSONDecodeError, KeyError, TypeError) as error:
             raise ValueError("Cannot read model eos_token_id from genai_config.json") from error
         configured_values = configured if isinstance(configured, list) else [configured]
         if (not configured_values or any(not isinstance(token, int) or isinstance(token, bool)
-                                        for token in configured_values)):
-            raise ValueError("genai_config.json eos_token_id must contain integers")
-        configured_ids = set(configured_values)
-        if not reference_ids <= configured_ids:
-            raise ValueError("Reference eos_token_id is not included in genai_config.json stop tokens")
-        return configured_ids
+                                        or token < 0 for token in configured_values)):
+            raise ValueError("genai_config.json eos_token_id must contain nonnegative integers")
+        vocab_size = model_config.get("vocab_size", metadata.get("vocab_size"))
+        if vocab_size is not None:
+            if not isinstance(vocab_size, int) or isinstance(vocab_size, bool) or vocab_size <= 0:
+                raise ValueError("genai_config.json vocab_size must be a positive integer")
+            if any(token >= vocab_size for token in configured_values):
+                raise ValueError("genai_config.json eos_token_id exceeds vocab_size")
+        return set(configured_values)
+    if any(token < 0 for token in reference_ids):
+        raise ValueError("Reference tokenizer eos_token_id values must be nonnegative")
     return reference_ids
 
 
@@ -122,6 +129,7 @@ def run_compact_generation(model, tokenizer: RyzenAiTokenizer, metadata: dict, s
         raise ValueError("OGA tokenizer IDs differ from the reference compact-generation tokenizer")
     if not ids or len(ids) > budget - max_new_tokens:
         raise ValueError(f"Compact generation has {len(ids)} input tokens beyond reserved limit {budget - max_new_tokens}")
+    eos_ids = _eos_ids(tokenizer, metadata)
 
     params = oga.GeneratorParams(model)
     params.set_search_options(max_length=len(ids) + max_new_tokens, batch_size=1, do_sample=False)
@@ -131,7 +139,6 @@ def run_compact_generation(model, tokenizer: RyzenAiTokenizer, metadata: dict, s
         generator = oga.Generator(model, params)
         stream = tokenizer.oga.create_stream()
         generator.append_tokens(np.asarray(ids, dtype=np.int32))
-        eos_ids = _eos_ids(tokenizer, metadata)
         while output_tokens < max_new_tokens and not generator.is_done():
             generator.generate_next_token()
             generated_ids = _ids(generator.get_next_tokens(), label="OGA generated")

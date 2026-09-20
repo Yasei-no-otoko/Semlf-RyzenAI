@@ -40,7 +40,7 @@ class OgaTokenizer:
         return SimpleNamespace(decode=lambda token: "" if token == 99 else self.text)
 
 
-def _install_oga(monkeypatch, text):
+def _install_oga(monkeypatch, text, generated_tokens=(1, 99)):
     events = []
 
     class Params:
@@ -66,7 +66,7 @@ def _install_oga(monkeypatch, text):
             self.index += 1
 
         def get_next_tokens(self):
-            return np.asarray([1 if self.index == 1 else 99], dtype=np.int32)
+            return np.asarray([generated_tokens[min(self.index - 1, len(generated_tokens) - 1)]], dtype=np.int32)
 
     monkeypatch.setitem(sys.modules, "onnxruntime_genai", SimpleNamespace(GeneratorParams=Params, Generator=Generator))
     oga = OgaTokenizer()
@@ -136,14 +136,40 @@ def test_public_input_exposes_only_repository_relative_path(tmp_path):
         speed.public_input(tmp_path / "outside.jsonl", root)
 
 
-def test_generation_uses_official_config_stop_superset_of_reference_eos(tmp_path):
+def test_generation_uses_loaded_configured_eos_authoritatively(tmp_path):
+    tokenizer = RyzenAiTokenizer(ReferenceTokenizer(), OgaTokenizer())
+    assert speed._eos_ids(tokenizer, {}) == {99}
     (tmp_path / "genai_config.json").write_text(
-        json.dumps({"model": {"eos_token_id": [99, 100]}}), encoding="utf-8"
+        json.dumps({"model": {"eos_token_id": [100]}}), encoding="utf-8"
     )
-    assert speed._eos_ids(RyzenAiTokenizer(ReferenceTokenizer(), OgaTokenizer()), {"source": str(tmp_path)}) == {99, 100}
+    assert speed._eos_ids(tokenizer, {"source": str(tmp_path)}) == {100}
 
     (tmp_path / "genai_config.json").write_text(
-        json.dumps({"model": {"eos_token_id": [1]}}), encoding="utf-8"
+        json.dumps({"model": {"eos_token_id": [99]}}), encoding="utf-8"
     )
-    with pytest.raises(ValueError, match="not included"):
-        speed._eos_ids(RyzenAiTokenizer(ReferenceTokenizer(), OgaTokenizer()), {"source": str(tmp_path)})
+    assert speed._eos_ids(tokenizer, {"source": str(tmp_path)}) == {99}
+
+
+def test_generation_continues_past_reference_eos_to_loaded_model_stop(monkeypatch, tmp_path):
+    (tmp_path / "genai_config.json").write_text(
+        json.dumps({"model": {"eos_token_id": 100, "vocab_size": 101}}), encoding="utf-8"
+    )
+    _, tokenizer = _install_oga(monkeypatch, json.dumps(["yes"] * 21), generated_tokens=(1, 99, 100))
+    result = speed.run_compact_generation(object(), tokenizer, {"context_ceiling": 64, "source": str(tmp_path)},
+                                         "shared evidence", _rows(21), max_tokens=64, max_new_tokens=8)
+    assert result["eos_token_ids"] == [100]
+    assert [event["token_id"] for event in result["timeline"]] == [1, 99, 100]
+    assert result["choices"] == ["yes"] * 21
+    assert result["ended_by_eos"] and not result["truncated"]
+
+
+@pytest.mark.parametrize("configured", [[-1], [100], [True], ["99"]])
+def test_malformed_configured_eos_fails_before_generator_or_append(monkeypatch, tmp_path, configured):
+    (tmp_path / "genai_config.json").write_text(
+        json.dumps({"model": {"eos_token_id": configured, "vocab_size": 100}}), encoding="utf-8"
+    )
+    events, tokenizer = _install_oga(monkeypatch, json.dumps(["yes"] * 21))
+    with pytest.raises(ValueError):
+        speed.run_compact_generation(object(), tokenizer, {"context_ceiling": 64, "source": str(tmp_path)},
+                                     "shared evidence", _rows(21), max_tokens=64, max_new_tokens=8)
+    assert events == []

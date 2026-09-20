@@ -8,6 +8,7 @@ import math
 from pathlib import Path
 import re
 import statistics
+import subprocess
 
 import evaluate
 import evaluate_external
@@ -42,6 +43,63 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _text_digest(content: bytes) -> str:
+    """Hash source using the same newline normalization as ``Path.read_text``."""
+    text = content.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(text.encode()).hexdigest()
+
+
+def _historical_code_revision(relative: str, expected: str) -> str | None:
+    """Find an available Git revision containing the exact recorded source.
+
+    Evidence records source-text hashes, rather than Git blob hashes.  Searching
+    the local history lets a later working tree verify an older run without
+    accepting an unchecked version or revision allowlist.  Missing Git metadata
+    (for example, a source archive) simply leaves the hash unverifiable.
+    """
+    if not isinstance(relative, str) or not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected):
+        return None
+    try:
+        path = (ROOT / relative).resolve()
+        git_path = path.relative_to(ROOT).as_posix()
+    except (OSError, ValueError):
+        return None
+    try:
+        revisions = subprocess.run(
+            ["git", "log", "--all", "--format=%H", "--", git_path],
+            cwd=ROOT, capture_output=True, text=True, check=False, timeout=10,
+        ).stdout.splitlines()
+    except (OSError, subprocess.SubprocessError):
+        return None
+    for revision in revisions[:512]:
+        if not re.fullmatch(r"[0-9a-f]{40}", revision):
+            continue
+        try:
+            source = subprocess.run(
+                ["git", "show", f"{revision}:{git_path}"],
+                cwd=ROOT, capture_output=True, check=False, timeout=10,
+            )
+        except (OSError, subprocess.SubprocessError):
+            continue
+        if source.returncode == 0 and _text_digest(source.stdout) == expected:
+            return revision
+    return None
+
+
+def verify_code_hash(relative: str, expected: str) -> str | None:
+    """Return how a recorded source hash was verified, or ``None`` on failure."""
+    if not isinstance(relative, str) or not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected):
+        return None
+    try:
+        path = (ROOT / relative).resolve()
+        path.relative_to(ROOT)
+    except (OSError, ValueError):
+        return None
+    if path.is_file() and _text_digest(path.read_bytes()) == expected:
+        return "working_tree"
+    return _historical_code_revision(relative, expected)
+
+
 def close(actual, expected, path="$"):
     if isinstance(actual, float) and isinstance(expected, float):
         if not math.isclose(actual, expected, rel_tol=TOLERANCE, abs_tol=TOLERANCE):
@@ -72,7 +130,7 @@ def input_paths(data_dir: Path | None):
     return paths
 
 
-def verify_manifest(manifest, data_dir: Path | None):
+def verify_manifest(manifest, data_dir: Path | None, code_sources: dict[str, str] | None = None):
     require(manifest.get("version") == "ryzenai-benchmark-v1", "Unexpected benchmark manifest version")
     model = manifest.get("model")
     require(isinstance(model, dict), "Missing model metadata")
@@ -103,9 +161,10 @@ def verify_manifest(manifest, data_dir: Path | None):
         if name != "firewall_actions":
             require(details.get("rows") == len(read_jsonl(path)), f"Input row count differs for {name}")
     for relative, expected in manifest.get("benchmark_code_sha256", {}).items():
-        path = ROOT / relative
-        require(path.is_file() and hashlib.sha256(path.read_text(encoding="utf-8").encode()).hexdigest() == expected,
-                f"Code checksum differs for {relative}")
+        source = verify_code_hash(relative, expected)
+        require(source is not None, f"Code checksum differs for {relative}")
+        if code_sources is not None:
+            code_sources[relative] = "working_tree" if source == "working_tree" else f"git:{source}"
     return model
 
 
@@ -276,7 +335,8 @@ def hardware_counter(context: dict, name: str) -> int:
 def verify(run_dir: Path, data_dir: Path | None = None):
     run_dir = run_dir.resolve()
     manifest = read_json(run_dir / "manifest.json")
-    model = verify_manifest(manifest, data_dir)
+    code_sources = {}
+    verify_manifest(manifest, data_dir, code_sources)
     quality, external_unverified = verify_quality(run_dir, manifest, data_dir)
     shape = verify_shape(run_dir, manifest)
     compact = verify_compact(run_dir, manifest)
@@ -314,7 +374,8 @@ def verify(run_dir: Path, data_dir: Path | None = None):
             close(summary.get("shape777"), {key: shape_report[key] for key in
                   ("wall_seconds", "decisions_per_second", "state_p50_seconds")}, "summary.shape777")
     result = {"run": str(run_dir), "verified_quality_sets": quality, "verified_speed_rows": shape + compact,
-              "external_unverified": external_unverified, "status": "ok"}
+              "external_unverified": external_unverified, "code_source_verification": code_sources,
+              "status": "ok"}
     return result
 
 

@@ -771,8 +771,9 @@ DD forwards. The API returns 16,383 sequence tokens because the terminating
 EOS is sampled but omitted from the returned sequence; the logical sampled
 length is 16,384. All observed logits and all 64 final states were finite.
 The long run completed 64,903 NPU commands with zero errors and clean exit 0.
-Cold model loading took approximately 217–222 seconds across these runs;
-the reported inference times exclude it.
+The cold-start stage, including model/tokenizer loading, initial artifact
+validation, and the post-load NPU snapshot, took approximately 217–222
+seconds across these diagnostic runs; the reported inference times exclude it.
 
 [Operator evidence](../results/raw/qwen35-speed-20260920/operators.json) and
 [short/2K evidence](../results/raw/qwen35-speed-20260920/short-2k.json), plus
@@ -826,13 +827,14 @@ not been measured for this adaptive model. `native` and `token_loop`
 retain their existing defaults and behavior. Building checks files and
 graphs; it does not run inference.
 
-The measured local candidate is
+The intermediate adaptive candidate, **without LM-head pruning**, is
 `models/Qwen3.5-4B-adaptive-prefill-dd-token-16k-chunk1024-run1`, package
 manifest SHA256
 `b481a79b77ffcf83daa89fac5bdce74ae143e9a6313543936122387e91afecfd`.
 It was built with the experimental transformation; the public transform
 produces the same prefill graph bytes. A fresh build has its own manifest
-and needs runtime validation.
+and needs runtime validation. The optimized package measured with LM-head
+pruning is identified below under Last-position LM head.
 
 ### Last-position LM head
 
@@ -861,8 +863,10 @@ The separate 16K run passed both head and tail questions in 94.956294 and
 limit, 16,380-token prefill took 94.111096 seconds and four sampled tokens
 including EOS completed through three DD forwards. All observed logits
 and all 64 final states were finite; 64,903 NPU commands completed with
-zero errors and clean exit 0. Cold model loading still takes about
-217–222 seconds. These single long observations and small owned checks
+zero errors and clean exit 0. The cold-start stage took approximately
+217 seconds in these pruned-model runs, including model/tokenizer loading,
+initial artifact validation, and the post-load NPU snapshot.
+These single long observations and small owned checks
 are separate from general Speed/Quality suite results.
 
 All four saved near-boundary full-vocabulary vectors are bit-identical
@@ -921,8 +925,8 @@ launcher accepts the converted model and its exact source revision:
 ```
 
 It reads `examples/decisions.jsonl` by default and creates a new output file.
-Use `-InputFile` for another fixture. The measured runtime artifact in this
-report is `models/Qwen3.5-4B-stable-prefill-dd-token-16k-run1`, with package
+Use `-InputFile` for another fixture. The earlier token-loop validation in
+this document used `models/Qwen3.5-4B-stable-prefill-dd-token-16k-run1`, with package
 manifest SHA256
 `f6bbf078f3f23a759b1689418f0364dcbd0e9755ca9455a607a31d9a5fe4c82b`.
 The separately packaged public-API copy has its own identity in the

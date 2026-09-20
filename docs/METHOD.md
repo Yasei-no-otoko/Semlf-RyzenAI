@@ -61,8 +61,8 @@ Qwen3.5-to-Qwen3 quality transfer.
 
 Both runs use the same frozen SemIf inputs and direct probability scorer. The
 official NPU configuration permits CPU host/tokenization and other CPU graph
-work; no GPU offload is configured. The benchmark records model, runtime,
-revision, source-artifact, input, prompt, and code hashes in its manifest.
+work; no GPU offload is configured. The benchmark records runtime version
+metadata, model revisions, and model/input/prompt/code hashes in its manifest.
 Predictions contain option IDs, probabilities/logits, token counts, timings,
 and errors, but no source text or reference documents.
 
@@ -76,6 +76,18 @@ recorded its compiled-context rejections explicitly (29 rejected and 73 scored
 rows). The 16K Token Fusion run scored all 102 TypeSafe rows; its largest
 observed input was 12,621 tokens. The two results remain measurements of
 distinct compiled artifacts, not a context-only comparison.
+
+Compact generation uses the loaded model's `genai_config.json` EOS IDs.
+These may differ from the reference tokenizer's chat-end ID, as in the custom
+Qwen3.5 conversion. The report retains the actual stop IDs and generated-token
+timeline. Strict JSON validity, EOS termination, and the 128-token limit are
+reported separately; an invalid or truncated answer remains a benchmark outcome.
+
+`verify_ryzenai.py` compares each recorded source-text hash with the working
+tree, then with exact source content in the available local Git history.
+Its output identifies a historical match by commit rather than implying that
+the current implementation is unchanged. A shallow clone or source ZIP that
+lacks the matching historical source cannot complete that check.
 
 The model distinction and context modes follow AMD's [Ryzen AI 1.8 OGA
 documentation](https://ryzenai.docs.amd.com/en/latest/oga_model_prepare.html). The

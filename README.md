@@ -49,7 +49,9 @@ batched execution for the other prefill projections. CPU convolution, GQA,
 and host operations remain; no GPU provider is configured. This is a custom
 integration, not AMD's supported recipe or the reference model's AWQ recipe.
 
-The measured 16K input processing takes approximately **15 minutes**.
+The historical token-loop implementation took approximately **15 minutes**
+for these 16K inputs. The optimized implementation below takes
+**92.844–94.956 seconds** on the same owned inputs.
 These owned functional checks are not general quality or speed benchmarks.
 See the [conversion and validation guide](docs/QWEN35_NPU.md) for exact
 revisions, model identities, the original failures, and reproduction commands.
@@ -58,7 +60,7 @@ revisions, model identities, the original failures, and reproduction commands.
 
 **日本語:** NPUで処理する区間を入力に応じてまとめ、途中結果のコピーを減らし、
 語彙への変換を最後の位置に限定しました。
-同じ短文の回答時間は英語で約6.69秒から0.98秒、日本語で約6.85秒から0.97秒に短縮しました。
+同じ短文の読み込み後の直接判定時間は英語で約6.69秒から0.98秒、日本語で約6.85秒から0.97秒に短縮しました。
 1K・2K入力を含む7件の直接判定はすべて正解しました。
 16K入力も先頭・末尾とも正解し、約908～930秒から約93～95秒に短縮しました。
 
@@ -80,8 +82,9 @@ DD decode branch are unchanged.
 | Head sentinel, 16,384 tokens | 907.923 s | 160.317 s | **94.956 s** |
 | Tail sentinel, 16,384 tokens | 929.666 s | 132.207 s | **92.844 s** |
 
-English adaptive timings are medians of three identical inputs; the other
-entries are individual observations. The previous timings come from the
+English timings for both adaptive variants are medians of three identical
+inputs; the historical English timing and all other entries are individual
+observations. The previous timings come from the
 earlier run on the same PC and model weights. Timings exclude model loading
 and include host work and logit readout. All observed full-vocabulary logits
 and all 64 states read for the regression prefix were finite; the supervised
@@ -95,8 +98,10 @@ also passed near-boundary generation: 16,380 input tokens, four sampled
 tokens including EOS, and three DD decode steps. All observed logits and
 all 64 final states were finite; 64,903 NPU commands completed with zero
 errors and exit code 0. The head and tail timings are single observations
-in that order, not randomized repeats. Cold model loading still takes
-approximately 217–222 seconds and is excluded from the table.
+in that order, not randomized repeats. The cold-start stage—including
+model/tokenizer loading, initial artifact validation, and the post-load NPU
+snapshot—took approximately 217–222 seconds across these diagnostic runs
+and is excluded from the table.
 
 Native batched attention has greater rounding error than per-token execution
 in the captured operator check. These owned checks do not establish general
@@ -308,8 +313,8 @@ it is not directly comparable with the full 16K 102-row result. Both raw
 [4K reports](results/raw/ryzenai-4k-20260919/quality.json) and [16K
 reports](results/raw/ryzenai-16k-20260919/quality.json), together with their
 [4K manifest](results/raw/ryzenai-4k-20260919/manifest.json) and [16K
-manifest](results/raw/ryzenai-16k-20260919/manifest.json), preserve model,
-runtime, revision, input, and source-artifact hashes.
+manifest](results/raw/ryzenai-16k-20260919/manifest.json), preserve runtime
+version metadata, model revisions, and model/input/code hashes.
 
 ## Input
 
