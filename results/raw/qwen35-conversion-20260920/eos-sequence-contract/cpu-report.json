@@ -1,0 +1,1259 @@
+{
+  "status": "cpu_toys_confirm_eos_excluded_from_sequence",
+  "python": "3.12.11 | packaged by conda-forge | (main, Jun  4 2025, 14:29:09) [MSC v.1943 64 bit (AMD64)]",
+  "packages": {
+    "numpy": "1.26.4",
+    "onnx": "1.23.0",
+    "onnxruntime-genai-directml-ryzenai": "0.14.0",
+    "onnxruntime-vitisai": "1.27.0"
+  },
+  "probe_sha256": "1a939209b9059f57168ebb0fffce72c7d7cbf6946fa90a9530c46f6b72f3de2b",
+  "public_source_revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+  "public_source_sha256": {
+    "src/search.cpp": "f8078419f7a45d554b26e3ae131b11e4ef85502639a50f32ad74eec38ed1fa35",
+    "src/search.h": "a3aefdb5cf30513a787cd244c11bded980ae07fb78e38ced52d3e5f0c8331bbe",
+    "src/sequences.h": "96e2de9ed237848471dad01f00834d459529e5a42ea4d1ce3050d192cfc178db",
+    "src/sequences.cpp": "51e77222c7319735b2f3cea76301b05377817034d5a3f1b316145bfa10a2be5a",
+    "src/generators.cpp": "f6e41b4cd16eeb7521c4739b13741d5fec170d29f2cb9d6e5157c6b897c0190c",
+    "src/ort_genai_c.cpp": "eaefb934c5c84a8f6d3757af4752b07d5cf36d9be32c4248be4f0bf3bdc76863",
+    "src/python/python.cpp": "88c829c69de2fd0e8198f98b8faaffc30f8d25840bea8fefc93214a8865e76f8"
+  },
+  "original_fixture_config_sha256": "c467d35d49f7195328cf820da30e3343a070e9ccf7a2860eec479ba931c45f48",
+  "npu_sessions": 0,
+  "original_model_reads": 0,
+  "cases": [
+    {
+      "label": "eos_at_small_boundary",
+      "input_tokens": 12,
+      "configured_max_length": 16,
+      "configured_eos_id": 6,
+      "device_type": "CPU",
+      "provider_options": [],
+      "model_sha256": "ec3565e887c76149ed537dddf7cec50a5b02f1edc0cd5d8521c5bbd15fff0dfa",
+      "config_sha256": "d5b2d7f393a631795781dc04aa3bc80caa55a8e5248d0b97cd5bc2c6e267d6f0",
+      "input_ids_sha256": "8a430d4495914e7398adae8eed60482f84d74df6a9ee130f3dc9b4657e17c2df",
+      "steps": [
+        {
+          "index": 1,
+          "get_next_tokens": [
+            3
+          ],
+          "all_sampled_ids": [
+            3
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 13,
+          "after_is_done_sequence_length": 13,
+          "token_count_before_is_done": 13,
+          "token_count_after_is_done": 13,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_at_small_boundary/step1-before-is-done.npy",
+              "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5"
+            },
+            {
+              "file": "eos_at_small_boundary/step1-after-is-done.npy",
+              "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "get_next_tokens": [
+            4
+          ],
+          "all_sampled_ids": [
+            3,
+            4
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 14,
+          "after_is_done_sequence_length": 14,
+          "token_count_before_is_done": 14,
+          "token_count_after_is_done": 14,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_at_small_boundary/step2-before-is-done.npy",
+              "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82"
+            },
+            {
+              "file": "eos_at_small_boundary/step2-after-is-done.npy",
+              "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "get_next_tokens": [
+            5
+          ],
+          "all_sampled_ids": [
+            3,
+            4,
+            5
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 15,
+          "after_is_done_sequence_length": 15,
+          "token_count_before_is_done": 15,
+          "token_count_after_is_done": 15,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4,
+            5
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_at_small_boundary/step3-before-is-done.npy",
+              "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136"
+            },
+            {
+              "file": "eos_at_small_boundary/step3-after-is-done.npy",
+              "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "get_next_tokens": [
+            6
+          ],
+          "all_sampled_ids": [
+            3,
+            4,
+            5,
+            6
+          ],
+          "configured_eos_sampled": true,
+          "is_done": true,
+          "before_is_done_sequence_length": 15,
+          "after_is_done_sequence_length": 15,
+          "token_count_before_is_done": 15,
+          "token_count_after_is_done": 15,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": false,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4,
+            5
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_at_small_boundary/step4-before-is-done.npy",
+              "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136"
+            },
+            {
+              "file": "eos_at_small_boundary/step4-after-is-done.npy",
+              "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136"
+            }
+          ]
+        }
+      ],
+      "logits_calls": 4,
+      "samples": 4,
+      "generated_ids": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "final_returned_sequence_length": 15,
+      "final_is_done": true,
+      "no_logits_after_done": true
+    },
+    {
+      "label": "eos_before_small_boundary",
+      "input_tokens": 12,
+      "configured_max_length": 32,
+      "configured_eos_id": 6,
+      "device_type": "CPU",
+      "provider_options": [],
+      "model_sha256": "ec3565e887c76149ed537dddf7cec50a5b02f1edc0cd5d8521c5bbd15fff0dfa",
+      "config_sha256": "d5b2d7f393a631795781dc04aa3bc80caa55a8e5248d0b97cd5bc2c6e267d6f0",
+      "input_ids_sha256": "8a430d4495914e7398adae8eed60482f84d74df6a9ee130f3dc9b4657e17c2df",
+      "steps": [
+        {
+          "index": 1,
+          "get_next_tokens": [
+            3
+          ],
+          "all_sampled_ids": [
+            3
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 13,
+          "after_is_done_sequence_length": 13,
+          "token_count_before_is_done": 13,
+          "token_count_after_is_done": 13,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_before_small_boundary/step1-before-is-done.npy",
+              "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5"
+            },
+            {
+              "file": "eos_before_small_boundary/step1-after-is-done.npy",
+              "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "get_next_tokens": [
+            4
+          ],
+          "all_sampled_ids": [
+            3,
+            4
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 14,
+          "after_is_done_sequence_length": 14,
+          "token_count_before_is_done": 14,
+          "token_count_after_is_done": 14,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_before_small_boundary/step2-before-is-done.npy",
+              "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82"
+            },
+            {
+              "file": "eos_before_small_boundary/step2-after-is-done.npy",
+              "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "get_next_tokens": [
+            5
+          ],
+          "all_sampled_ids": [
+            3,
+            4,
+            5
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 15,
+          "after_is_done_sequence_length": 15,
+          "token_count_before_is_done": 15,
+          "token_count_after_is_done": 15,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4,
+            5
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_before_small_boundary/step3-before-is-done.npy",
+              "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136"
+            },
+            {
+              "file": "eos_before_small_boundary/step3-after-is-done.npy",
+              "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "get_next_tokens": [
+            6
+          ],
+          "all_sampled_ids": [
+            3,
+            4,
+            5,
+            6
+          ],
+          "configured_eos_sampled": true,
+          "is_done": true,
+          "before_is_done_sequence_length": 15,
+          "after_is_done_sequence_length": 15,
+          "token_count_before_is_done": 15,
+          "token_count_after_is_done": 15,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": false,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4,
+            5
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_before_small_boundary/step4-before-is-done.npy",
+              "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136"
+            },
+            {
+              "file": "eos_before_small_boundary/step4-after-is-done.npy",
+              "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136"
+            }
+          ]
+        }
+      ],
+      "logits_calls": 4,
+      "samples": 4,
+      "generated_ids": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "final_returned_sequence_length": 15,
+      "final_is_done": true,
+      "no_logits_after_done": true
+    },
+    {
+      "label": "non_eos_at_small_boundary",
+      "input_tokens": 12,
+      "configured_max_length": 16,
+      "configured_eos_id": 0,
+      "device_type": "CPU",
+      "provider_options": [],
+      "model_sha256": "ec3565e887c76149ed537dddf7cec50a5b02f1edc0cd5d8521c5bbd15fff0dfa",
+      "config_sha256": "8ab59e106812b7017f83a280c32dbb258d9c06f8b11cdb6767df7243c530872e",
+      "input_ids_sha256": "8a430d4495914e7398adae8eed60482f84d74df6a9ee130f3dc9b4657e17c2df",
+      "steps": [
+        {
+          "index": 1,
+          "get_next_tokens": [
+            3
+          ],
+          "all_sampled_ids": [
+            3
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 13,
+          "after_is_done_sequence_length": 13,
+          "token_count_before_is_done": 13,
+          "token_count_after_is_done": 13,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3
+          ],
+          "saved_sequences": [
+            {
+              "file": "non_eos_at_small_boundary/step1-before-is-done.npy",
+              "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5"
+            },
+            {
+              "file": "non_eos_at_small_boundary/step1-after-is-done.npy",
+              "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "get_next_tokens": [
+            4
+          ],
+          "all_sampled_ids": [
+            3,
+            4
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 14,
+          "after_is_done_sequence_length": 14,
+          "token_count_before_is_done": 14,
+          "token_count_after_is_done": 14,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4
+          ],
+          "saved_sequences": [
+            {
+              "file": "non_eos_at_small_boundary/step2-before-is-done.npy",
+              "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82"
+            },
+            {
+              "file": "non_eos_at_small_boundary/step2-after-is-done.npy",
+              "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "get_next_tokens": [
+            5
+          ],
+          "all_sampled_ids": [
+            3,
+            4,
+            5
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 15,
+          "after_is_done_sequence_length": 15,
+          "token_count_before_is_done": 15,
+          "token_count_after_is_done": 15,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4,
+            5
+          ],
+          "saved_sequences": [
+            {
+              "file": "non_eos_at_small_boundary/step3-before-is-done.npy",
+              "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136"
+            },
+            {
+              "file": "non_eos_at_small_boundary/step3-after-is-done.npy",
+              "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "get_next_tokens": [
+            6
+          ],
+          "all_sampled_ids": [
+            3,
+            4,
+            5,
+            6
+          ],
+          "configured_eos_sampled": false,
+          "is_done": true,
+          "before_is_done_sequence_length": 16,
+          "after_is_done_sequence_length": 16,
+          "token_count_before_is_done": 16,
+          "token_count_after_is_done": 16,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "saved_sequences": [
+            {
+              "file": "non_eos_at_small_boundary/step4-before-is-done.npy",
+              "sha256": "a65ca365962d1492aefac35e384fa008c5f36eb85933fecd87fbb7bc6c85e706"
+            },
+            {
+              "file": "non_eos_at_small_boundary/step4-after-is-done.npy",
+              "sha256": "a65ca365962d1492aefac35e384fa008c5f36eb85933fecd87fbb7bc6c85e706"
+            }
+          ]
+        }
+      ],
+      "logits_calls": 4,
+      "samples": 4,
+      "generated_ids": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "final_returned_sequence_length": 16,
+      "final_is_done": true,
+      "no_logits_after_done": true
+    },
+    {
+      "label": "non_eos_earlier_max",
+      "input_tokens": 12,
+      "configured_max_length": 15,
+      "configured_eos_id": 6,
+      "device_type": "CPU",
+      "provider_options": [],
+      "model_sha256": "ec3565e887c76149ed537dddf7cec50a5b02f1edc0cd5d8521c5bbd15fff0dfa",
+      "config_sha256": "d5b2d7f393a631795781dc04aa3bc80caa55a8e5248d0b97cd5bc2c6e267d6f0",
+      "input_ids_sha256": "8a430d4495914e7398adae8eed60482f84d74df6a9ee130f3dc9b4657e17c2df",
+      "steps": [
+        {
+          "index": 1,
+          "get_next_tokens": [
+            3
+          ],
+          "all_sampled_ids": [
+            3
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 13,
+          "after_is_done_sequence_length": 13,
+          "token_count_before_is_done": 13,
+          "token_count_after_is_done": 13,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3
+          ],
+          "saved_sequences": [
+            {
+              "file": "non_eos_earlier_max/step1-before-is-done.npy",
+              "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5"
+            },
+            {
+              "file": "non_eos_earlier_max/step1-after-is-done.npy",
+              "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "get_next_tokens": [
+            4
+          ],
+          "all_sampled_ids": [
+            3,
+            4
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 14,
+          "after_is_done_sequence_length": 14,
+          "token_count_before_is_done": 14,
+          "token_count_after_is_done": 14,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4
+          ],
+          "saved_sequences": [
+            {
+              "file": "non_eos_earlier_max/step2-before-is-done.npy",
+              "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82"
+            },
+            {
+              "file": "non_eos_earlier_max/step2-after-is-done.npy",
+              "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "get_next_tokens": [
+            5
+          ],
+          "all_sampled_ids": [
+            3,
+            4,
+            5
+          ],
+          "configured_eos_sampled": false,
+          "is_done": true,
+          "before_is_done_sequence_length": 15,
+          "after_is_done_sequence_length": 15,
+          "token_count_before_is_done": 15,
+          "token_count_after_is_done": 15,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4,
+            5
+          ],
+          "saved_sequences": [
+            {
+              "file": "non_eos_earlier_max/step3-before-is-done.npy",
+              "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136"
+            },
+            {
+              "file": "non_eos_earlier_max/step3-after-is-done.npy",
+              "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136"
+            }
+          ]
+        }
+      ],
+      "logits_calls": 3,
+      "samples": 3,
+      "generated_ids": [
+        3,
+        4,
+        5
+      ],
+      "final_returned_sequence_length": 15,
+      "final_is_done": true,
+      "no_logits_after_done": true
+    },
+    {
+      "label": "eos_at_16k_candidate_boundary",
+      "input_tokens": 16380,
+      "configured_max_length": 16384,
+      "configured_eos_id": 6,
+      "device_type": "CPU",
+      "provider_options": [],
+      "model_sha256": "ec3565e887c76149ed537dddf7cec50a5b02f1edc0cd5d8521c5bbd15fff0dfa",
+      "config_sha256": "d5b2d7f393a631795781dc04aa3bc80caa55a8e5248d0b97cd5bc2c6e267d6f0",
+      "input_ids_sha256": "62f4be7ad659d8b41065d14834372c24dbccf6e28ed2ac21e2339e519de29f76",
+      "steps": [
+        {
+          "index": 1,
+          "get_next_tokens": [
+            3
+          ],
+          "all_sampled_ids": [
+            3
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 16381,
+          "after_is_done_sequence_length": 16381,
+          "token_count_before_is_done": 16381,
+          "token_count_after_is_done": 16381,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_at_16k_candidate_boundary/step1-before-is-done.npy",
+              "sha256": "6e5392e5aaa18917e92dca4b3b77ef87d8efd68e3063c0b3e921818e1de4d774"
+            },
+            {
+              "file": "eos_at_16k_candidate_boundary/step1-after-is-done.npy",
+              "sha256": "6e5392e5aaa18917e92dca4b3b77ef87d8efd68e3063c0b3e921818e1de4d774"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "get_next_tokens": [
+            4
+          ],
+          "all_sampled_ids": [
+            3,
+            4
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 16382,
+          "after_is_done_sequence_length": 16382,
+          "token_count_before_is_done": 16382,
+          "token_count_after_is_done": 16382,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_at_16k_candidate_boundary/step2-before-is-done.npy",
+              "sha256": "6e8498d9ecdf6d76e7ee2c6b04135aa045148266577743e7f7e4dbfc0175f421"
+            },
+            {
+              "file": "eos_at_16k_candidate_boundary/step2-after-is-done.npy",
+              "sha256": "6e8498d9ecdf6d76e7ee2c6b04135aa045148266577743e7f7e4dbfc0175f421"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "get_next_tokens": [
+            5
+          ],
+          "all_sampled_ids": [
+            3,
+            4,
+            5
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 16383,
+          "after_is_done_sequence_length": 16383,
+          "token_count_before_is_done": 16383,
+          "token_count_after_is_done": 16383,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4,
+            5
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_at_16k_candidate_boundary/step3-before-is-done.npy",
+              "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685"
+            },
+            {
+              "file": "eos_at_16k_candidate_boundary/step3-after-is-done.npy",
+              "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "get_next_tokens": [
+            6
+          ],
+          "all_sampled_ids": [
+            3,
+            4,
+            5,
+            6
+          ],
+          "configured_eos_sampled": true,
+          "is_done": true,
+          "before_is_done_sequence_length": 16383,
+          "after_is_done_sequence_length": 16383,
+          "token_count_before_is_done": 16383,
+          "token_count_after_is_done": 16383,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": false,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4,
+            5
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_at_16k_candidate_boundary/step4-before-is-done.npy",
+              "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685"
+            },
+            {
+              "file": "eos_at_16k_candidate_boundary/step4-after-is-done.npy",
+              "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685"
+            }
+          ]
+        }
+      ],
+      "logits_calls": 4,
+      "samples": 4,
+      "generated_ids": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "final_returned_sequence_length": 16383,
+      "final_is_done": true,
+      "no_logits_after_done": true
+    },
+    {
+      "label": "eos_before_16k_candidate_boundary",
+      "input_tokens": 16380,
+      "configured_max_length": 16385,
+      "configured_eos_id": 6,
+      "device_type": "CPU",
+      "provider_options": [],
+      "model_sha256": "ec3565e887c76149ed537dddf7cec50a5b02f1edc0cd5d8521c5bbd15fff0dfa",
+      "config_sha256": "d5b2d7f393a631795781dc04aa3bc80caa55a8e5248d0b97cd5bc2c6e267d6f0",
+      "input_ids_sha256": "62f4be7ad659d8b41065d14834372c24dbccf6e28ed2ac21e2339e519de29f76",
+      "steps": [
+        {
+          "index": 1,
+          "get_next_tokens": [
+            3
+          ],
+          "all_sampled_ids": [
+            3
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 16381,
+          "after_is_done_sequence_length": 16381,
+          "token_count_before_is_done": 16381,
+          "token_count_after_is_done": 16381,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_before_16k_candidate_boundary/step1-before-is-done.npy",
+              "sha256": "6e5392e5aaa18917e92dca4b3b77ef87d8efd68e3063c0b3e921818e1de4d774"
+            },
+            {
+              "file": "eos_before_16k_candidate_boundary/step1-after-is-done.npy",
+              "sha256": "6e5392e5aaa18917e92dca4b3b77ef87d8efd68e3063c0b3e921818e1de4d774"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "get_next_tokens": [
+            4
+          ],
+          "all_sampled_ids": [
+            3,
+            4
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 16382,
+          "after_is_done_sequence_length": 16382,
+          "token_count_before_is_done": 16382,
+          "token_count_after_is_done": 16382,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_before_16k_candidate_boundary/step2-before-is-done.npy",
+              "sha256": "6e8498d9ecdf6d76e7ee2c6b04135aa045148266577743e7f7e4dbfc0175f421"
+            },
+            {
+              "file": "eos_before_16k_candidate_boundary/step2-after-is-done.npy",
+              "sha256": "6e8498d9ecdf6d76e7ee2c6b04135aa045148266577743e7f7e4dbfc0175f421"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "get_next_tokens": [
+            5
+          ],
+          "all_sampled_ids": [
+            3,
+            4,
+            5
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 16383,
+          "after_is_done_sequence_length": 16383,
+          "token_count_before_is_done": 16383,
+          "token_count_after_is_done": 16383,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4,
+            5
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_before_16k_candidate_boundary/step3-before-is-done.npy",
+              "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685"
+            },
+            {
+              "file": "eos_before_16k_candidate_boundary/step3-after-is-done.npy",
+              "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "get_next_tokens": [
+            6
+          ],
+          "all_sampled_ids": [
+            3,
+            4,
+            5,
+            6
+          ],
+          "configured_eos_sampled": true,
+          "is_done": true,
+          "before_is_done_sequence_length": 16383,
+          "after_is_done_sequence_length": 16383,
+          "token_count_before_is_done": 16383,
+          "token_count_after_is_done": 16383,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": false,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4,
+            5
+          ],
+          "saved_sequences": [
+            {
+              "file": "eos_before_16k_candidate_boundary/step4-before-is-done.npy",
+              "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685"
+            },
+            {
+              "file": "eos_before_16k_candidate_boundary/step4-after-is-done.npy",
+              "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685"
+            }
+          ]
+        }
+      ],
+      "logits_calls": 4,
+      "samples": 4,
+      "generated_ids": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "final_returned_sequence_length": 16383,
+      "final_is_done": true,
+      "no_logits_after_done": true
+    },
+    {
+      "label": "non_eos_at_16k_candidate_boundary",
+      "input_tokens": 16380,
+      "configured_max_length": 16384,
+      "configured_eos_id": 0,
+      "device_type": "CPU",
+      "provider_options": [],
+      "model_sha256": "ec3565e887c76149ed537dddf7cec50a5b02f1edc0cd5d8521c5bbd15fff0dfa",
+      "config_sha256": "8ab59e106812b7017f83a280c32dbb258d9c06f8b11cdb6767df7243c530872e",
+      "input_ids_sha256": "62f4be7ad659d8b41065d14834372c24dbccf6e28ed2ac21e2339e519de29f76",
+      "steps": [
+        {
+          "index": 1,
+          "get_next_tokens": [
+            3
+          ],
+          "all_sampled_ids": [
+            3
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 16381,
+          "after_is_done_sequence_length": 16381,
+          "token_count_before_is_done": 16381,
+          "token_count_after_is_done": 16381,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3
+          ],
+          "saved_sequences": [
+            {
+              "file": "non_eos_at_16k_candidate_boundary/step1-before-is-done.npy",
+              "sha256": "6e5392e5aaa18917e92dca4b3b77ef87d8efd68e3063c0b3e921818e1de4d774"
+            },
+            {
+              "file": "non_eos_at_16k_candidate_boundary/step1-after-is-done.npy",
+              "sha256": "6e5392e5aaa18917e92dca4b3b77ef87d8efd68e3063c0b3e921818e1de4d774"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "get_next_tokens": [
+            4
+          ],
+          "all_sampled_ids": [
+            3,
+            4
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 16382,
+          "after_is_done_sequence_length": 16382,
+          "token_count_before_is_done": 16382,
+          "token_count_after_is_done": 16382,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4
+          ],
+          "saved_sequences": [
+            {
+              "file": "non_eos_at_16k_candidate_boundary/step2-before-is-done.npy",
+              "sha256": "6e8498d9ecdf6d76e7ee2c6b04135aa045148266577743e7f7e4dbfc0175f421"
+            },
+            {
+              "file": "non_eos_at_16k_candidate_boundary/step2-after-is-done.npy",
+              "sha256": "6e8498d9ecdf6d76e7ee2c6b04135aa045148266577743e7f7e4dbfc0175f421"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "get_next_tokens": [
+            5
+          ],
+          "all_sampled_ids": [
+            3,
+            4,
+            5
+          ],
+          "configured_eos_sampled": false,
+          "is_done": false,
+          "before_is_done_sequence_length": 16383,
+          "after_is_done_sequence_length": 16383,
+          "token_count_before_is_done": 16383,
+          "token_count_after_is_done": 16383,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4,
+            5
+          ],
+          "saved_sequences": [
+            {
+              "file": "non_eos_at_16k_candidate_boundary/step3-before-is-done.npy",
+              "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685"
+            },
+            {
+              "file": "non_eos_at_16k_candidate_boundary/step3-after-is-done.npy",
+              "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "get_next_tokens": [
+            6
+          ],
+          "all_sampled_ids": [
+            3,
+            4,
+            5,
+            6
+          ],
+          "configured_eos_sampled": false,
+          "is_done": true,
+          "before_is_done_sequence_length": 16384,
+          "after_is_done_sequence_length": 16384,
+          "token_count_before_is_done": 16384,
+          "token_count_after_is_done": 16384,
+          "sequence_unchanged_by_is_done": true,
+          "sequence_equals_prompt_plus_all_sampled": true,
+          "sequence_equals_prompt_plus_sampled_without_final_eos": true,
+          "last_8_returned_ids": [
+            2,
+            2,
+            2,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "saved_sequences": [
+            {
+              "file": "non_eos_at_16k_candidate_boundary/step4-before-is-done.npy",
+              "sha256": "324b35612a519b183393b7359ce318eafa9562eb0a8769e97730ba1cbd59ffd6"
+            },
+            {
+              "file": "non_eos_at_16k_candidate_boundary/step4-after-is-done.npy",
+              "sha256": "324b35612a519b183393b7359ce318eafa9562eb0a8769e97730ba1cbd59ffd6"
+            }
+          ]
+        }
+      ],
+      "logits_calls": 4,
+      "samples": 4,
+      "generated_ids": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "final_returned_sequence_length": 16384,
+      "final_is_done": true,
+      "no_logits_after_done": true
+    }
+  ],
+  "qualification": "Owned CPU toys only. The failed NPU run's fourth returned sequence was not saved and is not reconstructed here."
+}

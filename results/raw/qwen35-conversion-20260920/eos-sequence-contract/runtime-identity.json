@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "runtime_env": "SDK Ryzen AI 1.8.0 Python environment",
+  "python_version": "3.12.11 | packaged by conda-forge | (main, Jun  4 2025, 14:29:09) [MSC v.1943 64 bit (AMD64)]",
+  "oga_distribution_version": "0.14.0",
+  "oga_native_files": {
+    "D3D12Core.dll": "8a23d826b25b4329522ff451cb52b7f2b34d7f2913cfeb878371ce8bd765fe2d",
+    "dyn_bins.dll": "eb2b8c7a2a76e00fbe34d460df7223f5e455398637ff0cbc1c9a04395eeb2cce",
+    "dyn_dispatch_core.dll": "3b45bcfd02e2ba2ae29dd64fc006f2e3824a358736f64955ef24f04fa3db08b8",
+    "onnxruntime-genai.dll": "96364a30425298e3ec37dbfcf112fdf33a6fb2cc276d607a0188ab518c4fd9f9",
+    "onnxruntime_genai.cp312-win_amd64.pyd": "3fa4974b10d0ed1f6bf9a030a87e554a80dac050eceb7e0ec9b6776d4183b7aa",
+    "onnxruntime_providers_ryzenai.dll": "657559589c9cacdabefc40730f0652d4d73496634f6181b0ff78f8e5c444a271",
+    "ryzen_mm.dll": "d47bf10dbe5043c16d758a71745b8d9cbd9ef5d2173368169690f77c8d07f3f5"
+  },
+  "original_cpu_report_sha256": "c36028810e3b067af595686558c9a517fdca31cca9c631b73476ec7b241fcfc0",
+  "qualification": "Read-only post-run installed package identity from the same interpreter used by CPU toy, no new Model/session; exact equality to public C++ source is not asserted."
+}

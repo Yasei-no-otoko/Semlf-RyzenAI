@@ -1,0 +1,403 @@
+{
+  "schema_version": 1,
+  "status": "saved_cpu_eos_evidence",
+  "publication_npu_sessions": 0,
+  "source_pins": {
+    "cpu-run1/report.json": "c36028810e3b067af595686558c9a517fdca31cca9c631b73476ec7b241fcfc0",
+    "cpu_probe.py": "1a939209b9059f57168ebb0fffce72c7d7cbf6946fa90a9530c46f6b72f3de2b",
+    "runtime-identity.json": "10f88eb34eb92adcde90570254002fcf54776fe299adc2cf92e1226c541a7f76",
+    "source-diagnosis.json": "91b61e0eda9bc95246c71ba1f26b4a512a4835230b81069df714082cbbd856a8"
+  },
+  "source_revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+  "files": {
+    "cpu-report.json": {
+      "sha256": "c36028810e3b067af595686558c9a517fdca31cca9c631b73476ec7b241fcfc0",
+      "bytes": 39671
+    },
+    "original-independent-check.json": {
+      "sha256": "d1647265e668bf91687ae3d98145a390e1058fe411fc89a830aff1c7e8e2212e",
+      "bytes": 388
+    },
+    "owned-fixtures-and-sequences.zip": {
+      "sha256": "c0a80082b3523ffa5d4a8dfb2dfe3db32fea88cb00cd6b621d66b7b6cdb4e1d7",
+      "bytes": 22488
+    },
+    "README.md": {
+      "sha256": "8abf03f26833937826342527928850eefef15a89b96742f6ab0a7cef5b588670",
+      "bytes": 2386
+    },
+    "recorded_cpu_probe.py": {
+      "sha256": "1a939209b9059f57168ebb0fffce72c7d7cbf6946fa90a9530c46f6b72f3de2b",
+      "bytes": 8501
+    },
+    "runtime-identity.json": {
+      "sha256": "10f88eb34eb92adcde90570254002fcf54776fe299adc2cf92e1226c541a7f76",
+      "bytes": 1253
+    },
+    "source-diagnosis.json": {
+      "sha256": "0b6237438be1dee948321aac84b8b9600202b3335b6975081f8ae5d28f9df85f",
+      "bytes": 5032
+    },
+    "verify_cpu.py": {
+      "sha256": "ed3cd2488e3115c8cb718c4a37d1beeecd357ca4b1c778d88a678fe4efe21228",
+      "bytes": 4502
+    }
+  },
+  "archive_members": {
+    "eos_at_16k_candidate_boundary/genai_config.json": {
+      "sha256": "d5b2d7f393a631795781dc04aa3bc80caa55a8e5248d0b97cd5bc2c6e267d6f0",
+      "bytes": 841
+    },
+    "eos_at_16k_candidate_boundary/model.onnx": {
+      "sha256": "ec3565e887c76149ed537dddf7cec50a5b02f1edc0cd5d8521c5bbd15fff0dfa",
+      "bytes": 388
+    },
+    "eos_at_16k_candidate_boundary/step1-after-is-done.npy": {
+      "sha256": "6e5392e5aaa18917e92dca4b3b77ef87d8efd68e3063c0b3e921818e1de4d774",
+      "bytes": 65652
+    },
+    "eos_at_16k_candidate_boundary/step1-before-is-done.npy": {
+      "sha256": "6e5392e5aaa18917e92dca4b3b77ef87d8efd68e3063c0b3e921818e1de4d774",
+      "bytes": 65652
+    },
+    "eos_at_16k_candidate_boundary/step2-after-is-done.npy": {
+      "sha256": "6e8498d9ecdf6d76e7ee2c6b04135aa045148266577743e7f7e4dbfc0175f421",
+      "bytes": 65656
+    },
+    "eos_at_16k_candidate_boundary/step2-before-is-done.npy": {
+      "sha256": "6e8498d9ecdf6d76e7ee2c6b04135aa045148266577743e7f7e4dbfc0175f421",
+      "bytes": 65656
+    },
+    "eos_at_16k_candidate_boundary/step3-after-is-done.npy": {
+      "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685",
+      "bytes": 65660
+    },
+    "eos_at_16k_candidate_boundary/step3-before-is-done.npy": {
+      "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685",
+      "bytes": 65660
+    },
+    "eos_at_16k_candidate_boundary/step4-after-is-done.npy": {
+      "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685",
+      "bytes": 65660
+    },
+    "eos_at_16k_candidate_boundary/step4-before-is-done.npy": {
+      "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685",
+      "bytes": 65660
+    },
+    "eos_at_small_boundary/genai_config.json": {
+      "sha256": "d5b2d7f393a631795781dc04aa3bc80caa55a8e5248d0b97cd5bc2c6e267d6f0",
+      "bytes": 841
+    },
+    "eos_at_small_boundary/model.onnx": {
+      "sha256": "ec3565e887c76149ed537dddf7cec50a5b02f1edc0cd5d8521c5bbd15fff0dfa",
+      "bytes": 388
+    },
+    "eos_at_small_boundary/step1-after-is-done.npy": {
+      "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5",
+      "bytes": 180
+    },
+    "eos_at_small_boundary/step1-before-is-done.npy": {
+      "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5",
+      "bytes": 180
+    },
+    "eos_at_small_boundary/step2-after-is-done.npy": {
+      "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82",
+      "bytes": 184
+    },
+    "eos_at_small_boundary/step2-before-is-done.npy": {
+      "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82",
+      "bytes": 184
+    },
+    "eos_at_small_boundary/step3-after-is-done.npy": {
+      "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136",
+      "bytes": 188
+    },
+    "eos_at_small_boundary/step3-before-is-done.npy": {
+      "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136",
+      "bytes": 188
+    },
+    "eos_at_small_boundary/step4-after-is-done.npy": {
+      "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136",
+      "bytes": 188
+    },
+    "eos_at_small_boundary/step4-before-is-done.npy": {
+      "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136",
+      "bytes": 188
+    },
+    "eos_before_16k_candidate_boundary/genai_config.json": {
+      "sha256": "d5b2d7f393a631795781dc04aa3bc80caa55a8e5248d0b97cd5bc2c6e267d6f0",
+      "bytes": 841
+    },
+    "eos_before_16k_candidate_boundary/model.onnx": {
+      "sha256": "ec3565e887c76149ed537dddf7cec50a5b02f1edc0cd5d8521c5bbd15fff0dfa",
+      "bytes": 388
+    },
+    "eos_before_16k_candidate_boundary/step1-after-is-done.npy": {
+      "sha256": "6e5392e5aaa18917e92dca4b3b77ef87d8efd68e3063c0b3e921818e1de4d774",
+      "bytes": 65652
+    },
+    "eos_before_16k_candidate_boundary/step1-before-is-done.npy": {
+      "sha256": "6e5392e5aaa18917e92dca4b3b77ef87d8efd68e3063c0b3e921818e1de4d774",
+      "bytes": 65652
+    },
+    "eos_before_16k_candidate_boundary/step2-after-is-done.npy": {
+      "sha256": "6e8498d9ecdf6d76e7ee2c6b04135aa045148266577743e7f7e4dbfc0175f421",
+      "bytes": 65656
+    },
+    "eos_before_16k_candidate_boundary/step2-before-is-done.npy": {
+      "sha256": "6e8498d9ecdf6d76e7ee2c6b04135aa045148266577743e7f7e4dbfc0175f421",
+      "bytes": 65656
+    },
+    "eos_before_16k_candidate_boundary/step3-after-is-done.npy": {
+      "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685",
+      "bytes": 65660
+    },
+    "eos_before_16k_candidate_boundary/step3-before-is-done.npy": {
+      "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685",
+      "bytes": 65660
+    },
+    "eos_before_16k_candidate_boundary/step4-after-is-done.npy": {
+      "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685",
+      "bytes": 65660
+    },
+    "eos_before_16k_candidate_boundary/step4-before-is-done.npy": {
+      "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685",
+      "bytes": 65660
+    },
+    "eos_before_small_boundary/genai_config.json": {
+      "sha256": "d5b2d7f393a631795781dc04aa3bc80caa55a8e5248d0b97cd5bc2c6e267d6f0",
+      "bytes": 841
+    },
+    "eos_before_small_boundary/model.onnx": {
+      "sha256": "ec3565e887c76149ed537dddf7cec50a5b02f1edc0cd5d8521c5bbd15fff0dfa",
+      "bytes": 388
+    },
+    "eos_before_small_boundary/step1-after-is-done.npy": {
+      "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5",
+      "bytes": 180
+    },
+    "eos_before_small_boundary/step1-before-is-done.npy": {
+      "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5",
+      "bytes": 180
+    },
+    "eos_before_small_boundary/step2-after-is-done.npy": {
+      "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82",
+      "bytes": 184
+    },
+    "eos_before_small_boundary/step2-before-is-done.npy": {
+      "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82",
+      "bytes": 184
+    },
+    "eos_before_small_boundary/step3-after-is-done.npy": {
+      "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136",
+      "bytes": 188
+    },
+    "eos_before_small_boundary/step3-before-is-done.npy": {
+      "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136",
+      "bytes": 188
+    },
+    "eos_before_small_boundary/step4-after-is-done.npy": {
+      "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136",
+      "bytes": 188
+    },
+    "eos_before_small_boundary/step4-before-is-done.npy": {
+      "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136",
+      "bytes": 188
+    },
+    "non_eos_at_16k_candidate_boundary/genai_config.json": {
+      "sha256": "8ab59e106812b7017f83a280c32dbb258d9c06f8b11cdb6767df7243c530872e",
+      "bytes": 841
+    },
+    "non_eos_at_16k_candidate_boundary/model.onnx": {
+      "sha256": "ec3565e887c76149ed537dddf7cec50a5b02f1edc0cd5d8521c5bbd15fff0dfa",
+      "bytes": 388
+    },
+    "non_eos_at_16k_candidate_boundary/step1-after-is-done.npy": {
+      "sha256": "6e5392e5aaa18917e92dca4b3b77ef87d8efd68e3063c0b3e921818e1de4d774",
+      "bytes": 65652
+    },
+    "non_eos_at_16k_candidate_boundary/step1-before-is-done.npy": {
+      "sha256": "6e5392e5aaa18917e92dca4b3b77ef87d8efd68e3063c0b3e921818e1de4d774",
+      "bytes": 65652
+    },
+    "non_eos_at_16k_candidate_boundary/step2-after-is-done.npy": {
+      "sha256": "6e8498d9ecdf6d76e7ee2c6b04135aa045148266577743e7f7e4dbfc0175f421",
+      "bytes": 65656
+    },
+    "non_eos_at_16k_candidate_boundary/step2-before-is-done.npy": {
+      "sha256": "6e8498d9ecdf6d76e7ee2c6b04135aa045148266577743e7f7e4dbfc0175f421",
+      "bytes": 65656
+    },
+    "non_eos_at_16k_candidate_boundary/step3-after-is-done.npy": {
+      "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685",
+      "bytes": 65660
+    },
+    "non_eos_at_16k_candidate_boundary/step3-before-is-done.npy": {
+      "sha256": "04a92904dc38ac0742e9986afa976cace743172917b662811924e151c4ce7685",
+      "bytes": 65660
+    },
+    "non_eos_at_16k_candidate_boundary/step4-after-is-done.npy": {
+      "sha256": "324b35612a519b183393b7359ce318eafa9562eb0a8769e97730ba1cbd59ffd6",
+      "bytes": 65664
+    },
+    "non_eos_at_16k_candidate_boundary/step4-before-is-done.npy": {
+      "sha256": "324b35612a519b183393b7359ce318eafa9562eb0a8769e97730ba1cbd59ffd6",
+      "bytes": 65664
+    },
+    "non_eos_at_small_boundary/genai_config.json": {
+      "sha256": "8ab59e106812b7017f83a280c32dbb258d9c06f8b11cdb6767df7243c530872e",
+      "bytes": 841
+    },
+    "non_eos_at_small_boundary/model.onnx": {
+      "sha256": "ec3565e887c76149ed537dddf7cec50a5b02f1edc0cd5d8521c5bbd15fff0dfa",
+      "bytes": 388
+    },
+    "non_eos_at_small_boundary/step1-after-is-done.npy": {
+      "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5",
+      "bytes": 180
+    },
+    "non_eos_at_small_boundary/step1-before-is-done.npy": {
+      "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5",
+      "bytes": 180
+    },
+    "non_eos_at_small_boundary/step2-after-is-done.npy": {
+      "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82",
+      "bytes": 184
+    },
+    "non_eos_at_small_boundary/step2-before-is-done.npy": {
+      "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82",
+      "bytes": 184
+    },
+    "non_eos_at_small_boundary/step3-after-is-done.npy": {
+      "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136",
+      "bytes": 188
+    },
+    "non_eos_at_small_boundary/step3-before-is-done.npy": {
+      "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136",
+      "bytes": 188
+    },
+    "non_eos_at_small_boundary/step4-after-is-done.npy": {
+      "sha256": "a65ca365962d1492aefac35e384fa008c5f36eb85933fecd87fbb7bc6c85e706",
+      "bytes": 192
+    },
+    "non_eos_at_small_boundary/step4-before-is-done.npy": {
+      "sha256": "a65ca365962d1492aefac35e384fa008c5f36eb85933fecd87fbb7bc6c85e706",
+      "bytes": 192
+    },
+    "non_eos_earlier_max/genai_config.json": {
+      "sha256": "d5b2d7f393a631795781dc04aa3bc80caa55a8e5248d0b97cd5bc2c6e267d6f0",
+      "bytes": 841
+    },
+    "non_eos_earlier_max/model.onnx": {
+      "sha256": "ec3565e887c76149ed537dddf7cec50a5b02f1edc0cd5d8521c5bbd15fff0dfa",
+      "bytes": 388
+    },
+    "non_eos_earlier_max/step1-after-is-done.npy": {
+      "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5",
+      "bytes": 180
+    },
+    "non_eos_earlier_max/step1-before-is-done.npy": {
+      "sha256": "e76e07c22d5e8dd92b1ec4e4e3a28c7da0285d3b0dbf30b894a90c13ee3dd3d5",
+      "bytes": 180
+    },
+    "non_eos_earlier_max/step2-after-is-done.npy": {
+      "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82",
+      "bytes": 184
+    },
+    "non_eos_earlier_max/step2-before-is-done.npy": {
+      "sha256": "d969d8dca28d88fbde34789ffa789a87355fda63448926860aad11293e005a82",
+      "bytes": 184
+    },
+    "non_eos_earlier_max/step3-after-is-done.npy": {
+      "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136",
+      "bytes": 188
+    },
+    "non_eos_earlier_max/step3-before-is-done.npy": {
+      "sha256": "52b5d3850b101f7258b18c794bc9821b981bb1903738d7b9495caafe7e06d136",
+      "bytes": 188
+    }
+  },
+  "source_files_not_distributed": [
+    {
+      "file": "src/generators.cpp",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "f6e41b4cd16eeb7521c4739b13741d5fec170d29f2cb9d6e5157c6b897c0190c",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/generators.cpp",
+      "inspected_lines": [
+        364,
+        594,
+        609,
+        723
+      ]
+    },
+    {
+      "file": "src/ort_genai_c.cpp",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "eaefb934c5c84a8f6d3757af4752b07d5cf36d9be32c4248be4f0bf3bdc76863",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/ort_genai_c.cpp",
+      "inspected_lines": [
+        483,
+        592,
+        601
+      ]
+    },
+    {
+      "file": "src/python/python.cpp",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "88c829c69de2fd0e8198f98b8faaffc30f8d25840bea8fefc93214a8865e76f8",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/python/python.cpp",
+      "inspected_lines": []
+    },
+    {
+      "file": "src/ryzenai/interface.cpp",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "576a96996d08c5c85bd386a6d63dd891ecfa387d6fe1bee5bc260086461b2e91",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/ryzenai/interface.cpp",
+      "inspected_lines": [
+        186
+      ]
+    },
+    {
+      "file": "src/search.cpp",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "f8078419f7a45d554b26e3ae131b11e4ef85502639a50f32ad74eec38ed1fa35",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/search.cpp",
+      "inspected_lines": [
+        155,
+        167,
+        191,
+        325,
+        383,
+        397,
+        403,
+        409
+      ]
+    },
+    {
+      "file": "src/search.h",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "a3aefdb5cf30513a787cd244c11bded980ae07fb78e38ced52d3e5f0c8331bbe",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/search.h",
+      "inspected_lines": [
+        17
+      ]
+    },
+    {
+      "file": "src/sequences.cpp",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "51e77222c7319735b2f3cea76301b05377817034d5a3f1b316145bfa10a2be5a",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/sequences.cpp",
+      "inspected_lines": []
+    },
+    {
+      "file": "src/sequences.h",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "96e2de9ed237848471dad01f00834d459529e5a42ea4d1ce3050d192cfc178db",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/sequences.h",
+      "inspected_lines": [
+        16
+      ]
+    }
+  ],
+  "qualification": "CPU evidence only; historical failed NPU final sequence remains unobserved."
+}

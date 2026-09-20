@@ -290,7 +290,7 @@ def _opsets_and_functions(models, paths):
     ], list(functions.values())
 
 
-def _combine_branches(reference_path, prefill_path, token_path, output_dir) -> Path:
+def _combine_branches(reference_path, prefill_path, token_path, output_dir, *, prefill_model=None) -> Path:
     """Write a new model directory; never replace an existing path or source file.
 
     Interface, hashes, and collisions are checked before creating output_dir.
@@ -305,7 +305,9 @@ def _combine_branches(reference_path, prefill_path, token_path, output_dir) -> P
     output_dir = Path(output_dir).absolute()
     if output_dir.exists() or output_dir.is_symlink():
         raise FileExistsError(output_dir)
-    models = [onnx.load(path, load_external_data=False) for path in paths]
+    _require(prefill_model is None or isinstance(prefill_model, onnx.ModelProto), "Expected a prefill ModelProto")
+    models = [copy.deepcopy(prefill_model) if index == 1 and prefill_model is not None
+              else onnx.load(path, load_external_data=False) for index, path in enumerate(paths)]
     for model in models:
         for graph in _graphs(model.graph):
             for index in reversed(range(len(graph.metadata_props))):
@@ -556,15 +558,19 @@ def _transaction_coverage(archive, eager_archive):
                 limitation="Archive completeness does not establish operator shape support or runtime correctness")
 
 
-def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_root: Path, profile: dict) -> dict:
+def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_root: Path, profile: dict,
+                  prefill_linear_attention: str = "native") -> dict:
     """Create a fresh package from an eager prefill and a lowered DD token graph.
 
     ``profile['source_revision']`` is required. Optional ``expected_dd_nodes``
     and ``expected_dd_counts`` pin the number/types of metadata operations. SDK
     version/hash/source authorization belongs to the calling profile validator.
+    ``prefill_linear_attention='token_loop'`` applies the guarded pure header
+    transform before final copying. The default preserves native batched prefill.
     Token inputs are ``model.onnx`` and ``cache/<node.name>_meta.json`` plus their
     referenced constants. This function never initializes/executes the runtime.
     """
+    _require(prefill_linear_attention in {"native", "token_loop"}, "Unsupported prefill LinearAttention mode")
     prefill_dir, token_dir = (Path(p).resolve(strict=True) for p in (prefill_dir, token_dir))
     sdk_root, output_dir = Path(sdk_root).resolve(strict=True), Path(output_dir).absolute()
     _require(isinstance(profile.get("source_revision"), str) and profile["source_revision"], "Source revision is required")
@@ -594,7 +600,22 @@ def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_r
         for tensor in operator.data:
             _require(0 <= tensor.offset <= tensor.offset + tensor.size <= eager_weights.stat().st_size,
                      "Eager external-data extent is out of bounds")
+    prefill_transformation = None
+    transformer_path = None
+    if prefill_linear_attention == "token_loop":
+        _require(config["search"]["chunk_size"] == 64 and options.get("hybrid_opt_token_backend") == "npu",
+                 "Token Loop requires unchanged chunk64 and NPU token backend")
+        try:
+            import benchmarks.qwen35_prefill as qwen35_prefill
+        except ModuleNotFoundError:
+            import qwen35_prefill
+        transformer_path = Path(qwen35_prefill.__file__).resolve(strict=True)
+        prefill, prefill_transformation = qwen35_prefill.transform_prefill_linear_attention(prefill)
+        prefill_transformation["transformer_sha256"] = _sha256(transformer_path)
+        prefill_transformation["observed_global_chunk_size"] = config["search"]["chunk_size"]
     source_paths = {prefill_path, token_path, config_path, header_path, eager_weights}
+    if transformer_path is not None:
+        source_paths.add(transformer_path)
     metadata, constants, dd_types = [], {}, {}
     dd_names = set()
     cache = token_dir / "cache"
@@ -663,7 +684,11 @@ def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_r
     source_paths.update(support_files)
     before = {p: _stat(p) for p in source_paths}
     hashes = {p: _sha256(p) for p in (prefill_path, token_path, config_path, header_path)}
-    _combine_branches(prefill_path, prefill_path, token_path, output_dir)
+    if prefill_transformation is None:
+        _combine_branches(prefill_path, prefill_path, token_path, output_dir)
+    else:
+        prefill_transformation["source_model_sha256"] = hashes[prefill_path]
+        _combine_branches(prefill_path, prefill_path, token_path, output_dir, prefill_model=prefill)
     (output_dir / "cache").mkdir(exist_ok=False)
     roles = {"model.onnx": "combined_header"}
     for path in output_dir.glob("weights-*.bin"):
@@ -706,6 +731,8 @@ def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_r
                      "Initial native runtime compilation is required; no serialized state is guessed or renamed",
                      "DD cache/constant paths are absolute; moving the package requires a new relocation and manifest"],
     )
+    if prefill_transformation is not None:
+        manifest["prefill_transformation"] = prefill_transformation
     _write_new(output_dir / "package-manifest.json", manifest)
     return manifest
 

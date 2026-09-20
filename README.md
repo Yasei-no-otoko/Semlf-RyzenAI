@@ -17,26 +17,31 @@ in [README.txt](README.txt). Use `./run_semif_npu.ps1` for JSONL scoring.
 The demo opens with a 16-option receipt-routing example (up to 32 options are supported)
 for observing the cost of generating the complete probability object.
 
-An experimental [Qwen3.5-4B conversion](docs/QWEN35_NPU.md) records the Quark
-and OGA workflow and its current limitations. A combined eager-prefill and
-273-DD-token candidate now passes three owned English/Japanese short cases
-and a native greedy continuation ending at EOS, with finite full-vocabulary
-logits and 5,307 completed NPU commands without errors.
-[Short-run evidence](results/raw/qwen35-conversion-20260920/dd-integrated-short.json)
-also records exact agreement with the eager baseline's option logits.
-CPU graph components remain. The installed SDK recipe does not support this
-custom Qwen3.5 integration; **16K validation failed: the tail-information
-case passed, but the head-information case produced non-finite logits**.
-A [fresh-process head check](results/raw/qwen35-conversion-20260920/dd-fresh-head-failure.json)
-also returned all-NaN logits, so a preceding generator is not required to
-trigger this failure. A diagnostic using only its
-[first 64 tokens](results/raw/qwen35-conversion-20260920/dd-head-prefix64-failure.json)
-also returned all-NaN logits. Chunk-related numerical behavior remains a hypothesis,
-not an established cause or fix. This is not a completed 16K replacement
-for the default AMD Qwen3-4B model.
-The [public CLI rebuild](results/raw/qwen35-conversion-20260920/dd-public-build-reproducibility.json)
-completed CPU conversion and matched the diagnostic candidate's content
-under the documented comparison; the rebuilt package has not run inference.
+An experimental [Qwen3.5-4B conversion](docs/QWEN35_NPU.md) combines Quark
+UINT4 RTN quantization, OGA export, NPU prefill, and 273 custom DD token
+partitions. Its original batched prefill failed a 16K head-information case.
+The new `--prefill-linear-attention token_loop` conversion runs the 24
+prefill LinearAttention operators one token at a time on the NPU, while
+keeping the other prefill projections batched. In a
+[bounded short run](results/raw/qwen35-conversion-20260920/dd-stable-prefix-short.json),
+the formerly failing 64-token prefix now has finite full-vocabulary logits
+and all 64 final states are finite. Three owned English/Japanese questions
+are correct, and native generation ends at EOS: 16,260 completed NPU
+commands, zero errors. The revised model also
+[passes both 16K boundary cases](results/raw/qwen35-conversion-20260920/dd-stable-16k.json):
+head and tail information are answered correctly at exactly 16,384 input
+tokens, with finite full-vocabulary logits and 1,075,563 completed NPU
+commands without errors. A separate
+[near-boundary generation run](results/raw/qwen35-conversion-20260920/near16k-decode/manifest.json)
+also passes: 16,380 input tokens, four sampled tokens including EOS, three
+DD decode steps, and a correct answer. All observed logits and final states
+are finite, with 531,411 completed NPU commands and zero errors.
+CPU convolution, GQA, and host operations remain. This custom conversion is
+not AMD's supported recipe and does not replace the default AMD Qwen3-4B
+demo model. The measured 16K input processing takes about 15 minutes;
+these owned functional cases are not general quality or speed benchmarks.
+See the conversion guide for exact revisions, evidence, and
+reproduction commands.
 
 The upstream project description and its original benchmark results follow.
 

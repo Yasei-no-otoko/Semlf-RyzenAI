@@ -1,0 +1,9 @@
+{
+  "status": "all_saved_CPU_sequences_independently_verified",
+  "saved_sequence_arrays": 54,
+  "cases": 7,
+  "cpu_report_sha256": "c36028810e3b067af595686558c9a517fdca31cca9c631b73476ec7b241fcfc0",
+  "source_diagnosis_sha256": "91b61e0eda9bc95246c71ba1f26b4a512a4835230b81069df714082cbbd856a8",
+  "npu_executions": 0,
+  "original_NPU_final_sequence_remains_unobserved": true
+}

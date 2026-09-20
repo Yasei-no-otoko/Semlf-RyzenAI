@@ -1,0 +1,100 @@
+{
+  "status": "test_invariant_disproved_on_CPU_and_public_source",
+  "scope": "batch1 greedy search; no beams; original failed NPU final sequence unobserved",
+  "cpu_report_sha256": "c36028810e3b067af595686558c9a517fdca31cca9c631b73476ec7b241fcfc0",
+  "cpu_runtime_identity_sha256": "10f88eb34eb92adcde90570254002fcf54776fe299adc2cf92e1226c541a7f76",
+  "source_revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+  "source": [
+    {
+      "file": "src/generators.cpp",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "f6e41b4cd16eeb7521c4739b13741d5fec170d29f2cb9d6e5157c6b897c0190c",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/generators.cpp",
+      "inspected_lines": [
+        364,
+        594,
+        609,
+        723
+      ]
+    },
+    {
+      "file": "src/ort_genai_c.cpp",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "eaefb934c5c84a8f6d3757af4752b07d5cf36d9be32c4248be4f0bf3bdc76863",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/ort_genai_c.cpp",
+      "inspected_lines": [
+        483,
+        592,
+        601
+      ]
+    },
+    {
+      "file": "src/python/python.cpp",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "88c829c69de2fd0e8198f98b8faaffc30f8d25840bea8fefc93214a8865e76f8",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/python/python.cpp",
+      "inspected_lines": []
+    },
+    {
+      "file": "src/ryzenai/interface.cpp",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "576a96996d08c5c85bd386a6d63dd891ecfa387d6fe1bee5bc260086461b2e91",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/ryzenai/interface.cpp",
+      "inspected_lines": [
+        186
+      ]
+    },
+    {
+      "file": "src/search.cpp",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "f8078419f7a45d554b26e3ae131b11e4ef85502639a50f32ad74eec38ed1fa35",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/search.cpp",
+      "inspected_lines": [
+        155,
+        167,
+        191,
+        325,
+        383,
+        397,
+        403,
+        409
+      ]
+    },
+    {
+      "file": "src/search.h",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "a3aefdb5cf30513a787cd244c11bded980ae07fb78e38ced52d3e5f0c8331bbe",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/search.h",
+      "inspected_lines": [
+        17
+      ]
+    },
+    {
+      "file": "src/sequences.cpp",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "51e77222c7319735b2f3cea76301b05377817034d5a3f1b316145bfa10a2be5a",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/sequences.cpp",
+      "inspected_lines": []
+    },
+    {
+      "file": "src/sequences.h",
+      "revision": "b7a6ec307bea84e3b64aa33d59bcad817122d9af",
+      "sha256": "96e2de9ed237848471dad01f00834d459529e5a42ea4d1ce3050d192cfc178db",
+      "url": "https://github.com/microsoft/onnxruntime-genai/blob/b7a6ec307bea84e3b64aa33d59bcad817122d9af/src/sequences.h",
+      "inspected_lines": [
+        16
+      ]
+    }
+  ],
+  "observation": "Seven real CPU model cases show terminal EOS returned by get_next_tokens but absent from get_sequence, both before and after is_done. Non-EOS context-limit token remains in sequence.",
+  "inference_limit": "The NPU report lacks the fourth actual sequence and post-fourth is_done, so its values/length cannot be filled using these CPU observations. No proof excludes an additional NPU-specific issue.",
+  "proposal": [
+    "Save actual next IDs, returned sequence bytes/hash/length and get_sequence comparison fields before any equality assertion.",
+    "For batch1 greedy configured EOS, expected returned sequence excludes only the final EOS; still require EOS implies is_done and stop without additional get_logits.",
+    "For non-EOS termination, expected returned sequence includes all generated IDs; context-limit case still must stop at configured max length.",
+    "Track input_plus_sampled_token_count separately from API returned_sequence_length and processed/cache_valid_token_count. After four samples with EOS: logical sampled-inclusive count16384, CPU-contract returned count16383, processed count16383, last processed zero-based index16382.",
+    "Keep the historical failed NPU report unchanged. A fresh bounded run is needed to directly observe its fourth sequence and obtain missing final64-state checks; this report does not perform or authorize that run."
+  ],
+  "npu_executions": 0,
+  "source_diagnosis_original_sha256": "91b61e0eda9bc95246c71ba1f26b4a512a4835230b81069df714082cbbd856a8"
+}

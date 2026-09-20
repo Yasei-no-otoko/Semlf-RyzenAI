@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "files": {
+    "evidence.json": {
+      "bytes": 78244,
+      "sha256": "de7647bd37e8686d5252b2dc8846d516b2f408270476a515a669ea047c3b8e97"
+    },
+    "loop_s64.onnx": {
+      "bytes": 2523,
+      "sha256": "c208580190daa4384b81cbdc4b8cfe2a9ec4ab8d9bf8d2365ef4fa5832be5c4f"
+    },
+    "native_s1.onnx": {
+      "bytes": 828,
+      "sha256": "4bb1e0a4f6558c67c9b425ddfbb9635a2544695da1dae1a0b3b8bbb2c05b03a1"
+    },
+    "native_s64.onnx": {
+      "bytes": 828,
+      "sha256": "4bfc986a6898ea2a9bc8759b34500ce367901d0132cc86f6e334b1972c1eeb63"
+    },
+    "native_s64_no_cast_hints.onnx": {
+      "bytes": 710,
+      "sha256": "bf9ee948c086b5bd1a36863561fce1635c246143f23a67eefe2eb345779404b8"
+    },
+    "README.md": {
+      "bytes": 5750,
+      "sha256": "429b3855b870d94a0c4726ac419cd38561ec61db30e9ff0f2a23eb5b358b240a"
+    },
+    "repro_native.py": {
+      "bytes": 14061,
+      "sha256": "49084e98da3beefcb16cacbdf267ab171fb350a802ffffbfcf380a8f409caeac"
+    },
+    "synthetic-observed.zip": {
+      "bytes": 4132777,
+      "sha256": "934f0103bd591edcbaf0fd62dfd5d5be8cce3bf2aeba02c02e48fd76b2c18878"
+    },
+    "verify_cpu.py": {
+      "bytes": 9625,
+      "sha256": "a1f46dc1d5d7518b409a4568b4019c7b3035c07178e78a39969878f73dbf0348"
+    }
+  },
+  "scope": "Only these files in publication/ are proposed for publishing; parent assembly/verification reports are local."
+}

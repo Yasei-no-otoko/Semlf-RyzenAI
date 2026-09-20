@@ -1,15 +1,21 @@
 # Qwen3.5-4B conversion for Ryzen AI 1.8
 
-**Experimental and incomplete.** Quark quantization and OGA export completed.
-A combined eager-prefill and custom DD-token model now scores three owned
-English/Japanese short examples correctly and completes a native greedy
-continuation at EOS. That short run's full-vocabulary logits are finite, with
-5,307 NPU submissions/completions and zero errors. **The installed SDK recipe
-does not support this custom integration, and the combined 16K validation
-failed.** The tail-information case passed at exactly 16,384 input tokens;
-the head-information case produced non-finite logits. A fresh-process head
-check also returned all-NaN logits. This is not a replacement for the working
-AMD Qwen3-4B demo model.
+**Experimental; 16K prefill and near-boundary decoding pass the owned functional checks.**
+Quark quantization, OGA export, and custom DD token conversion completed. The original combined
+model passed a 16K tail-information case but produced NaNs for the
+head-information case. A revised prefill runs each of its 24 native
+LinearAttention operators as a sequence of single-token NPU calls. That
+model passes the exact formerly failing 64-token prefix, three owned
+English/Japanese questions, and native greedy generation to EOS, with
+16,260 NPU submissions/completions and zero errors. All eight observed
+full-vocabulary logit vectors and the prefix's 64 final states are finite.
+The revised model also passes both head- and tail-information cases at
+exactly 16,384 input tokens, with finite full-vocabulary logits and zero NPU
+errors. A separate 16,380-token input followed by four sampled tokens also
+passes: three DD decode steps, configured EOS termination, a correct answer,
+and finite logits and final states. This custom integration is not the
+installed SDK's supported recipe or a replacement for the working AMD
+Qwen3-4B demo model.
 
 The pinned source is [Qwen/Qwen3.5-4B at
 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a](https://huggingface.co/Qwen/Qwen3.5-4B/tree/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a).
@@ -41,9 +47,12 @@ or speed results.
 | Fresh-process 16,384-token head prefill | All 248,320 logits are NaN; 64 final states read, with the lowest-numbered non-finite state at layer 14, head 5 |
 | Exact first 64 tokens of the head input | All logits are NaN after one eager chunk; same lowest non-finite state at layer 14, head 5. Incomplete prompt, no answer-quality check |
 | Public custom-DD CLI rebuild | CPU conversion completes; independent artifact/graph comparison matches the diagnostic candidate under documented normalization. New package runtime is untested |
+| Revised prefill with 24 native token Loops | Formerly failing 64-token prefix, three short answers, and greedy EOS pass; all observed logits and all 64 prefix states finite, 16,260 completed NPU commands and zero errors |
+| Revised-model 16K prefill | Head and tail cases correct at 16,384 tokens; all nine observed full-vocabulary vectors finite, 1,075,563 completed NPU commands and zero errors |
+| Revised-model near-boundary decoding | 16,380 input tokens plus four sampled tokens including EOS; three DD forwards, correct answer, all observed logits/states finite, 531,411 completed NPU commands and zero errors; clean exit 0 |
 | Full scripted eager post-processing rerun | Interrupted by the second reboot |
 
-The eager prefill graph contains 1,398 nodes. Its NPU operators include 153
+The original eager prefill graph contains 1,398 nodes. Its NPU operators include 153
 `MatMulNBitsBf`, 32 `SSMLP` groups (covering the remaining 96 heavy matmuls),
 and 24 `LinearAttention` operations. The 24 `CausalConvWithState` and 8 GQA
 operations remain on CPU, with other host operations and casts. No GPU
@@ -214,7 +223,7 @@ eager branch's entries, instead of relying on the SDK filter's incomplete
 coverage of mixed branches. Removing a partition assertion or changing a
 context-length setting alone would not provide these contracts.
 
-### Combined-model short validation
+### Original batched-prefill model: short validation
 
 The [integrated short-run report](../results/raw/qwen35-conversion-20260920/dd-integrated-short.json)
 records one model load and four generators, with no retry. The combined model
@@ -257,7 +266,7 @@ the source/model/runtime hashes, stages, counters, and equality comparison.
 The model's configured 16K ceiling remains separate from this short-run
 result.
 
-### Combined-model 16K failure
+### Original batched-prefill model: 16K failure
 
 The [subsequent supervised run](../results/raw/qwen35-conversion-20260920/dd-integrated-16k-failure.json)
 completed the three short cases and greedy
@@ -324,12 +333,168 @@ all 273 changed generated DD `.state` hashes relative to the fresh-head run;
 original model/configuration identities match, and no causal significance is
 assigned to those serialization differences.
 
-Chunk-dependent arithmetic or valid-token masking is a
-candidate for further investigation, informed by the earlier short Japanese
-case's improvement at chunk size 64. The native mechanism is unconfirmed:
-OGA's `search.chunk_size=64` does not establish a 64-token native NPU kernel.
-A smaller OGA chunk is a controlled follow-up, not an established fix. Neither
-failed long-prefill check validates DD decoding near the 16K boundary.
+The native mechanism is unconfirmed: OGA's `search.chunk_size=64` does not
+establish a 64-token native NPU kernel. Neither failed long-prefill check
+validates DD decoding near the 16K boundary. The revised execution strategy
+below leaves that global chunk size unchanged.
+
+### Revised prefill: native single-token LinearAttention Loops
+
+The [guarded header transform](../benchmarks/qwen35_prefill.py) replaces only
+the 24 prefill LinearAttention nodes with dynamic ONNX Loops. Each iteration
+slices the five sequence inputs, invokes the original native operator on one
+token, and carries its BF16 recurrent state. The original native names and
+attributes, model weights, graph interface, and all non-LinearAttention
+prefill nodes are preserved. Projections still process the normal 64-token
+chunks; the DD decode branch remains 249 MatMul and 24 LinearAttention
+partitions. Loop scheduling and slicing are host operations. Rounding the
+state at every BF16 token boundary changes numerical behavior; bit equality
+with batched prefill is not asserted.
+
+The [native-operator evidence bundle](../results/raw/qwen35-conversion-20260920/native-la/README.md)
+retains seven synthetic observations and metadata for the isolated layer-14
+replay. With constant log-decay gates of -80 or -128, batched S=64 returns
+NaNs; single-token execution and the 64-step Loop remain finite in the
+corresponding tested cases. Removing the three cast-absorption attributes
+does not fix the -128 case. The isolated native replay of the actual
+layer-14 inputs reproduces all captured output bits, including NaNs; the
+Loop replay of those same inputs is finite. The original full-model capture
+exited with an access violation after saving evidence, whereas the isolated
+replays returned normally. That cleanup failure and the native kernel's
+internal numerical mechanism remain unresolved.
+
+The bundle includes only owned synthetic output bits, seed-based CPU
+references, small weight-free graphs, and captured-run metadata. Its CPU
+verification is self-contained with NumPy 1.26.4. The optional native runner
+is an unexecuted public reconstruction of the original measurement runners.
+It requires the exact original eager-model transaction subset
+(`f83212a6eb31cea75700d83b1d066c3b5f84960c4e070b05c982406f85520e1b`);
+the stock SDK full archive is not accepted, and installation alone does not
+provide this reproduction input. Use the explicit `--evidence-root` shown
+in its README. Its 180-second timeout applies to the normal
+`--execute-npu` supervisor; `--worker` is an internal child entry point.
+These limitations do not apply to the separate public model packager,
+which includes the checked full SDK transaction archive.
+
+The [revised short-run report](../results/raw/qwen35-conversion-20260920/dd-stable-prefix-short.json)
+records one load, five fresh generators, and no retry. The exact first 64
+tokens from the failed head-information prompt now produce 248,320 finite
+logits and 64 finite final states, including all 768 recurrent-state head
+statistics. Its prefill records 2,073 completed commands and zero errors;
+state/logit readout adds no NPU commands. The
+[compressed logits](../results/raw/qwen35-conversion-20260920/dd-stable-prefix64-logits.npy.gz)
+and [per-state statistics](../results/raw/qwen35-conversion-20260920/dd-stable-prefix64-states.jsonl)
+are retained. This prefix is an incomplete prompt, so no answer-quality
+claim is made for it.
+
+The three complete owned questions are correct. Greedy generation emits
+`[32, 248046, 198, 248044]`, decoding to `A\n` and ending at the configured
+EOS. All eight observed full-vocabulary vectors are finite. The entire run
+records 16,260 submissions and completions, zero errors, and a clean process
+exit. Peak process commit was 10,242,670,592 bytes and peak job commit was
+10,243,928,064 bytes, both under a 20 GiB limit. The model-loaded stage was
+reached 208.03 seconds after the run started; this is a single functional run,
+not a speed or quality benchmark. The separate long-prefill and
+near-boundary decode results follow.
+
+### Revised model: 16K prefill validation
+
+The [completed supervised validation](../results/raw/qwen35-conversion-20260920/dd-stable-16k.json)
+uses the same revised model manifest, one load, six fresh generators, and no
+retry. The three short questions remain correct and greedy generation ends
+at the configured EOS. Both owned boundary prompts are correct:
+
+| Information placement | Input tokens | BLUE / RED logits | Correct | Measured scoring interval |
+|---|---:|---|---|---:|
+| Tail | 16,384 | `[27.625, 21.75]` | Yes | 929.666 s |
+| Head | 16,384 | `[28.125, 21.5]` | Yes | 907.923 s |
+
+The timing field includes all prefill chunks, logit readout, and generator
+cleanup; it is not the duration of one device-kernel call.
+
+Both 16,385-token overflow constructions are rejected before inference.
+All nine observed last-position vectors of 248,320 logits are finite. The
+NPU records 1,075,563 submissions and completions with zero errors. The
+supervised child returns exit code 0 after 2,115.578 seconds, with peak
+process commit of 11,290,202,112 bytes and peak job commit of 11,291,451,392
+bytes under a 20 GiB limit. No timeout or reboot interrupted this run.
+
+The evidence retains every completed stage, prompt/token identity, model and
+runtime artifact hash, full-vocabulary check, and hardware counter delta.
+These two synthetic information-placement questions establish the measured
+16K prefill behavior; they are not a general retrieval-quality or speed
+benchmark. No new tokens are generated after either long prompt, so
+near-boundary DD decoding requires its own test.
+
+### Near-boundary generation: initial diagnostic failure
+
+The [first near-boundary run](../results/raw/qwen35-conversion-20260920/near16k-decode-failure/manifest.json)
+used 16,380 input tokens and sampled four tokens, with three actual DD decode
+forwards. All four saved full-vocabulary vectors are finite. The prefill's
+64 states and 48 states after each decode were read successfully and recorded
+as finite. NPU counters total 531,411 submissions and completions, with zero
+errors; each decode contributes 249 MatMul and 24 LinearAttention commands.
+
+The diagnostic then failed its fourth sequence assertion and returned exit
+code 1 after normal cleanup. It had incorrectly required `get_sequence()` to
+contain the prompt plus every sampled token, including terminal EOS. The
+fourth sampled ID is the configured EOS, but the failed diagnostic did not
+save the fourth returned sequence or reach its final `is_done` check, final
+64-state readout, or post-run input-hash check. These missing observations
+are not filled from later CPU tests, and this run is not an end-to-end pass.
+
+The [CPU sequence-contract evidence](../results/raw/qwen35-conversion-20260920/eos-sequence-contract/README.md)
+records seven owned toy cases on the same SDK's OGA 0.14 runtime. For batch-1
+greedy search, terminal EOS appears in `get_next_tokens()` but is absent
+from `get_sequence()`, whether EOS occurs at the configured limit or earlier.
+A non-EOS token reaching the limit remains in the returned sequence. All 54
+saved before/after arrays agree with this behavior and are unchanged by
+`is_done()`. The pinned public OGA source also uses this search contract for
+RyzenAI. These results identify the incorrect assertion; they do not supply
+the missing values from the failed NPU run.
+
+### Near-boundary generation: corrected diagnostic passes
+
+The [corrected run](../results/raw/qwen35-conversion-20260920/near16k-decode/manifest.json)
+uses the same model artifacts and owned 16,380-token head-information input.
+It saves each actual returned sequence before asserting its contents and
+records the sequence both before and after `is_done()`. Seventeen CPU mock
+tests cover EOS omission, early EOS, non-EOS limit termination, mismatches,
+and the execution bounds before this separate NPU run.
+
+| Measurement | Observed result |
+|---|---|
+| Input tokens | 16,380 |
+| Sampled token IDs | `[32, 248046, 198, 248044]` |
+| Input plus sampled tokens, including EOS | 16,384 |
+| Final API-returned sequence length | 16,383; terminal EOS is omitted |
+| Termination | Configured EOS `248044`, `is_done() == true` |
+| Visible answer | `A\n`, correct for the owned question |
+| Actual DD decode forwards | 3; each completes 249 MatMul and 24 LinearAttention commands |
+| Full-vocabulary logit checks | All four vectors of 248,320 values are finite |
+| State readouts | All 64 after prefill, 48 after each decode, and all 64 after EOS are finite |
+| Total NPU counters | 531,411 submissions, 531,411 completions, zero errors |
+| Supervised child | Exit 0 after 1,174.625 s; normal cleanup |
+| Peak process / job commit | 11,201,118,208 / 11,202,375,680 bytes, under the 20 GiB limit |
+
+All eight saved sequence arrays match the EOS-aware contract, and
+`is_done()` leaves them unchanged. Sampling and all state readouts add zero
+NPU commands. The observed three single-token forwards imply 16,383 valid
+processed/cache tokens and a last processed zero-based position of 16,382.
+Internal OGA position IDs were not exposed; this is count/source-based
+inference, separate from the measured returned sequences. The sampled EOS
+occupies logical position 16,383 but is neither appended to the API-returned
+sequence nor processed by a fourth decode forward.
+
+The evidence preserves all four logit arrays, eight sequence arrays, 272
+state-statistic rows, the owned prompt and IDs, and exact source/runtime
+hashes. Raw internal state tensors are not published. The pinned worker's
+successful control flow includes its final complete input-hash comparison;
+there is no separate saved post-run hash snapshot. The earlier failed run
+remains unchanged. These checks establish the measured 16K prefill and
+near-boundary generation behavior, not general retrieval or model quality.
+The 16,380-token prefill interval was 887.623 seconds, and the full 16K
+scoring intervals above were approximately 15 minutes each.
 
 An independent OGA exporter memory improvement was submitted as
 [onnxruntime-genai PR #2596](https://github.com/microsoft/onnxruntime-genai/pull/2596).
@@ -358,7 +523,8 @@ AMD's public package indexes. This rules out a replacement of these two
 specific files in the checked indexes. Query times, URLs, counts, and both
 wheel hashes are recorded in the
 [availability report](../results/raw/qwen35-conversion-20260920/availability.json).
-This check did not run inference and does not change the incomplete status.
+This availability check did not run inference or establish an AMD-supported
+recipe for this custom conversion.
 
 ## Reproducible conversion environments
 
@@ -498,6 +664,22 @@ hash and comparison row, plus code, profile, and SDK identities.
 failures above belong to the separately materialized diagnostic candidate;
 CPU reproducibility does not establish long-context numerical correctness.
 
+The revised Loop mode has a separate
+[public-package reproduction report](../results/raw/qwen35-conversion-20260920/dd-stable-public-package-reproducibility.json).
+One `package_model(..., prefill_linear_attention="token_loop")` call used the
+original eager prefill and the already verified DD token graph. Its combined
+ONNX header, weights, transaction archive, and eager protobuf are byte
+identical to the revised runtime candidate. Of all 1,280 artifacts, 1,030
+are byte identical and 250 JSON files differ only by package-root paths.
+The manifest also records the original prefill identity and the explicit
+transform, whereas the prototype consumed an already transformed header;
+these provenance differences are retained in the report. Source, token,
+SDK, and public-code hashes were unchanged after packaging. This CPU check
+took 143.914 seconds including comparisons, with peak process commit of
+128,212,992 bytes. It did not rerun the earlier token export/lowering stages
+or perform inference on the newly packaged copy. The separate runtime
+evidence identifies the revised prototype's own manifest and files.
+
 Use the SDK 1.8 environment, rather than the export environment. The profile
 pins SDK package/file versions and the exact measured OGA and eager artifacts.
 The example paths below identify those artifacts; a different export must
@@ -513,7 +695,8 @@ $tfPlan = 'cache\qwen35-conversion\token-fusion-plan-new.json'
   --source models\Qwen3.5-4B-oga-run2 `
   --prefill models\Qwen3.5-4B-npu-eager-16k-chunk64-run1 `
   --sdk-root $sdkRoot --work-dir $tfWork --output $tfOutput `
-  --profile benchmarks\qwen35_rai18_profile.json --plan $tfPlan
+  --profile benchmarks\qwen35_rai18_profile.json --plan $tfPlan `
+  --prefill-linear-attention token_loop
 if ($LASTEXITCODE -ne 0) { throw 'Conversion plan validation failed.' }
 
 $tfPlanSha = (Get-FileHash -LiteralPath $tfPlan -Algorithm SHA256).Hash.ToLowerInvariant()
@@ -524,7 +707,11 @@ $tfPlanSha = (Get-FileHash -LiteralPath $tfPlan -Algorithm SHA256).Hash.ToLowerI
 Planning verifies the pinned inputs, SDK, and code without creating an
 inference session. Building regenerates the token graph, lowers 249 MatMul
 and 24 LinearAttention partitions, and packages them with the supplied eager
-prefill. It copies external data independently, relocates all DD constants,
+prefill. The example explicitly selects the revised `token_loop` prefill;
+the default `native` option preserves the original batched behavior for
+reproduction of the earlier results. The Loop mode checks the exact native
+BF16/operator contract and records the transform and its code hash in the
+package manifest. It copies external data independently, relocates all DD constants,
 preserves the eager protobuf header and weights, and includes the complete
 SDK transaction archive. It uses metadata from the installed ORT in an
 isolated CPU schema check; no model inference or NPU session is performed by
@@ -542,11 +729,11 @@ new manifest. Run short functional validation before attempting the separate
 
 ## Validation before deployment
 
-The combined short run passed after two low-load samples (CPU at most 30%,
-at least 32 GiB available RAM, and no build processes). A supervised full
-validation subsequently failed on non-finite head-information logits, so
-long-context deployment remains unvalidated. The following is the underlying
-validator, which needs a new evidence directory:
+The revised short and full-prefill runs passed after two low-load samples
+(CPU at most 30%, at least 32 GiB available RAM, and no build processes).
+Keep the original batched-prefill failure separate from the revised Loop
+model's successful result. The following is the underlying validator,
+which needs a new evidence directory:
 
 ```powershell
 & $sdkPython benchmarks\validate_qwen35_npu.py `
@@ -562,6 +749,33 @@ the existence of `report.json`. Partial stage files are not a passed run.
 Correctness is reported separately
 from finite-output and hardware checks. Model quality and generation speed
 still require their own benchmarks.
+
+The measured supervised runs additionally wrap every `get_logits()` result
+with a finite check over all 248,320 vocabulary entries at the last position.
+That guard's source hash and all observations are retained in the raw
+evidence. The bare command above checks selected option logits and
+probabilities for direct-scoring cases; it does not reproduce that additional
+full-vocabulary guard. Its native greedy check does inspect the full vector.
+
+After the [Ryzen AI runtime setup](RYZENAI.md), the existing direct-scoring
+launcher accepts the converted model and its exact source revision:
+
+```powershell
+.\run_semif_npu.ps1 -Model $tfOutput -Revision $revision -MaxTokens 16384
+```
+
+It reads `examples/decisions.jsonl` by default and creates a new output file.
+Use `-InputFile` for another fixture. The measured runtime artifact in this
+report is `models/Qwen3.5-4B-stable-prefill-dd-token-16k-run1`, with package
+manifest SHA256
+`f6bbf078f3f23a759b1689418f0364dcbd0e9755ca9455a607a31d9a5fe4c82b`.
+The separately packaged public-API copy has its own identity in the
+reproduction report; use the manifest for the actual directory being run.
+
+The runtime limit is 16,384 tokens from `search.max_length`, and the GQA
+key/value tensors have 16,384 positions. The inherited source-model field
+`model.context_length=262144` does not raise this package's NPU limit.
+SemIf uses the smallest applicable configured limit.
 
 Repository checks remain:
 
