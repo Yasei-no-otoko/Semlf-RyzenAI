@@ -1,0 +1,4154 @@
+{
+  "schema_version": 1,
+  "status": "three_native_cases_bit_exact_to_corresponding_direct_outputs",
+  "scope": "Single-token synthetic LinearAttention through the installed native RyzenAI ORT provider, compared to completed direct-DD experiments",
+  "ryzen_ai_version": "1.8.0",
+  "fixture_seed": 20260920,
+  "native_experiment_count": 3,
+  "method": {
+    "model_weights_used": false,
+    "new_npu_executions_for_publication": 0,
+    "array_hash_encoding": "C-order little-endian raw array bytes, without NumPy headers",
+    "native_session_scope": "Each of the three experiments has one session construction, one execute, and zero retries",
+    "direct_session_scope": "A separate prior direct-DD runtime was initialized once and executed twice, one call per synthetic state case",
+    "threshold": "Exact equality of all output storage bits for the defined conversion, not a tolerance test",
+    "fp16_comparison": "BF16 -> exact FP32 decoding -> FP16 rounding, then compare raw uint16 storage; 12 asymmetric state values change at the FP16 boundary",
+    "hypotheses": "All 16 reference hypotheses per native case and all 16 per direct case are preserved; no alternative rows are discarded",
+    "timings": "Single-call diagnostic timings include differing setup costs and are not a speed benchmark"
+  },
+  "limitations": [
+    "The asymmetric state is synthetic and seeded, not the state produced by a real 128-token prefix. Host count 129 labels a test position only.",
+    "Zero state does not discriminate recurrent-state input orientation or decay semantics; the asymmetric case is the discriminating probe.",
+    "Passing model_type=9/input_num=6 with the seventh UINT32 host input is an observed experimental path, not an AMD-supported Qwen3.5 integration claim.",
+    "The supplied query fixture is already normalized/scaled; the reference query scale is exactly 1.0.",
+    "These isolated operations do not establish full-model correctness, multi-token state evolution, EOS, 16K context, or Token Fusion."
+  ],
+  "sources": [
+    {
+      "role": "direct_dd_two_case_report",
+      "sha256": "dca74fcfdb1f958c1261663e4d793659537ab2a115aaf75bd6d9062d2a633ea3",
+      "bytes": 42902
+    },
+    {
+      "role": "direct_dd_reference_and_runner",
+      "sha256": "2bb78e3c2a4b72c33f7f594ca0123578edb60096df56b3fdfc1f18bccf807468",
+      "bytes": 16054
+    },
+    {
+      "role": "direct_dd_preparation",
+      "sha256": "70e34ce7b94f978a76389d20739dc8d68e6520066fd0c8171b6bfab2dfc84ee3",
+      "bytes": 2065
+    },
+    {
+      "role": "direct_dd_input_fixture",
+      "sha256": "b6d7e448927f7f3ce2f2983803f85312f6f0853f86357dcc89837a083630237f",
+      "bytes": 39569
+    },
+    {
+      "role": "direct_dd_compiled_report",
+      "sha256": "13c75def12c8c17be2e15eb883de3a84de90b4db7ae7a4f62df6ee989345fd0e",
+      "bytes": 1351
+    },
+    {
+      "role": "direct_dd_events",
+      "sha256": "2df172f48960c717a162db449afca79eede377c4773456842abfea4da75684a1",
+      "bytes": 1758
+    },
+    {
+      "role": "direct_dd_xclbin",
+      "sha256": "8d7beceb22c996d90fd9d8d96a8d50dee1127039041a148396e530de1359431a",
+      "bytes": 2983743
+    },
+    {
+      "role": "direct_dd_compiled_linear_token",
+      "sha256": "b874cee06c15e92a7e10919bf17455cbf1584b59573a4fa71b42f2b60d9b5471",
+      "bytes": 12834
+    },
+    {
+      "role": "direct_dd_compiled_linear_token.ctrlpkt",
+      "sha256": "44d20bae8872d5b26ec9a4f9ce6c525d70ab01acffdc267f4f104631821e9e66",
+      "bytes": 36552
+    },
+    {
+      "role": "direct_dd_compiled_linear_token.fconst",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "role": "direct_dd_compiled_linear_token.super",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "role": "v4_zero_bf16_report",
+      "sha256": "2ef327692d4cc5467b1ac898863127c075986a7a789f4a33ad34c01e4386ba58",
+      "bytes": 23346
+    },
+    {
+      "role": "v4_zero_bf16_prepared_manifest",
+      "sha256": "e4621754dc1c978f80db4d8e771e96045137d1b9a1e52664cf8e1a54f3bbcf06",
+      "bytes": 3720
+    },
+    {
+      "role": "v4_zero_bf16_runner",
+      "sha256": "dc2d1ebc474b57c1b8bb9b126e4a5ad6848a7ef7de8143a4308c79cf98e55b07",
+      "bytes": 20603
+    },
+    {
+      "role": "v4_zero_bf16_reference",
+      "sha256": "2bb78e3c2a4b72c33f7f594ca0123578edb60096df56b3fdfc1f18bccf807468",
+      "bytes": 16054
+    },
+    {
+      "role": "v4_zero_bf16_original_fixture",
+      "sha256": "b6d7e448927f7f3ce2f2983803f85312f6f0853f86357dcc89837a083630237f",
+      "bytes": 39569
+    },
+    {
+      "role": "v4_zero_bf16_base_v2_runner",
+      "sha256": "4914c4d07d1af958039235168f90a6500dc6f78dccd9db21b78d65e1001e9b22",
+      "bytes": 16350
+    },
+    {
+      "role": "v4_zero_bf16_base_v3_runner",
+      "sha256": "e5eb88e905f27c36f8b667da3b9239f0aca0973c944a4d00be15f18d84916f65",
+      "bytes": 18723
+    },
+    {
+      "role": "v4_zero_bf16_prepared_model.onnx",
+      "sha256": "54a6d314c16d8991fdf606b5c8fa065b7127433faecf456fa8863b30bcc4fd91",
+      "bytes": 996
+    },
+    {
+      "role": "v4_zero_bf16_prepared_linear_token_meta.json",
+      "sha256": "95d7e6ea33e8fd9c06935763fc6e2e0660c3d4a181857feab838c86f541c5f5c",
+      "bytes": 3887
+    },
+    {
+      "role": "v4_zero_bf16_prepared_inputs_bf16.npz",
+      "sha256": "0575d0ed4297127dd06ff6995ff7bb25e197b3e1a901ec1a87bf8246a4de0ea8",
+      "bytes": 15416
+    },
+    {
+      "role": "v4_zero_bf16_runtime_linear_token_meta.json",
+      "sha256": "95d7e6ea33e8fd9c06935763fc6e2e0660c3d4a181857feab838c86f541c5f5c",
+      "bytes": 3887
+    },
+    {
+      "role": "v4_zero_bf16_runtime_dd_metastate_Llm_Token_linear_token.ctrlpkt",
+      "sha256": "44d20bae8872d5b26ec9a4f9ce6c525d70ab01acffdc267f4f104631821e9e66",
+      "bytes": 36552
+    },
+    {
+      "role": "v4_zero_bf16_runtime_dd_metastate_Llm_Token_linear_token.fconst",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "role": "v4_zero_bf16_runtime_dd_metastate_Llm_Token_linear_token.state",
+      "sha256": "8c2a5ba1da8d20dfd537d77b2f350046b5a927368a76426088c6459be6ac3f68",
+      "bytes": 12915
+    },
+    {
+      "role": "v4_zero_bf16_runtime_dd_metastate_Llm_Token_linear_token.super",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "role": "v4_zero_bf16_runtime_events.jsonl",
+      "sha256": "9b420991b4893c76f5d2ef2ccf0c7cbfbaea82ea66b81aed12e5b36c84b8318d",
+      "bytes": 298
+    },
+    {
+      "role": "v4_zero_bf16_runtime_inputs_bf16.npz",
+      "sha256": "0575d0ed4297127dd06ff6995ff7bb25e197b3e1a901ec1a87bf8246a4de0ea8",
+      "bytes": 15416
+    },
+    {
+      "role": "v4_zero_bf16_runtime_model.onnx",
+      "sha256": "54a6d314c16d8991fdf606b5c8fa065b7127433faecf456fa8863b30bcc4fd91",
+      "bytes": 996
+    },
+    {
+      "role": "v4_zero_bf16_runtime_outputs.npz",
+      "sha256": "85a10f8ad7301be29948a5d22fa781795332cdd0edb70f143ac3206e31e1673e",
+      "bytes": 778311
+    },
+    {
+      "role": "v4_zero_bf16_provider_dll",
+      "sha256": "7e77ad4a8a339195d50c8bbc383635e502f7f6c1034f704af4a2f64b1fb5827f",
+      "bytes": 4347984
+    },
+    {
+      "role": "v4_zero_bf16_direct_comparison_output",
+      "sha256": "e3949c75b7ac218e856017eb09b6605756330e2f606d6ea765d961693f91594c",
+      "bytes": 778305
+    },
+    {
+      "role": "v5_asymmetric_bf16_report",
+      "sha256": "2a357069f307e96457e98f88ca448a6af4dc28daea06dc69e250d4275ebd19c6",
+      "bytes": 23319
+    },
+    {
+      "role": "v5_asymmetric_bf16_prepared_manifest",
+      "sha256": "1bec2addcac0dc96e43052cc20f794c0a97c34e88c1da007445311f6416a3785",
+      "bytes": 4096
+    },
+    {
+      "role": "v5_asymmetric_bf16_runner",
+      "sha256": "51dd918d48504e8d1673a2f702ac49b50edb6aef2c062f65597bc1114441f84f",
+      "bytes": 24897
+    },
+    {
+      "role": "v5_asymmetric_bf16_reference",
+      "sha256": "2bb78e3c2a4b72c33f7f594ca0123578edb60096df56b3fdfc1f18bccf807468",
+      "bytes": 16054
+    },
+    {
+      "role": "v5_asymmetric_bf16_original_fixture",
+      "sha256": "b6d7e448927f7f3ce2f2983803f85312f6f0853f86357dcc89837a083630237f",
+      "bytes": 39569
+    },
+    {
+      "role": "v5_asymmetric_bf16_base_v2_runner",
+      "sha256": "4914c4d07d1af958039235168f90a6500dc6f78dccd9db21b78d65e1001e9b22",
+      "bytes": 16350
+    },
+    {
+      "role": "v5_asymmetric_bf16_base_v3_runner",
+      "sha256": "e5eb88e905f27c36f8b667da3b9239f0aca0973c944a4d00be15f18d84916f65",
+      "bytes": 18723
+    },
+    {
+      "role": "v5_asymmetric_bf16_base_v4_runner",
+      "sha256": "dc2d1ebc474b57c1b8bb9b126e4a5ad6848a7ef7de8143a4308c79cf98e55b07",
+      "bytes": 20603
+    },
+    {
+      "role": "v5_asymmetric_bf16_prepared_model.onnx",
+      "sha256": "54a6d314c16d8991fdf606b5c8fa065b7127433faecf456fa8863b30bcc4fd91",
+      "bytes": 996
+    },
+    {
+      "role": "v5_asymmetric_bf16_prepared_linear_token_meta.json",
+      "sha256": "95d7e6ea33e8fd9c06935763fc6e2e0660c3d4a181857feab838c86f541c5f5c",
+      "bytes": 3887
+    },
+    {
+      "role": "v5_asymmetric_bf16_prepared_inputs_bf16.npz",
+      "sha256": "2b7869ddcf0eae8c0a3aebf35bdc9c2e0a5acd75e1dbd822a3e1460185d27cfd",
+      "bytes": 24291
+    },
+    {
+      "role": "v5_asymmetric_bf16_runtime_linear_token_meta.json",
+      "sha256": "95d7e6ea33e8fd9c06935763fc6e2e0660c3d4a181857feab838c86f541c5f5c",
+      "bytes": 3887
+    },
+    {
+      "role": "v5_asymmetric_bf16_runtime_dd_metastate_Llm_Token_linear_token.ctrlpkt",
+      "sha256": "44d20bae8872d5b26ec9a4f9ce6c525d70ab01acffdc267f4f104631821e9e66",
+      "bytes": 36552
+    },
+    {
+      "role": "v5_asymmetric_bf16_runtime_dd_metastate_Llm_Token_linear_token.fconst",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "role": "v5_asymmetric_bf16_runtime_dd_metastate_Llm_Token_linear_token.state",
+      "sha256": "61b03319da6b59f731b7de06fc2d3ca7d1b651aefe88df8eadbf7beb756e32dc",
+      "bytes": 12917
+    },
+    {
+      "role": "v5_asymmetric_bf16_runtime_dd_metastate_Llm_Token_linear_token.super",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "role": "v5_asymmetric_bf16_runtime_events.jsonl",
+      "sha256": "6f6c62668539ca028d694754c28ded30f725337772db27d166b2bdd0f026a497",
+      "bytes": 298
+    },
+    {
+      "role": "v5_asymmetric_bf16_runtime_inputs_bf16.npz",
+      "sha256": "2b7869ddcf0eae8c0a3aebf35bdc9c2e0a5acd75e1dbd822a3e1460185d27cfd",
+      "bytes": 24291
+    },
+    {
+      "role": "v5_asymmetric_bf16_runtime_model.onnx",
+      "sha256": "54a6d314c16d8991fdf606b5c8fa065b7127433faecf456fa8863b30bcc4fd91",
+      "bytes": 996
+    },
+    {
+      "role": "v5_asymmetric_bf16_runtime_outputs.npz",
+      "sha256": "7aaccbca2cb3c113d9ce92f2fe445d2d476b1ef0dcf8e2c95383fffca01a5160",
+      "bytes": 809560
+    },
+    {
+      "role": "v5_asymmetric_bf16_provider_dll",
+      "sha256": "7e77ad4a8a339195d50c8bbc383635e502f7f6c1034f704af4a2f64b1fb5827f",
+      "bytes": 4347984
+    },
+    {
+      "role": "v5_asymmetric_bf16_direct_comparison_output",
+      "sha256": "40512fb937a57c53cbe376e8c9053a0ab5bbecfeb8f011c1c2e0768dc5854bc2",
+      "bytes": 809554
+    },
+    {
+      "role": "v5_asymmetric_fp16_report",
+      "sha256": "67cc8e61450be7dee4178aa4d367f8a9f7d7b8bc3bf84083e674b9420b7194eb",
+      "bytes": 23342
+    },
+    {
+      "role": "v5_asymmetric_fp16_prepared_manifest",
+      "sha256": "83c5bfe1dc8d97bcdd842c6c563e3db3e994af4b7baf31c7ec5734d3e051c36a",
+      "bytes": 4136
+    },
+    {
+      "role": "v5_asymmetric_fp16_runner",
+      "sha256": "51dd918d48504e8d1673a2f702ac49b50edb6aef2c062f65597bc1114441f84f",
+      "bytes": 24897
+    },
+    {
+      "role": "v5_asymmetric_fp16_reference",
+      "sha256": "2bb78e3c2a4b72c33f7f594ca0123578edb60096df56b3fdfc1f18bccf807468",
+      "bytes": 16054
+    },
+    {
+      "role": "v5_asymmetric_fp16_original_fixture",
+      "sha256": "b6d7e448927f7f3ce2f2983803f85312f6f0853f86357dcc89837a083630237f",
+      "bytes": 39569
+    },
+    {
+      "role": "v5_asymmetric_fp16_base_v2_runner",
+      "sha256": "4914c4d07d1af958039235168f90a6500dc6f78dccd9db21b78d65e1001e9b22",
+      "bytes": 16350
+    },
+    {
+      "role": "v5_asymmetric_fp16_base_v3_runner",
+      "sha256": "e5eb88e905f27c36f8b667da3b9239f0aca0973c944a4d00be15f18d84916f65",
+      "bytes": 18723
+    },
+    {
+      "role": "v5_asymmetric_fp16_base_v4_runner",
+      "sha256": "dc2d1ebc474b57c1b8bb9b126e4a5ad6848a7ef7de8143a4308c79cf98e55b07",
+      "bytes": 20603
+    },
+    {
+      "role": "v5_asymmetric_fp16_prepared_model.onnx",
+      "sha256": "442d1abe8695f54d262ffd7f9c15fd8d4fbb13335623e886dd3ceca5b2ec837c",
+      "bytes": 1723
+    },
+    {
+      "role": "v5_asymmetric_fp16_prepared_linear_token_meta.json",
+      "sha256": "95d7e6ea33e8fd9c06935763fc6e2e0660c3d4a181857feab838c86f541c5f5c",
+      "bytes": 3887
+    },
+    {
+      "role": "v5_asymmetric_fp16_prepared_inputs_bf16.npz",
+      "sha256": "2b7869ddcf0eae8c0a3aebf35bdc9c2e0a5acd75e1dbd822a3e1460185d27cfd",
+      "bytes": 24291
+    },
+    {
+      "role": "v5_asymmetric_fp16_runtime_linear_token_meta.json",
+      "sha256": "95d7e6ea33e8fd9c06935763fc6e2e0660c3d4a181857feab838c86f541c5f5c",
+      "bytes": 3887
+    },
+    {
+      "role": "v5_asymmetric_fp16_runtime_dd_metastate_Llm_Token_linear_token.ctrlpkt",
+      "sha256": "44d20bae8872d5b26ec9a4f9ce6c525d70ab01acffdc267f4f104631821e9e66",
+      "bytes": 36552
+    },
+    {
+      "role": "v5_asymmetric_fp16_runtime_dd_metastate_Llm_Token_linear_token.fconst",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "role": "v5_asymmetric_fp16_runtime_dd_metastate_Llm_Token_linear_token.state",
+      "sha256": "28a81cb78333ef07173f9549006e6a795f6d8613a57e0d8b2543b7e8041a1c39",
+      "bytes": 12917
+    },
+    {
+      "role": "v5_asymmetric_fp16_runtime_dd_metastate_Llm_Token_linear_token.super",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "role": "v5_asymmetric_fp16_runtime_events.jsonl",
+      "sha256": "6e85f2af400b50275eb31c6932ae2b90055f43559f9f89e0ca1bb3ab50b63aae",
+      "bytes": 297
+    },
+    {
+      "role": "v5_asymmetric_fp16_runtime_inputs_bf16.npz",
+      "sha256": "2b7869ddcf0eae8c0a3aebf35bdc9c2e0a5acd75e1dbd822a3e1460185d27cfd",
+      "bytes": 24291
+    },
+    {
+      "role": "v5_asymmetric_fp16_runtime_model.onnx",
+      "sha256": "442d1abe8695f54d262ffd7f9c15fd8d4fbb13335623e886dd3ceca5b2ec837c",
+      "bytes": 1723
+    },
+    {
+      "role": "v5_asymmetric_fp16_runtime_outputs.npz",
+      "sha256": "d7027a5531ceadf1745d8ae06eb17ff02d0e3266c592e190ab793476dcaeac7a",
+      "bytes": 782358
+    },
+    {
+      "role": "v5_asymmetric_fp16_provider_dll",
+      "sha256": "7e77ad4a8a339195d50c8bbc383635e502f7f6c1034f704af4a2f64b1fb5827f",
+      "bytes": 4347984
+    },
+    {
+      "role": "v5_asymmetric_fp16_direct_comparison_output",
+      "sha256": "40512fb937a57c53cbe376e8c9053a0ab5bbecfeb8f011c1c2e0768dc5854bc2",
+      "bytes": 809554
+    }
+  ],
+  "direct_dd": {
+    "source_report_sha256": "dca74fcfdb1f958c1261663e4d793659537ab2a115aaf75bd6d9062d2a633ea3",
+    "status": "two_calls_completed",
+    "init_calls_observed_in_events": 1,
+    "execute_calls_started": 2,
+    "npu_snapshots": {
+      "before_init": {
+        "available": true,
+        "context_count": 0,
+        "contexts": []
+      },
+      "after_init": {
+        "available": true,
+        "context_count": 1,
+        "contexts": [
+          {
+            "command_submissions": 0,
+            "command_completions": 0,
+            "errors": 0
+          }
+        ]
+      },
+      "after_execute-zero_state": {
+        "available": true,
+        "context_count": 1,
+        "contexts": [
+          {
+            "command_submissions": 1,
+            "command_completions": 1,
+            "errors": 0
+          }
+        ]
+      },
+      "after_execute-asymmetric_state": {
+        "available": true,
+        "context_count": 1,
+        "contexts": [
+          {
+            "command_submissions": 2,
+            "command_completions": 2,
+            "errors": 0
+          }
+        ]
+      }
+    },
+    "cases": [
+      {
+        "case": "zero_state",
+        "hypothesis_rows": [
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0002741888165473938,
+              "rmse": 2.9217642929855362e-05,
+              "relative_rmse": 0.0030468946416023304,
+              "expected_rms": 0.009589318426347065
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0002593994140625,
+              "rmse": 2.615408402907175e-05,
+              "relative_rmse": 0.002362040743523053,
+              "expected_rms": 0.011072664220881375
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.000244140625,
+              "rmse": 3.356025905564544e-05,
+              "relative_rmse": 0.003499950718930016,
+              "expected_rms": 0.00958878045743035
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.000244140625,
+              "rmse": 3.118672267393573e-05,
+              "relative_rmse": 0.0028165170342639716,
+              "expected_rms": 0.011072797463866794
+            }
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.06836173310875893,
+              "rmse": 0.01202592205724803,
+              "relative_rmse": 1.2065232531390542,
+              "expected_rms": 0.009967418386640925
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0972563624382019,
+              "rmse": 0.014862750959541258,
+              "relative_rmse": 1.3474758426147966,
+              "expected_rms": 0.011030068584160939
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.0684814453125,
+              "rmse": 0.012025759019892624,
+              "relative_rmse": 1.2064980245583945,
+              "expected_rms": 0.009967491678483539
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.09716796875,
+              "rmse": 0.014862851804946016,
+              "relative_rmse": 1.3474691367222316,
+              "expected_rms": 0.011030198317640471
+            }
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0002741888165473938,
+              "rmse": 2.9217642929855362e-05,
+              "relative_rmse": 0.0030468946416023304,
+              "expected_rms": 0.009589318426347065
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0002593994140625,
+              "rmse": 2.615408402907175e-05,
+              "relative_rmse": 0.002362040743523053,
+              "expected_rms": 0.011072664220881375
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.000244140625,
+              "rmse": 3.356025905564544e-05,
+              "relative_rmse": 0.003499950718930016,
+              "expected_rms": 0.00958878045743035
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.000244140625,
+              "rmse": 3.118672267393573e-05,
+              "relative_rmse": 0.0028165170342639716,
+              "expected_rms": 0.011072797463866794
+            }
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.06836173310875893,
+              "rmse": 0.01202592205724803,
+              "relative_rmse": 1.2065232531390542,
+              "expected_rms": 0.009967418386640925
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0972563624382019,
+              "rmse": 0.014862750959541258,
+              "relative_rmse": 1.3474758426147966,
+              "expected_rms": 0.011030068584160939
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.0684814453125,
+              "rmse": 0.012025759019892624,
+              "relative_rmse": 1.2064980245583945,
+              "expected_rms": 0.009967491678483539
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.09716796875,
+              "rmse": 0.014862851804946016,
+              "relative_rmse": 1.3474691367222316,
+              "expected_rms": 0.011030198317640471
+            }
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0002741888165473938,
+              "rmse": 2.9217642929855362e-05,
+              "relative_rmse": 0.0030468946416023304,
+              "expected_rms": 0.009589318426347065
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.09256196022033691,
+              "rmse": 0.015586066134393247,
+              "relative_rmse": 1.4076166154303027,
+              "expected_rms": 0.011072664220881373
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.000244140625,
+              "rmse": 3.356025905564544e-05,
+              "relative_rmse": 0.003499950718930016,
+              "expected_rms": 0.00958878045743035
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.092529296875,
+              "rmse": 0.015586169731359857,
+              "relative_rmse": 1.4076090330579314,
+              "expected_rms": 0.011072797463866796
+            }
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.06836173310875893,
+              "rmse": 0.01202592205724803,
+              "relative_rmse": 1.2065232531390542,
+              "expected_rms": 0.009967418386640925
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.09256196022033691,
+              "rmse": 0.015640308141739227,
+              "relative_rmse": 1.4179701624157208,
+              "expected_rms": 0.011030068584160939
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.0684814453125,
+              "rmse": 0.012025759019892624,
+              "relative_rmse": 1.2064980245583945,
+              "expected_rms": 0.009967491678483539
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.092529296875,
+              "rmse": 0.015640395935466612,
+              "relative_rmse": 1.4179614441249986,
+              "expected_rms": 0.011030198317640471
+            }
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0002741888165473938,
+              "rmse": 2.9217642929855362e-05,
+              "relative_rmse": 0.0030468946416023304,
+              "expected_rms": 0.009589318426347065
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.09256196022033691,
+              "rmse": 0.015586066134393247,
+              "relative_rmse": 1.4076166154303027,
+              "expected_rms": 0.011072664220881373
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.000244140625,
+              "rmse": 3.356025905564544e-05,
+              "relative_rmse": 0.003499950718930016,
+              "expected_rms": 0.00958878045743035
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.092529296875,
+              "rmse": 0.015586169731359857,
+              "relative_rmse": 1.4076090330579314,
+              "expected_rms": 0.011072797463866796
+            }
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.06836173310875893,
+              "rmse": 0.01202592205724803,
+              "relative_rmse": 1.2065232531390542,
+              "expected_rms": 0.009967418386640925
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.09256196022033691,
+              "rmse": 0.015640308141739227,
+              "relative_rmse": 1.4179701624157208,
+              "expected_rms": 0.011030068584160939
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.0684814453125,
+              "rmse": 0.012025759019892624,
+              "relative_rmse": 1.2064980245583945,
+              "expected_rms": 0.009967491678483539
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.092529296875,
+              "rmse": 0.015640395935466612,
+              "relative_rmse": 1.4179614441249986,
+              "expected_rms": 0.011030198317640471
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0002741888165473938,
+              "rmse": 2.9217642929855362e-05,
+              "relative_rmse": 0.0030468946416023304,
+              "expected_rms": 0.009589318426347065
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0002593994140625,
+              "rmse": 2.615408402907175e-05,
+              "relative_rmse": 0.002362040743523053,
+              "expected_rms": 0.011072664220881375
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.000244140625,
+              "rmse": 3.356025905564544e-05,
+              "relative_rmse": 0.003499950718930016,
+              "expected_rms": 0.00958878045743035
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.000244140625,
+              "rmse": 3.118672267393573e-05,
+              "relative_rmse": 0.0028165170342639716,
+              "expected_rms": 0.011072797463866794
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.06836173310875893,
+              "rmse": 0.01202592205724803,
+              "relative_rmse": 1.2065232531390542,
+              "expected_rms": 0.009967418386640925
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0972563624382019,
+              "rmse": 0.014862750959541258,
+              "relative_rmse": 1.3474758426147966,
+              "expected_rms": 0.011030068584160939
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.0684814453125,
+              "rmse": 0.012025759019892624,
+              "relative_rmse": 1.2064980245583945,
+              "expected_rms": 0.009967491678483539
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.09716796875,
+              "rmse": 0.014862851804946016,
+              "relative_rmse": 1.3474691367222316,
+              "expected_rms": 0.011030198317640471
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0002741888165473938,
+              "rmse": 2.9217642929855362e-05,
+              "relative_rmse": 0.0030468946416023304,
+              "expected_rms": 0.009589318426347065
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0002593994140625,
+              "rmse": 2.615408402907175e-05,
+              "relative_rmse": 0.002362040743523053,
+              "expected_rms": 0.011072664220881375
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.000244140625,
+              "rmse": 3.356025905564544e-05,
+              "relative_rmse": 0.003499950718930016,
+              "expected_rms": 0.00958878045743035
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.000244140625,
+              "rmse": 3.118672267393573e-05,
+              "relative_rmse": 0.0028165170342639716,
+              "expected_rms": 0.011072797463866794
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.06836173310875893,
+              "rmse": 0.01202592205724803,
+              "relative_rmse": 1.2065232531390542,
+              "expected_rms": 0.009967418386640925
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0972563624382019,
+              "rmse": 0.014862750959541258,
+              "relative_rmse": 1.3474758426147966,
+              "expected_rms": 0.011030068584160939
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.0684814453125,
+              "rmse": 0.012025759019892624,
+              "relative_rmse": 1.2064980245583945,
+              "expected_rms": 0.009967491678483539
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.09716796875,
+              "rmse": 0.014862851804946016,
+              "relative_rmse": 1.3474691367222316,
+              "expected_rms": 0.011030198317640471
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0002741888165473938,
+              "rmse": 2.9217642929855362e-05,
+              "relative_rmse": 0.0030468946416023304,
+              "expected_rms": 0.009589318426347065
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.09256196022033691,
+              "rmse": 0.015586066134393247,
+              "relative_rmse": 1.4076166154303027,
+              "expected_rms": 0.011072664220881373
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.000244140625,
+              "rmse": 3.356025905564544e-05,
+              "relative_rmse": 0.003499950718930016,
+              "expected_rms": 0.00958878045743035
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.092529296875,
+              "rmse": 0.015586169731359857,
+              "relative_rmse": 1.4076090330579314,
+              "expected_rms": 0.011072797463866796
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.06836173310875893,
+              "rmse": 0.01202592205724803,
+              "relative_rmse": 1.2065232531390542,
+              "expected_rms": 0.009967418386640925
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.09256196022033691,
+              "rmse": 0.015640308141739227,
+              "relative_rmse": 1.4179701624157208,
+              "expected_rms": 0.011030068584160939
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.0684814453125,
+              "rmse": 0.012025759019892624,
+              "relative_rmse": 1.2064980245583945,
+              "expected_rms": 0.009967491678483539
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.092529296875,
+              "rmse": 0.015640395935466612,
+              "relative_rmse": 1.4179614441249986,
+              "expected_rms": 0.011030198317640471
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0002741888165473938,
+              "rmse": 2.9217642929855362e-05,
+              "relative_rmse": 0.0030468946416023304,
+              "expected_rms": 0.009589318426347065
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.09256196022033691,
+              "rmse": 0.015586066134393247,
+              "relative_rmse": 1.4076166154303027,
+              "expected_rms": 0.011072664220881373
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.000244140625,
+              "rmse": 3.356025905564544e-05,
+              "relative_rmse": 0.003499950718930016,
+              "expected_rms": 0.00958878045743035
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.092529296875,
+              "rmse": 0.015586169731359857,
+              "relative_rmse": 1.4076090330579314,
+              "expected_rms": 0.011072797463866796
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.06836173310875893,
+              "rmse": 0.01202592205724803,
+              "relative_rmse": 1.2065232531390542,
+              "expected_rms": 0.009967418386640925
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.09256196022033691,
+              "rmse": 0.015640308141739227,
+              "relative_rmse": 1.4179701624157208,
+              "expected_rms": 0.011030068584160939
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.0684814453125,
+              "rmse": 0.012025759019892624,
+              "relative_rmse": 1.2064980245583945,
+              "expected_rms": 0.009967491678483539
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.092529296875,
+              "rmse": 0.015640395935466612,
+              "relative_rmse": 1.4179614441249986,
+              "expected_rms": 0.011030198317640471
+            }
+          }
+        ],
+        "execute_counter_delta": {
+          "command_submissions": 1,
+          "command_completions": 1,
+          "errors": 0
+        },
+        "output_archive_sha256": "e3949c75b7ac218e856017eb09b6605756330e2f606d6ea765d961693f91594c",
+        "execute_seconds_diagnostic_only": 0.0018184000000474043
+      },
+      {
+        "case": "asymmetric_state",
+        "hypothesis_rows": [
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0004407241940498352,
+              "rmse": 7.601884171418482e-05,
+              "relative_rmse": 0.0032774794882767574,
+              "expected_rms": 0.02319429976178256
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.000477813184261322,
+              "rmse": 6.95649633399218e-05,
+              "relative_rmse": 0.002837996188356841,
+              "expected_rms": 0.024512000271641982
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.00048828125,
+              "rmse": 8.392390030248578e-05,
+              "relative_rmse": 0.0036180279892920556,
+              "expected_rms": 0.02319603401379636
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.00048828125,
+              "rmse": 7.957505785083846e-05,
+              "relative_rmse": 0.0032463888378132465,
+              "expected_rms": 0.024511868980069518
+            }
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.1297830566763878,
+              "rmse": 0.03189457876604723,
+              "relative_rmse": 1.3872090557377441,
+              "expected_rms": 0.02299190495774632
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.09731075167655945,
+              "rmse": 0.014895876501186057,
+              "relative_rmse": 0.6082697977762263,
+              "expected_rms": 0.024488930003830366
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.1298828125,
+              "rmse": 0.03189392333480267,
+              "relative_rmse": 1.3871909135324458,
+              "expected_rms": 0.02299173316640722
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.097412109375,
+              "rmse": 0.014895846902461908,
+              "relative_rmse": 0.6082689412911514,
+              "expected_rms": 0.024488915825363385
+            }
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.11074532195925713,
+              "rmse": 0.03560393158257968,
+              "relative_rmse": 1.8686561776901975,
+              "expected_rms": 0.01905322766577042
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.08386458456516266,
+              "rmse": 0.03860325203115501,
+              "relative_rmse": 1.7702531113826012,
+              "expected_rms": 0.021806628545341256
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.11083984375,
+              "rmse": 0.03560426367679675,
+              "relative_rmse": 1.8686524542821257,
+              "expected_rms": 0.019053443349086936
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.083984375,
+              "rmse": 0.03860330471539355,
+              "relative_rmse": 1.770248288392074,
+              "expected_rms": 0.021806717717805076
+            }
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.11776718497276306,
+              "rmse": 0.02975719250403516,
+              "relative_rmse": 1.5064898694703384,
+              "expected_rms": 0.01975266684965986
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.16103486716747284,
+              "rmse": 0.04134922763485741,
+              "relative_rmse": 1.8984547189410588,
+              "expected_rms": 0.021780465566185136
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.1177978515625,
+              "rmse": 0.029758414259654895,
+              "relative_rmse": 1.5064632687943067,
+              "expected_rms": 0.019753826645552367
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.1611328125,
+              "rmse": 0.04134926684132275,
+              "relative_rmse": 1.898454163597026,
+              "expected_rms": 0.021780492589285248
+            }
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.0004407241940498352,
+              "rmse": 7.601884171418482e-05,
+              "relative_rmse": 0.0032774794882767574,
+              "expected_rms": 0.02319429976178256
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.12607865035533905,
+              "rmse": 0.03463291035405312,
+              "relative_rmse": 1.4128961312928856,
+              "expected_rms": 0.024512000271641986
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.00048828125,
+              "rmse": 8.392390030248578e-05,
+              "relative_rmse": 0.0036180279892920556,
+              "expected_rms": 0.02319603401379636
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.126220703125,
+              "rmse": 0.03463277337282939,
+              "relative_rmse": 1.4128981107474556,
+              "expected_rms": 0.02451186898006952
+            }
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.1297830566763878,
+              "rmse": 0.03189457876604723,
+              "relative_rmse": 1.3872090557377441,
+              "expected_rms": 0.02299190495774632
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.1345100998878479,
+              "rmse": 0.03465486499083167,
+              "relative_rmse": 1.4151236899860968,
+              "expected_rms": 0.024488930003830366
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.1298828125,
+              "rmse": 0.03189392333480267,
+              "relative_rmse": 1.3871909135324458,
+              "expected_rms": 0.02299173316640722
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.13427734375,
+              "rmse": 0.0346548154571876,
+              "relative_rmse": 1.4151224866106693,
+              "expected_rms": 0.024488915825363382
+            }
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.11074532195925713,
+              "rmse": 0.03560393158257968,
+              "relative_rmse": 1.8686561776901975,
+              "expected_rms": 0.01905322766577042
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.14599798619747162,
+              "rmse": 0.03276448718546033,
+              "relative_rmse": 1.5025012746621986,
+              "expected_rms": 0.02180662854534126
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.11083984375,
+              "rmse": 0.03560426367679675,
+              "relative_rmse": 1.8686524542821257,
+              "expected_rms": 0.019053443349086936
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.14599609375,
+              "rmse": 0.0327645413290645,
+              "relative_rmse": 1.5024976134905628,
+              "expected_rms": 0.021806717717805076
+            }
+          },
+          {
+            "state_in_layout": "K_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.11776718497276306,
+              "rmse": 0.02975719250403516,
+              "relative_rmse": 1.5064898694703384,
+              "expected_rms": 0.01975266684965986
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.14599798619747162,
+              "rmse": 0.03279006282079943,
+              "relative_rmse": 1.5054803452735668,
+              "expected_rms": 0.021780465566185136
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.1177978515625,
+              "rmse": 0.029758414259654895,
+              "relative_rmse": 1.5064632687943067,
+              "expected_rms": 0.019753826645552367
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.14599609375,
+              "rmse": 0.03279005533249678,
+              "relative_rmse": 1.5054781336133602,
+              "expected_rms": 0.021780492589285248
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.12441253662109375,
+              "rmse": 0.03256383072697275,
+              "relative_rmse": 1.2429367537325138,
+              "expected_rms": 0.026199105167004057
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.10381580144166946,
+              "rmse": 0.03090677919232652,
+              "relative_rmse": 1.2615052570837297,
+              "expected_rms": 0.02449992104176792
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.12451171875,
+              "rmse": 0.032564294857310855,
+              "relative_rmse": 1.2428889774314404,
+              "expected_rms": 0.02620048568184132
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.103759765625,
+              "rmse": 0.030906728850055794,
+              "relative_rmse": 1.2615117331168895,
+              "expected_rms": 0.02449975536390198
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.14676835387945175,
+              "rmse": 0.034536794756580017,
+              "relative_rmse": 1.3200354995134027,
+              "expected_rms": 0.026163534821079526
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.14097552746534348,
+              "rmse": 0.03429557552344067,
+              "relative_rmse": 1.4013284239287596,
+              "expected_rms": 0.024473617274735432
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.14697265625,
+              "rmse": 0.03453558559587263,
+              "relative_rmse": 1.3200429453673785,
+              "expected_rms": 0.026162471241616383
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.14111328125,
+              "rmse": 0.03429552204124593,
+              "relative_rmse": 1.4013245665849883,
+              "expected_rms": 0.02447364647636466
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.09303833544254303,
+              "rmse": 0.030139933536687,
+              "relative_rmse": 1.2890931850588345,
+              "expected_rms": 0.023380725215230585
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.07800357043743134,
+              "rmse": 0.028815913815298258,
+              "relative_rmse": 1.3217623264544454,
+              "expected_rms": 0.021801131140267372
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.0930023193359375,
+              "rmse": 0.030139119211335705,
+              "relative_rmse": 1.289109152804446,
+              "expected_rms": 0.023379803910140818
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.078125,
+              "rmse": 0.028815806115515805,
+              "relative_rmse": 1.3217665146270823,
+              "expected_rms": 0.021800980579119736
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "K_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.11151532828807831,
+              "rmse": 0.03212010416686574,
+              "relative_rmse": 1.3841390308218393,
+              "expected_rms": 0.023205836589836118
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.16099175065755844,
+              "rmse": 0.03241524247264424,
+              "relative_rmse": 1.4887116640644737,
+              "expected_rms": 0.02177402330827737
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.111328125,
+              "rmse": 0.032119631188837296,
+              "relative_rmse": 1.3841789598959338,
+              "expected_rms": 0.02320482547376109
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.160888671875,
+              "rmse": 0.03241515866883223,
+              "relative_rmse": 1.4887164453225832,
+              "expected_rms": 0.02177389708475232
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.12441253662109375,
+              "rmse": 0.03256383072697275,
+              "relative_rmse": 1.2429367537325138,
+              "expected_rms": 0.026199105167004057
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.09335384517908096,
+              "rmse": 0.0156325262201138,
+              "relative_rmse": 0.6380643510427311,
+              "expected_rms": 0.02449992104176792
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.12451171875,
+              "rmse": 0.032564294857310855,
+              "relative_rmse": 1.2428889774314404,
+              "expected_rms": 0.02620048568184132
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.09326171875,
+              "rmse": 0.01563244291703983,
+              "relative_rmse": 0.6380652657484378,
+              "expected_rms": 0.024499755363901976
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_log_decay",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.14676835387945175,
+              "rmse": 0.034536794756580017,
+              "relative_rmse": 1.3200354995134027,
+              "expected_rms": 0.026163534821079526
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.09335384517908096,
+              "rmse": 0.01567828263879681,
+              "relative_rmse": 0.6406197523968713,
+              "expected_rms": 0.02447361727473544
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.14697265625,
+              "rmse": 0.03453558559587263,
+              "relative_rmse": 1.3200429453673785,
+              "expected_rms": 0.026162471241616383
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.09326171875,
+              "rmse": 0.01567836478072215,
+              "relative_rmse": 0.640622344359819,
+              "expected_rms": 0.024473646476364658
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "repeat_interleave",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.09303833544254303,
+              "rmse": 0.030139933536687,
+              "relative_rmse": 1.2890931850588345,
+              "expected_rms": 0.023380725215230585
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.15120691061019897,
+              "rmse": 0.04161288691320524,
+              "relative_rmse": 1.908748983961889,
+              "expected_rms": 0.021801131140267372
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.0930023193359375,
+              "rmse": 0.030139119211335705,
+              "relative_rmse": 1.289109152804446,
+              "expected_rms": 0.023379803910140818
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.1513671875,
+              "rmse": 0.041612783615976846,
+              "relative_rmse": 1.9087574279035968,
+              "expected_rms": 0.021800980579119732
+            }
+          },
+          {
+            "state_in_layout": "V_major",
+            "state_out_layout": "V_major",
+            "gate_semantics": "wire_is_decay_factor",
+            "head_map": "tile",
+            "query_scale": 1.0,
+            "attention_vs_float32": {
+              "finite": true,
+              "max_abs": 0.11151532828807831,
+              "rmse": 0.03212010416686574,
+              "relative_rmse": 1.3841390308218393,
+              "expected_rms": 0.023205836589836118
+            },
+            "state_vs_float32": {
+              "finite": true,
+              "max_abs": 0.1626320481300354,
+              "rmse": 0.04162932035105786,
+              "relative_rmse": 1.9118800306984391,
+              "expected_rms": 0.021774023308277365
+            },
+            "attention_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.111328125,
+              "rmse": 0.032119631188837296,
+              "relative_rmse": 1.3841789598959338,
+              "expected_rms": 0.02320482547376109
+            },
+            "state_vs_bf16_rounded": {
+              "finite": true,
+              "max_abs": 0.16259765625,
+              "rmse": 0.041629209636087516,
+              "relative_rmse": 1.9118860291316133,
+              "expected_rms": 0.021773897084752317
+            }
+          }
+        ],
+        "execute_counter_delta": {
+          "command_submissions": 1,
+          "command_completions": 1,
+          "errors": 0
+        },
+        "output_archive_sha256": "40512fb937a57c53cbe376e8c9053a0ab5bbecfeb8f011c1c2e0768dc5854bc2",
+        "execute_seconds_diagnostic_only": 0.0006099000020185485
+      }
+    ]
+  },
+  "experiments": [
+    {
+      "experiment": "v4_zero_bf16",
+      "case": "zero_state",
+      "io_type": "bf16",
+      "status": "executed_once",
+      "model_type": "llm-token",
+      "model_type_attribute": 9,
+      "input_num_attribute": 6,
+      "session_construction_calls_started": 1,
+      "execute_calls_started": 1,
+      "retries": 0,
+      "selected_hardware_type": "NPU",
+      "matching_device_count": 1,
+      "session_providers": [
+        "RyzenAILightExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "onnxruntime_version": "1.27.0",
+      "compile_fusion_rt": "1",
+      "compiled_cache_copied": false,
+      "dd_metadata_unchanged": true,
+      "host_control": {
+        "name": "attention_mask_const_uint",
+        "dtype": "UINT32",
+        "shape": [
+          1
+        ],
+        "value": 1,
+        "preceding_tokens": 0,
+        "current_tokens": 1,
+        "semantic_source": "Single-token zero-state fixture: valid length including current token",
+        "real_graph_source": "Cast(ReduceSum(attention_mask, axis=1, keepdims=0), UINT32)",
+        "host_only": true,
+        "present_in_dd_metadata": false,
+        "token_provider_semantic_compatibility": "unverified",
+        "primary_source": "SDK transform/dd.py:62-63,146-151 plus matcher.py:1141-1156 allow wrapper-only extra_inputs; llm_prefill_to_dd.py:68-87 uses sequence_length this way. llm_token_to_dd.py supplies no extra_inputs.",
+        "unsupported_attributes_not_added": [
+          "seq_len"
+        ]
+      },
+      "input_shapes": [
+        [
+          1,
+          32,
+          128,
+          128
+        ],
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          32
+        ],
+        [
+          1,
+          32
+        ],
+        [
+          1
+        ]
+      ],
+      "output_shapes": [
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          32,
+          128,
+          128
+        ]
+      ],
+      "input_onnx_types": [
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        12
+      ],
+      "output_onnx_types": [
+        16,
+        16
+      ],
+      "npu_snapshots": {
+        "before_registration": {
+          "available": true,
+          "context_count": 0,
+          "contexts": []
+        },
+        "before_session": {
+          "available": true,
+          "context_count": 0,
+          "contexts": []
+        },
+        "after_session": {
+          "available": true,
+          "context_count": 1,
+          "contexts": [
+            {
+              "command_submissions": 0,
+              "command_completions": 0,
+              "errors": 0
+            }
+          ]
+        },
+        "after_execute": {
+          "available": true,
+          "context_count": 1,
+          "contexts": [
+            {
+              "command_submissions": 1,
+              "command_completions": 1,
+              "errors": 0
+            }
+          ]
+        }
+      },
+      "execute_counter_delta": {
+        "command_submissions": 1,
+        "command_completions": 1,
+        "errors": 0
+      },
+      "input_direct_fixture_comparisons": [
+        {
+          "name": "state",
+          "shape": [
+            1,
+            32,
+            128,
+            128
+          ],
+          "elements": 524288,
+          "bf16_raw_uint16_sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "query",
+          "shape": [
+            1,
+            16,
+            128
+          ],
+          "elements": 2048,
+          "bf16_raw_uint16_sha256": "85e2e5e64d7924cbb2e585171078a916480f312efea6ae80fe1e24d7d8a3c36d",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "key",
+          "shape": [
+            1,
+            16,
+            128
+          ],
+          "elements": 2048,
+          "bf16_raw_uint16_sha256": "c5b78e61a955ff7f8b27c2c37a6e6fd07c1b919803a381d37b9cda0ae4724fd9",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "value",
+          "shape": [
+            1,
+            32,
+            128
+          ],
+          "elements": 4096,
+          "bf16_raw_uint16_sha256": "01ef901a6655440c1ff91032409dabf562ed97166e3994f1fc36b791c685ea93",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "gate",
+          "shape": [
+            1,
+            32
+          ],
+          "elements": 32,
+          "bf16_raw_uint16_sha256": "dc3835cfbeb19bf8a878675d78b54dc81449768ff7657a4db53ce7b7f5ba29b4",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "beta",
+          "shape": [
+            1,
+            32
+          ],
+          "elements": 32,
+          "bf16_raw_uint16_sha256": "ac29290f5ef292797a44a85e020fcd7f595907de4aa8a83a3ca87c7f28ee04d0",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        }
+      ],
+      "output_direct_comparisons": [
+        {
+          "name": "attn_out",
+          "shape": [
+            1,
+            32,
+            128
+          ],
+          "elements": 4096,
+          "native_storage_dtype": "<u2",
+          "direct_storage_dtype": "<u2",
+          "native_payload_sha256": "dacfeb8c4866ffdbdde7fbabee0eb75886fab585dd534d8ab2520173e71de2c8",
+          "direct_bf16_payload_sha256": "dacfeb8c4866ffdbdde7fbabee0eb75886fab585dd534d8ab2520173e71de2c8",
+          "comparison_expected_payload_sha256": "dacfeb8c4866ffdbdde7fbabee0eb75886fab585dd534d8ab2520173e71de2c8",
+          "bit_exact": true,
+          "mismatched_elements": 0,
+          "comparison": "Native BF16 raw uint16 vs direct DD BF16 raw uint16",
+          "direct_bf16_to_fp16_changed_value_count": null,
+          "fp16_rounding_changed_rows": []
+        },
+        {
+          "name": "state_out",
+          "shape": [
+            1,
+            32,
+            128,
+            128
+          ],
+          "elements": 524288,
+          "native_storage_dtype": "<u2",
+          "direct_storage_dtype": "<u2",
+          "native_payload_sha256": "712800954c3e5c2111c5e963fa0cbf701cda722fee19cf350182b968f8e029e4",
+          "direct_bf16_payload_sha256": "712800954c3e5c2111c5e963fa0cbf701cda722fee19cf350182b968f8e029e4",
+          "comparison_expected_payload_sha256": "712800954c3e5c2111c5e963fa0cbf701cda722fee19cf350182b968f8e029e4",
+          "bit_exact": true,
+          "mismatched_elements": 0,
+          "comparison": "Native BF16 raw uint16 vs direct DD BF16 raw uint16",
+          "direct_bf16_to_fp16_changed_value_count": null,
+          "fp16_rounding_changed_rows": []
+        }
+      ],
+      "hypothesis_rows": [
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002593994140625,
+            "rmse": 2.615408402907175e-05,
+            "relative_rmse": 0.002362040743523053,
+            "expected_rms": 0.011072664220881375
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.118672267393573e-05,
+            "relative_rmse": 0.0028165170342639716,
+            "expected_rms": 0.011072797463866794
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0972563624382019,
+            "rmse": 0.014862750959541258,
+            "relative_rmse": 1.3474758426147966,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.09716796875,
+            "rmse": 0.014862851804946016,
+            "relative_rmse": 1.3474691367222316,
+            "expected_rms": 0.011030198317640471
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002593994140625,
+            "rmse": 2.615408402907175e-05,
+            "relative_rmse": 0.002362040743523053,
+            "expected_rms": 0.011072664220881375
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.118672267393573e-05,
+            "relative_rmse": 0.0028165170342639716,
+            "expected_rms": 0.011072797463866794
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0972563624382019,
+            "rmse": 0.014862750959541258,
+            "relative_rmse": 1.3474758426147966,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.09716796875,
+            "rmse": 0.014862851804946016,
+            "relative_rmse": 1.3474691367222316,
+            "expected_rms": 0.011030198317640471
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015586066134393247,
+            "relative_rmse": 1.4076166154303027,
+            "expected_rms": 0.011072664220881373
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015586169731359857,
+            "relative_rmse": 1.4076090330579314,
+            "expected_rms": 0.011072797463866796
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015640308141739227,
+            "relative_rmse": 1.4179701624157208,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015640395935466612,
+            "relative_rmse": 1.4179614441249986,
+            "expected_rms": 0.011030198317640471
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015586066134393247,
+            "relative_rmse": 1.4076166154303027,
+            "expected_rms": 0.011072664220881373
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015586169731359857,
+            "relative_rmse": 1.4076090330579314,
+            "expected_rms": 0.011072797463866796
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015640308141739227,
+            "relative_rmse": 1.4179701624157208,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015640395935466612,
+            "relative_rmse": 1.4179614441249986,
+            "expected_rms": 0.011030198317640471
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002593994140625,
+            "rmse": 2.615408402907175e-05,
+            "relative_rmse": 0.002362040743523053,
+            "expected_rms": 0.011072664220881375
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.118672267393573e-05,
+            "relative_rmse": 0.0028165170342639716,
+            "expected_rms": 0.011072797463866794
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0972563624382019,
+            "rmse": 0.014862750959541258,
+            "relative_rmse": 1.3474758426147966,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.09716796875,
+            "rmse": 0.014862851804946016,
+            "relative_rmse": 1.3474691367222316,
+            "expected_rms": 0.011030198317640471
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002593994140625,
+            "rmse": 2.615408402907175e-05,
+            "relative_rmse": 0.002362040743523053,
+            "expected_rms": 0.011072664220881375
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.118672267393573e-05,
+            "relative_rmse": 0.0028165170342639716,
+            "expected_rms": 0.011072797463866794
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0972563624382019,
+            "rmse": 0.014862750959541258,
+            "relative_rmse": 1.3474758426147966,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.09716796875,
+            "rmse": 0.014862851804946016,
+            "relative_rmse": 1.3474691367222316,
+            "expected_rms": 0.011030198317640471
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015586066134393247,
+            "relative_rmse": 1.4076166154303027,
+            "expected_rms": 0.011072664220881373
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015586169731359857,
+            "relative_rmse": 1.4076090330579314,
+            "expected_rms": 0.011072797463866796
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015640308141739227,
+            "relative_rmse": 1.4179701624157208,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015640395935466612,
+            "relative_rmse": 1.4179614441249986,
+            "expected_rms": 0.011030198317640471
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0002741888165473938,
+            "rmse": 2.9217642929855362e-05,
+            "relative_rmse": 0.0030468946416023304,
+            "expected_rms": 0.009589318426347065
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015586066134393247,
+            "relative_rmse": 1.4076166154303027,
+            "expected_rms": 0.011072664220881373
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.000244140625,
+            "rmse": 3.356025905564544e-05,
+            "relative_rmse": 0.003499950718930016,
+            "expected_rms": 0.00958878045743035
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015586169731359857,
+            "relative_rmse": 1.4076090330579314,
+            "expected_rms": 0.011072797463866796
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.06836173310875893,
+            "rmse": 0.01202592205724803,
+            "relative_rmse": 1.2065232531390542,
+            "expected_rms": 0.009967418386640925
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09256196022033691,
+            "rmse": 0.015640308141739227,
+            "relative_rmse": 1.4179701624157208,
+            "expected_rms": 0.011030068584160939
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0684814453125,
+            "rmse": 0.012025759019892624,
+            "relative_rmse": 1.2064980245583945,
+            "expected_rms": 0.009967491678483539
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.092529296875,
+            "rmse": 0.015640395935466612,
+            "relative_rmse": 1.4179614441249986,
+            "expected_rms": 0.011030198317640471
+          }
+        }
+      ],
+      "hypothesis_metric_input": "Original runner uses the raw BF16 outputs; all 16 rows retained verbatim.",
+      "elapsed_seconds_diagnostic_only": 3.0172098000039114
+    },
+    {
+      "experiment": "v5_asymmetric_bf16",
+      "case": "asymmetric_state",
+      "io_type": "bf16",
+      "status": "executed_once",
+      "model_type": "llm-token",
+      "model_type_attribute": 9,
+      "input_num_attribute": 6,
+      "session_construction_calls_started": 1,
+      "execute_calls_started": 1,
+      "retries": 0,
+      "selected_hardware_type": "NPU",
+      "matching_device_count": 1,
+      "session_providers": [
+        "RyzenAILightExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "onnxruntime_version": "1.27.0",
+      "compile_fusion_rt": "1",
+      "compiled_cache_copied": false,
+      "dd_metadata_unchanged": true,
+      "host_control": {
+        "name": "attention_mask_const_uint",
+        "dtype": "UINT32",
+        "shape": [
+          1
+        ],
+        "value": 129,
+        "preceding_tokens": 128,
+        "current_tokens": 1,
+        "semantic_source": "Synthetic seeded asymmetric recurrent state assigned prefix position128; not computed from an actual 128-token prefix; valid count includes current token",
+        "real_graph_source": "Cast(ReduceSum(attention_mask, axis=1, keepdims=0), UINT32)",
+        "host_only": true,
+        "present_in_dd_metadata": false,
+        "token_provider_semantic_compatibility": "unverified",
+        "primary_source": "SDK transform/dd.py:62-63,146-151 plus matcher.py:1141-1156 allow wrapper-only extra_inputs; llm_prefill_to_dd.py:68-87 uses sequence_length this way. llm_token_to_dd.py supplies no extra_inputs.",
+        "unsupported_attributes_not_added": [
+          "seq_len"
+        ]
+      },
+      "input_shapes": [
+        [
+          1,
+          32,
+          128,
+          128
+        ],
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          32
+        ],
+        [
+          1,
+          32
+        ],
+        [
+          1
+        ]
+      ],
+      "output_shapes": [
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          32,
+          128,
+          128
+        ]
+      ],
+      "input_onnx_types": [
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        12
+      ],
+      "output_onnx_types": [
+        16,
+        16
+      ],
+      "npu_snapshots": {
+        "before_registration": {
+          "available": true,
+          "context_count": 0,
+          "contexts": []
+        },
+        "before_session": {
+          "available": true,
+          "context_count": 0,
+          "contexts": []
+        },
+        "after_session": {
+          "available": true,
+          "context_count": 1,
+          "contexts": [
+            {
+              "command_submissions": 0,
+              "command_completions": 0,
+              "errors": 0
+            }
+          ]
+        },
+        "after_execute": {
+          "available": true,
+          "context_count": 1,
+          "contexts": [
+            {
+              "command_submissions": 1,
+              "command_completions": 1,
+              "errors": 0
+            }
+          ]
+        }
+      },
+      "execute_counter_delta": {
+        "command_submissions": 1,
+        "command_completions": 1,
+        "errors": 0
+      },
+      "input_direct_fixture_comparisons": [
+        {
+          "name": "state",
+          "shape": [
+            1,
+            32,
+            128,
+            128
+          ],
+          "elements": 524288,
+          "bf16_raw_uint16_sha256": "adba5af28e26719f979f440d7829dbf1aa93390e79f903d8a5c2e34d82dabf81",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "query",
+          "shape": [
+            1,
+            16,
+            128
+          ],
+          "elements": 2048,
+          "bf16_raw_uint16_sha256": "85e2e5e64d7924cbb2e585171078a916480f312efea6ae80fe1e24d7d8a3c36d",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "key",
+          "shape": [
+            1,
+            16,
+            128
+          ],
+          "elements": 2048,
+          "bf16_raw_uint16_sha256": "c5b78e61a955ff7f8b27c2c37a6e6fd07c1b919803a381d37b9cda0ae4724fd9",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "value",
+          "shape": [
+            1,
+            32,
+            128
+          ],
+          "elements": 4096,
+          "bf16_raw_uint16_sha256": "01ef901a6655440c1ff91032409dabf562ed97166e3994f1fc36b791c685ea93",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "gate",
+          "shape": [
+            1,
+            32
+          ],
+          "elements": 32,
+          "bf16_raw_uint16_sha256": "dc3835cfbeb19bf8a878675d78b54dc81449768ff7657a4db53ce7b7f5ba29b4",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "beta",
+          "shape": [
+            1,
+            32
+          ],
+          "elements": 32,
+          "bf16_raw_uint16_sha256": "ac29290f5ef292797a44a85e020fcd7f595907de4aa8a83a3ca87c7f28ee04d0",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        }
+      ],
+      "output_direct_comparisons": [
+        {
+          "name": "attn_out",
+          "shape": [
+            1,
+            32,
+            128
+          ],
+          "elements": 4096,
+          "native_storage_dtype": "<u2",
+          "direct_storage_dtype": "<u2",
+          "native_payload_sha256": "1f4a12065eb6077de7811ea98d54ee5363535758ef0a1d5afa6472038b9e6514",
+          "direct_bf16_payload_sha256": "1f4a12065eb6077de7811ea98d54ee5363535758ef0a1d5afa6472038b9e6514",
+          "comparison_expected_payload_sha256": "1f4a12065eb6077de7811ea98d54ee5363535758ef0a1d5afa6472038b9e6514",
+          "bit_exact": true,
+          "mismatched_elements": 0,
+          "comparison": "Native BF16 raw uint16 vs direct DD BF16 raw uint16",
+          "direct_bf16_to_fp16_changed_value_count": null,
+          "fp16_rounding_changed_rows": []
+        },
+        {
+          "name": "state_out",
+          "shape": [
+            1,
+            32,
+            128,
+            128
+          ],
+          "elements": 524288,
+          "native_storage_dtype": "<u2",
+          "direct_storage_dtype": "<u2",
+          "native_payload_sha256": "335b9c5e2a3d3fca0a83d6bf8698192f2fd02d2e007373c50f16607900595ff0",
+          "direct_bf16_payload_sha256": "335b9c5e2a3d3fca0a83d6bf8698192f2fd02d2e007373c50f16607900595ff0",
+          "comparison_expected_payload_sha256": "335b9c5e2a3d3fca0a83d6bf8698192f2fd02d2e007373c50f16607900595ff0",
+          "bit_exact": true,
+          "mismatched_elements": 0,
+          "comparison": "Native BF16 raw uint16 vs direct DD BF16 raw uint16",
+          "direct_bf16_to_fp16_changed_value_count": null,
+          "fp16_rounding_changed_rows": []
+        }
+      ],
+      "hypothesis_rows": [
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0004407241940498352,
+            "rmse": 7.601884171418482e-05,
+            "relative_rmse": 0.0032774794882767574,
+            "expected_rms": 0.02319429976178256
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.000477813184261322,
+            "rmse": 6.95649633399218e-05,
+            "relative_rmse": 0.002837996188356841,
+            "expected_rms": 0.024512000271641982
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.00048828125,
+            "rmse": 8.392390030248578e-05,
+            "relative_rmse": 0.0036180279892920556,
+            "expected_rms": 0.02319603401379636
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.00048828125,
+            "rmse": 7.957505785083846e-05,
+            "relative_rmse": 0.0032463888378132465,
+            "expected_rms": 0.024511868980069518
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.1297830566763878,
+            "rmse": 0.03189457876604723,
+            "relative_rmse": 1.3872090557377441,
+            "expected_rms": 0.02299190495774632
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09731075167655945,
+            "rmse": 0.014895876501186057,
+            "relative_rmse": 0.6082697977762263,
+            "expected_rms": 0.024488930003830366
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1298828125,
+            "rmse": 0.03189392333480267,
+            "relative_rmse": 1.3871909135324458,
+            "expected_rms": 0.02299173316640722
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.097412109375,
+            "rmse": 0.014895846902461908,
+            "relative_rmse": 0.6082689412911514,
+            "expected_rms": 0.024488915825363385
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11074532195925713,
+            "rmse": 0.03560393158257968,
+            "relative_rmse": 1.8686561776901975,
+            "expected_rms": 0.01905322766577042
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.08386458456516266,
+            "rmse": 0.03860325203115501,
+            "relative_rmse": 1.7702531113826012,
+            "expected_rms": 0.021806628545341256
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.11083984375,
+            "rmse": 0.03560426367679675,
+            "relative_rmse": 1.8686524542821257,
+            "expected_rms": 0.019053443349086936
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.083984375,
+            "rmse": 0.03860330471539355,
+            "relative_rmse": 1.770248288392074,
+            "expected_rms": 0.021806717717805076
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11776718497276306,
+            "rmse": 0.02975719250403516,
+            "relative_rmse": 1.5064898694703384,
+            "expected_rms": 0.01975266684965986
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.16103486716747284,
+            "rmse": 0.04134922763485741,
+            "relative_rmse": 1.8984547189410588,
+            "expected_rms": 0.021780465566185136
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1177978515625,
+            "rmse": 0.029758414259654895,
+            "relative_rmse": 1.5064632687943067,
+            "expected_rms": 0.019753826645552367
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1611328125,
+            "rmse": 0.04134926684132275,
+            "relative_rmse": 1.898454163597026,
+            "expected_rms": 0.021780492589285248
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0004407241940498352,
+            "rmse": 7.601884171418482e-05,
+            "relative_rmse": 0.0032774794882767574,
+            "expected_rms": 0.02319429976178256
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.12607865035533905,
+            "rmse": 0.03463291035405312,
+            "relative_rmse": 1.4128961312928856,
+            "expected_rms": 0.024512000271641986
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.00048828125,
+            "rmse": 8.392390030248578e-05,
+            "relative_rmse": 0.0036180279892920556,
+            "expected_rms": 0.02319603401379636
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.126220703125,
+            "rmse": 0.03463277337282939,
+            "relative_rmse": 1.4128981107474556,
+            "expected_rms": 0.02451186898006952
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.1297830566763878,
+            "rmse": 0.03189457876604723,
+            "relative_rmse": 1.3872090557377441,
+            "expected_rms": 0.02299190495774632
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.1345100998878479,
+            "rmse": 0.03465486499083167,
+            "relative_rmse": 1.4151236899860968,
+            "expected_rms": 0.024488930003830366
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1298828125,
+            "rmse": 0.03189392333480267,
+            "relative_rmse": 1.3871909135324458,
+            "expected_rms": 0.02299173316640722
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.13427734375,
+            "rmse": 0.0346548154571876,
+            "relative_rmse": 1.4151224866106693,
+            "expected_rms": 0.024488915825363382
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11074532195925713,
+            "rmse": 0.03560393158257968,
+            "relative_rmse": 1.8686561776901975,
+            "expected_rms": 0.01905322766577042
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14599798619747162,
+            "rmse": 0.03276448718546033,
+            "relative_rmse": 1.5025012746621986,
+            "expected_rms": 0.02180662854534126
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.11083984375,
+            "rmse": 0.03560426367679675,
+            "relative_rmse": 1.8686524542821257,
+            "expected_rms": 0.019053443349086936
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14599609375,
+            "rmse": 0.0327645413290645,
+            "relative_rmse": 1.5024976134905628,
+            "expected_rms": 0.021806717717805076
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11776718497276306,
+            "rmse": 0.02975719250403516,
+            "relative_rmse": 1.5064898694703384,
+            "expected_rms": 0.01975266684965986
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14599798619747162,
+            "rmse": 0.03279006282079943,
+            "relative_rmse": 1.5054803452735668,
+            "expected_rms": 0.021780465566185136
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1177978515625,
+            "rmse": 0.029758414259654895,
+            "relative_rmse": 1.5064632687943067,
+            "expected_rms": 0.019753826645552367
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14599609375,
+            "rmse": 0.03279005533249678,
+            "relative_rmse": 1.5054781336133602,
+            "expected_rms": 0.021780492589285248
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.12441253662109375,
+            "rmse": 0.03256383072697275,
+            "relative_rmse": 1.2429367537325138,
+            "expected_rms": 0.026199105167004057
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.10381580144166946,
+            "rmse": 0.03090677919232652,
+            "relative_rmse": 1.2615052570837297,
+            "expected_rms": 0.02449992104176792
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.12451171875,
+            "rmse": 0.032564294857310855,
+            "relative_rmse": 1.2428889774314404,
+            "expected_rms": 0.02620048568184132
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.103759765625,
+            "rmse": 0.030906728850055794,
+            "relative_rmse": 1.2615117331168895,
+            "expected_rms": 0.02449975536390198
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14676835387945175,
+            "rmse": 0.034536794756580017,
+            "relative_rmse": 1.3200354995134027,
+            "expected_rms": 0.026163534821079526
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14097552746534348,
+            "rmse": 0.03429557552344067,
+            "relative_rmse": 1.4013284239287596,
+            "expected_rms": 0.024473617274735432
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14697265625,
+            "rmse": 0.03453558559587263,
+            "relative_rmse": 1.3200429453673785,
+            "expected_rms": 0.026162471241616383
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14111328125,
+            "rmse": 0.03429552204124593,
+            "relative_rmse": 1.4013245665849883,
+            "expected_rms": 0.02447364647636466
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09303833544254303,
+            "rmse": 0.030139933536687,
+            "relative_rmse": 1.2890931850588345,
+            "expected_rms": 0.023380725215230585
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.07800357043743134,
+            "rmse": 0.028815913815298258,
+            "relative_rmse": 1.3217623264544454,
+            "expected_rms": 0.021801131140267372
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0930023193359375,
+            "rmse": 0.030139119211335705,
+            "relative_rmse": 1.289109152804446,
+            "expected_rms": 0.023379803910140818
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.078125,
+            "rmse": 0.028815806115515805,
+            "relative_rmse": 1.3217665146270823,
+            "expected_rms": 0.021800980579119736
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11151532828807831,
+            "rmse": 0.03212010416686574,
+            "relative_rmse": 1.3841390308218393,
+            "expected_rms": 0.023205836589836118
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.16099175065755844,
+            "rmse": 0.03241524247264424,
+            "relative_rmse": 1.4887116640644737,
+            "expected_rms": 0.02177402330827737
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.111328125,
+            "rmse": 0.032119631188837296,
+            "relative_rmse": 1.3841789598959338,
+            "expected_rms": 0.02320482547376109
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.160888671875,
+            "rmse": 0.03241515866883223,
+            "relative_rmse": 1.4887164453225832,
+            "expected_rms": 0.02177389708475232
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.12441253662109375,
+            "rmse": 0.03256383072697275,
+            "relative_rmse": 1.2429367537325138,
+            "expected_rms": 0.026199105167004057
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09335384517908096,
+            "rmse": 0.0156325262201138,
+            "relative_rmse": 0.6380643510427311,
+            "expected_rms": 0.02449992104176792
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.12451171875,
+            "rmse": 0.032564294857310855,
+            "relative_rmse": 1.2428889774314404,
+            "expected_rms": 0.02620048568184132
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.09326171875,
+            "rmse": 0.01563244291703983,
+            "relative_rmse": 0.6380652657484378,
+            "expected_rms": 0.024499755363901976
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14676835387945175,
+            "rmse": 0.034536794756580017,
+            "relative_rmse": 1.3200354995134027,
+            "expected_rms": 0.026163534821079526
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09335384517908096,
+            "rmse": 0.01567828263879681,
+            "relative_rmse": 0.6406197523968713,
+            "expected_rms": 0.02447361727473544
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14697265625,
+            "rmse": 0.03453558559587263,
+            "relative_rmse": 1.3200429453673785,
+            "expected_rms": 0.026162471241616383
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.09326171875,
+            "rmse": 0.01567836478072215,
+            "relative_rmse": 0.640622344359819,
+            "expected_rms": 0.024473646476364658
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09303833544254303,
+            "rmse": 0.030139933536687,
+            "relative_rmse": 1.2890931850588345,
+            "expected_rms": 0.023380725215230585
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.15120691061019897,
+            "rmse": 0.04161288691320524,
+            "relative_rmse": 1.908748983961889,
+            "expected_rms": 0.021801131140267372
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0930023193359375,
+            "rmse": 0.030139119211335705,
+            "relative_rmse": 1.289109152804446,
+            "expected_rms": 0.023379803910140818
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1513671875,
+            "rmse": 0.041612783615976846,
+            "relative_rmse": 1.9087574279035968,
+            "expected_rms": 0.021800980579119732
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11151532828807831,
+            "rmse": 0.03212010416686574,
+            "relative_rmse": 1.3841390308218393,
+            "expected_rms": 0.023205836589836118
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.1626320481300354,
+            "rmse": 0.04162932035105786,
+            "relative_rmse": 1.9118800306984391,
+            "expected_rms": 0.021774023308277365
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.111328125,
+            "rmse": 0.032119631188837296,
+            "relative_rmse": 1.3841789598959338,
+            "expected_rms": 0.02320482547376109
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.16259765625,
+            "rmse": 0.041629209636087516,
+            "relative_rmse": 1.9118860291316133,
+            "expected_rms": 0.021773897084752317
+          }
+        }
+      ],
+      "hypothesis_metric_input": "Original runner uses the raw BF16 outputs; all 16 rows retained verbatim.",
+      "elapsed_seconds_diagnostic_only": 3.3515571000025375
+    },
+    {
+      "experiment": "v5_asymmetric_fp16",
+      "case": "asymmetric_state",
+      "io_type": "fp16",
+      "status": "executed_once",
+      "model_type": "llm-token",
+      "model_type_attribute": 9,
+      "input_num_attribute": 6,
+      "session_construction_calls_started": 1,
+      "execute_calls_started": 1,
+      "retries": 0,
+      "selected_hardware_type": "NPU",
+      "matching_device_count": 1,
+      "session_providers": [
+        "RyzenAILightExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "onnxruntime_version": "1.27.0",
+      "compile_fusion_rt": "1",
+      "compiled_cache_copied": false,
+      "dd_metadata_unchanged": true,
+      "host_control": {
+        "name": "attention_mask_const_uint",
+        "dtype": "UINT32",
+        "shape": [
+          1
+        ],
+        "value": 129,
+        "preceding_tokens": 128,
+        "current_tokens": 1,
+        "semantic_source": "Synthetic seeded asymmetric recurrent state assigned prefix position128; not computed from an actual 128-token prefix; valid count includes current token",
+        "real_graph_source": "Cast(ReduceSum(attention_mask, axis=1, keepdims=0), UINT32)",
+        "host_only": true,
+        "present_in_dd_metadata": false,
+        "token_provider_semantic_compatibility": "unverified",
+        "primary_source": "SDK transform/dd.py:62-63,146-151 plus matcher.py:1141-1156 allow wrapper-only extra_inputs; llm_prefill_to_dd.py:68-87 uses sequence_length this way. llm_token_to_dd.py supplies no extra_inputs.",
+        "unsupported_attributes_not_added": [
+          "seq_len"
+        ]
+      },
+      "input_shapes": [
+        [
+          1,
+          32,
+          128,
+          128
+        ],
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          32
+        ],
+        [
+          1,
+          32
+        ],
+        [
+          1
+        ]
+      ],
+      "output_shapes": [
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          32,
+          128,
+          128
+        ]
+      ],
+      "input_onnx_types": [
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        12
+      ],
+      "output_onnx_types": [
+        10,
+        10
+      ],
+      "npu_snapshots": {
+        "before_registration": {
+          "available": true,
+          "context_count": 0,
+          "contexts": []
+        },
+        "before_session": {
+          "available": true,
+          "context_count": 0,
+          "contexts": []
+        },
+        "after_session": {
+          "available": true,
+          "context_count": 1,
+          "contexts": [
+            {
+              "command_submissions": 0,
+              "command_completions": 0,
+              "errors": 0
+            }
+          ]
+        },
+        "after_execute": {
+          "available": true,
+          "context_count": 1,
+          "contexts": [
+            {
+              "command_submissions": 1,
+              "command_completions": 1,
+              "errors": 0
+            }
+          ]
+        }
+      },
+      "execute_counter_delta": {
+        "command_submissions": 1,
+        "command_completions": 1,
+        "errors": 0
+      },
+      "input_direct_fixture_comparisons": [
+        {
+          "name": "state",
+          "shape": [
+            1,
+            32,
+            128,
+            128
+          ],
+          "elements": 524288,
+          "bf16_raw_uint16_sha256": "adba5af28e26719f979f440d7829dbf1aa93390e79f903d8a5c2e34d82dabf81",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "query",
+          "shape": [
+            1,
+            16,
+            128
+          ],
+          "elements": 2048,
+          "bf16_raw_uint16_sha256": "85e2e5e64d7924cbb2e585171078a916480f312efea6ae80fe1e24d7d8a3c36d",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "key",
+          "shape": [
+            1,
+            16,
+            128
+          ],
+          "elements": 2048,
+          "bf16_raw_uint16_sha256": "c5b78e61a955ff7f8b27c2c37a6e6fd07c1b919803a381d37b9cda0ae4724fd9",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "value",
+          "shape": [
+            1,
+            32,
+            128
+          ],
+          "elements": 4096,
+          "bf16_raw_uint16_sha256": "01ef901a6655440c1ff91032409dabf562ed97166e3994f1fc36b791c685ea93",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "gate",
+          "shape": [
+            1,
+            32
+          ],
+          "elements": 32,
+          "bf16_raw_uint16_sha256": "dc3835cfbeb19bf8a878675d78b54dc81449768ff7657a4db53ce7b7f5ba29b4",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        },
+        {
+          "name": "beta",
+          "shape": [
+            1,
+            32
+          ],
+          "elements": 32,
+          "bf16_raw_uint16_sha256": "ac29290f5ef292797a44a85e020fcd7f595907de4aa8a83a3ca87c7f28ee04d0",
+          "direct_fixture_bit_exact": true,
+          "bf16_fp16_bf16_roundtrip_bit_exact": true
+        }
+      ],
+      "output_direct_comparisons": [
+        {
+          "name": "attn_out",
+          "shape": [
+            1,
+            32,
+            128
+          ],
+          "elements": 4096,
+          "native_storage_dtype": "<f2",
+          "direct_storage_dtype": "<u2",
+          "native_payload_sha256": "ea98f5feb1a01d65be1220eeaae31adca9505bbe7535e363c082fa957dbcb172",
+          "direct_bf16_payload_sha256": "1f4a12065eb6077de7811ea98d54ee5363535758ef0a1d5afa6472038b9e6514",
+          "comparison_expected_payload_sha256": "ea98f5feb1a01d65be1220eeaae31adca9505bbe7535e363c082fa957dbcb172",
+          "bit_exact": true,
+          "mismatched_elements": 0,
+          "comparison": "Native FP16 raw bits vs direct BF16 decoded to FP32 and rounded to FP16",
+          "direct_bf16_to_fp16_changed_value_count": 0,
+          "fp16_rounding_changed_rows": []
+        },
+        {
+          "name": "state_out",
+          "shape": [
+            1,
+            32,
+            128,
+            128
+          ],
+          "elements": 524288,
+          "native_storage_dtype": "<f2",
+          "direct_storage_dtype": "<u2",
+          "native_payload_sha256": "df87f029c2d13b36068ff7b55131169b3daa0da0d2a2aea79b40b35818cdca13",
+          "direct_bf16_payload_sha256": "335b9c5e2a3d3fca0a83d6bf8698192f2fd02d2e007373c50f16607900595ff0",
+          "comparison_expected_payload_sha256": "df87f029c2d13b36068ff7b55131169b3daa0da0d2a2aea79b40b35818cdca13",
+          "bit_exact": true,
+          "mismatched_elements": 0,
+          "comparison": "Native FP16 raw bits vs direct BF16 decoded to FP32 and rounded to FP16",
+          "direct_bf16_to_fp16_changed_value_count": 12,
+          "fp16_rounding_changed_rows": [
+            {
+              "flat_index_c_order": 3412,
+              "direct_bf16_bits": 13909,
+              "direct_value": 3.1739473342895508e-06,
+              "fp16_bits_after_cast": 53,
+              "fp16_value_after_cast": 3.159046173095703e-06,
+              "actual_fp16_bits": 53
+            },
+            {
+              "flat_index_c_order": 32367,
+              "direct_bf16_bits": 46759,
+              "direct_value": -4.976987838745117e-06,
+              "fp16_bits_after_cast": 32852,
+              "fp16_value_after_cast": -5.0067901611328125e-06,
+              "actual_fp16_bits": 32852
+            },
+            {
+              "flat_index_c_order": 61222,
+              "direct_bf16_bits": 13668,
+              "direct_value": 8.493661880493164e-07,
+              "fp16_bits_after_cast": 14,
+              "fp16_value_after_cast": 8.344650268554688e-07,
+              "actual_fp16_bits": 14
+            },
+            {
+              "flat_index_c_order": 123027,
+              "direct_bf16_bits": 14019,
+              "direct_value": 5.811452865600586e-06,
+              "fp16_bits_after_cast": 98,
+              "fp16_value_after_cast": 5.841255187988281e-06,
+              "actual_fp16_bits": 98
+            },
+            {
+              "flat_index_c_order": 123088,
+              "direct_bf16_bits": 13934,
+              "direct_value": 3.546476364135742e-06,
+              "fp16_bits_after_cast": 60,
+              "fp16_value_after_cast": 3.5762786865234375e-06,
+              "actual_fp16_bits": 60
+            },
+            {
+              "flat_index_c_order": 181049,
+              "direct_bf16_bits": 46714,
+              "direct_value": -3.725290298461914e-06,
+              "fp16_bits_after_cast": 32830,
+              "fp16_value_after_cast": -3.6954879760742188e-06,
+              "actual_fp16_bits": 32830
+            },
+            {
+              "flat_index_c_order": 188857,
+              "direct_bf16_bits": 46667,
+              "direct_value": -3.0249357223510742e-06,
+              "fp16_bits_after_cast": 32819,
+              "fp16_value_after_cast": -3.039836883544922e-06,
+              "actual_fp16_bits": 32819
+            },
+            {
+              "flat_index_c_order": 229430,
+              "direct_bf16_bits": 46813,
+              "direct_value": -6.586313247680664e-06,
+              "fp16_bits_after_cast": 32878,
+              "fp16_value_after_cast": -6.556510925292969e-06,
+              "actual_fp16_bits": 32878
+            },
+            {
+              "flat_index_c_order": 237238,
+              "direct_bf16_bits": 13875,
+              "direct_value": 2.6673078536987305e-06,
+              "fp16_bits_after_cast": 45,
+              "fp16_value_after_cast": 2.682209014892578e-06,
+              "actual_fp16_bits": 45
+            },
+            {
+              "flat_index_c_order": 405269,
+              "direct_bf16_bits": 13955,
+              "direct_value": 3.904104232788086e-06,
+              "fp16_bits_after_cast": 66,
+              "fp16_value_after_cast": 3.933906555175781e-06,
+              "actual_fp16_bits": 66
+            },
+            {
+              "flat_index_c_order": 414635,
+              "direct_bf16_bits": 46711,
+              "direct_value": -3.680586814880371e-06,
+              "fp16_bits_after_cast": 32830,
+              "fp16_value_after_cast": -3.6954879760742188e-06,
+              "actual_fp16_bits": 32830
+            },
+            {
+              "flat_index_c_order": 496566,
+              "direct_bf16_bits": 46678,
+              "direct_value": -3.1888484954833984e-06,
+              "fp16_bits_after_cast": 32822,
+              "fp16_value_after_cast": -3.2186508178710938e-06,
+              "actual_fp16_bits": 32822
+            }
+          ]
+        }
+      ],
+      "hypothesis_rows": [
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0004407241940498352,
+            "rmse": 7.601884171418482e-05,
+            "relative_rmse": 0.0032774794882767574,
+            "expected_rms": 0.02319429976178256
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.000477813184261322,
+            "rmse": 6.956496333535645e-05,
+            "relative_rmse": 0.0028379961881705913,
+            "expected_rms": 0.024512000271641982
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.00048828125,
+            "rmse": 8.392390030248578e-05,
+            "relative_rmse": 0.0036180279892920556,
+            "expected_rms": 0.02319603401379636
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.00048828125,
+            "rmse": 7.957505784686275e-05,
+            "relative_rmse": 0.0032463888376510516,
+            "expected_rms": 0.024511868980069518
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.1297830566763878,
+            "rmse": 0.03189457876604723,
+            "relative_rmse": 1.3872090557377441,
+            "expected_rms": 0.02299190495774632
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09731075167655945,
+            "rmse": 0.014895876501141153,
+            "relative_rmse": 0.6082697977743927,
+            "expected_rms": 0.024488930003830366
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1298828125,
+            "rmse": 0.03189392333480267,
+            "relative_rmse": 1.3871909135324458,
+            "expected_rms": 0.02299173316640722
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.097412109375,
+            "rmse": 0.014895846902416852,
+            "relative_rmse": 0.6082689412893115,
+            "expected_rms": 0.024488915825363385
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11074532195925713,
+            "rmse": 0.03560393158257968,
+            "relative_rmse": 1.8686561776901975,
+            "expected_rms": 0.01905322766577042
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.08386458456516266,
+            "rmse": 0.03860325203115959,
+            "relative_rmse": 1.7702531113828115,
+            "expected_rms": 0.021806628545341256
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.11083984375,
+            "rmse": 0.03560426367679675,
+            "relative_rmse": 1.8686524542821257,
+            "expected_rms": 0.019053443349086936
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.083984375,
+            "rmse": 0.038603304715398155,
+            "relative_rmse": 1.7702482883922852,
+            "expected_rms": 0.021806717717805076
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11776718497276306,
+            "rmse": 0.02975719250403516,
+            "relative_rmse": 1.5064898694703384,
+            "expected_rms": 0.01975266684965986
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.16103486716747284,
+            "rmse": 0.04134922763484758,
+            "relative_rmse": 1.8984547189406074,
+            "expected_rms": 0.021780465566185136
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1177978515625,
+            "rmse": 0.029758414259654895,
+            "relative_rmse": 1.5064632687943067,
+            "expected_rms": 0.019753826645552367
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1611328125,
+            "rmse": 0.04134926684131291,
+            "relative_rmse": 1.8984541635965744,
+            "expected_rms": 0.021780492589285248
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.0004407241940498352,
+            "rmse": 7.601884171418482e-05,
+            "relative_rmse": 0.0032774794882767574,
+            "expected_rms": 0.02319429976178256
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.12607865035533905,
+            "rmse": 0.03463291035428996,
+            "relative_rmse": 1.4128961313025477,
+            "expected_rms": 0.024512000271641986
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.00048828125,
+            "rmse": 8.392390030248578e-05,
+            "relative_rmse": 0.0036180279892920556,
+            "expected_rms": 0.02319603401379636
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.126220703125,
+            "rmse": 0.034632773373066306,
+            "relative_rmse": 1.412898110757121,
+            "expected_rms": 0.02451186898006952
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.1297830566763878,
+            "rmse": 0.03189457876604723,
+            "relative_rmse": 1.3872090557377441,
+            "expected_rms": 0.02299190495774632
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.1345100998878479,
+            "rmse": 0.03465486499114382,
+            "relative_rmse": 1.4151236899988435,
+            "expected_rms": 0.024488930003830366
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1298828125,
+            "rmse": 0.03189392333480267,
+            "relative_rmse": 1.3871909135324458,
+            "expected_rms": 0.02299173316640722
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.13427734375,
+            "rmse": 0.0346548154574998,
+            "relative_rmse": 1.415122486623418,
+            "expected_rms": 0.024488915825363382
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11074532195925713,
+            "rmse": 0.03560393158257968,
+            "relative_rmse": 1.8686561776901975,
+            "expected_rms": 0.01905322766577042
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14599798619747162,
+            "rmse": 0.03276448718539725,
+            "relative_rmse": 1.5025012746593058,
+            "expected_rms": 0.02180662854534126
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.11083984375,
+            "rmse": 0.03560426367679675,
+            "relative_rmse": 1.8686524542821257,
+            "expected_rms": 0.019053443349086936
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14599609375,
+            "rmse": 0.03276454132900127,
+            "relative_rmse": 1.5024976134876633,
+            "expected_rms": 0.021806717717805076
+          }
+        },
+        {
+          "state_in_layout": "K_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11776718497276306,
+            "rmse": 0.02975719250403516,
+            "relative_rmse": 1.5064898694703384,
+            "expected_rms": 0.01975266684965986
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14599798619747162,
+            "rmse": 0.03279006282079373,
+            "relative_rmse": 1.5054803452733052,
+            "expected_rms": 0.021780465566185136
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1177978515625,
+            "rmse": 0.029758414259654895,
+            "relative_rmse": 1.5064632687943067,
+            "expected_rms": 0.019753826645552367
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14599609375,
+            "rmse": 0.03279005533249098,
+            "relative_rmse": 1.505478133613094,
+            "expected_rms": 0.021780492589285248
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.12441253662109375,
+            "rmse": 0.03256383072697275,
+            "relative_rmse": 1.2429367537325138,
+            "expected_rms": 0.026199105167004057
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.10381580144166946,
+            "rmse": 0.030906779192562402,
+            "relative_rmse": 1.2615052570933576,
+            "expected_rms": 0.02449992104176792
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.12451171875,
+            "rmse": 0.032564294857310855,
+            "relative_rmse": 1.2428889774314404,
+            "expected_rms": 0.02620048568184132
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.103759765625,
+            "rmse": 0.03090672885029198,
+            "relative_rmse": 1.2615117331265298,
+            "expected_rms": 0.02449975536390198
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14676835387945175,
+            "rmse": 0.034536794756580017,
+            "relative_rmse": 1.3200354995134027,
+            "expected_rms": 0.026163534821079526
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14097552746534348,
+            "rmse": 0.03429557552363605,
+            "relative_rmse": 1.4013284239367432,
+            "expected_rms": 0.024473617274735432
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14697265625,
+            "rmse": 0.03453558559587263,
+            "relative_rmse": 1.3200429453673785,
+            "expected_rms": 0.026162471241616383
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14111328125,
+            "rmse": 0.03429552204144163,
+            "relative_rmse": 1.4013245665929845,
+            "expected_rms": 0.02447364647636466
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09303833544254303,
+            "rmse": 0.030139933536687,
+            "relative_rmse": 1.2890931850588345,
+            "expected_rms": 0.023380725215230585
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.07800357043743134,
+            "rmse": 0.028815913815185994,
+            "relative_rmse": 1.321762326449296,
+            "expected_rms": 0.021801131140267372
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0930023193359375,
+            "rmse": 0.030139119211335705,
+            "relative_rmse": 1.289109152804446,
+            "expected_rms": 0.023379803910140818
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.078125,
+            "rmse": 0.028815806115403683,
+            "relative_rmse": 1.3217665146219393,
+            "expected_rms": 0.021800980579119736
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "K_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11151532828807831,
+            "rmse": 0.03212010416686574,
+            "relative_rmse": 1.3841390308218393,
+            "expected_rms": 0.023205836589836118
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.16099175065755844,
+            "rmse": 0.03241524247252359,
+            "relative_rmse": 1.4887116640589326,
+            "expected_rms": 0.02177402330827737
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.111328125,
+            "rmse": 0.032119631188837296,
+            "relative_rmse": 1.3841789598959338,
+            "expected_rms": 0.02320482547376109
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.160888671875,
+            "rmse": 0.03241515866871171,
+            "relative_rmse": 1.488716445317048,
+            "expected_rms": 0.02177389708475232
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.12441253662109375,
+            "rmse": 0.03256383072697275,
+            "relative_rmse": 1.2429367537325138,
+            "expected_rms": 0.026199105167004057
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09335384517908096,
+            "rmse": 0.015632526220171368,
+            "relative_rmse": 0.6380643510450809,
+            "expected_rms": 0.02449992104176792
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.12451171875,
+            "rmse": 0.032564294857310855,
+            "relative_rmse": 1.2428889774314404,
+            "expected_rms": 0.02620048568184132
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.09326171875,
+            "rmse": 0.015632442917097523,
+            "relative_rmse": 0.6380652657507927,
+            "expected_rms": 0.024499755363901976
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_log_decay",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.14676835387945175,
+            "rmse": 0.034536794756580017,
+            "relative_rmse": 1.3200354995134027,
+            "expected_rms": 0.026163534821079526
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09335384517908096,
+            "rmse": 0.015678282639010842,
+            "relative_rmse": 0.6406197524056167,
+            "expected_rms": 0.02447361727473544
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.14697265625,
+            "rmse": 0.03453558559587263,
+            "relative_rmse": 1.3200429453673785,
+            "expected_rms": 0.026162471241616383
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.09326171875,
+            "rmse": 0.015678364780936104,
+            "relative_rmse": 0.6406223443685612,
+            "expected_rms": 0.024473646476364658
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "repeat_interleave",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.09303833544254303,
+            "rmse": 0.030139933536687,
+            "relative_rmse": 1.2890931850588345,
+            "expected_rms": 0.023380725215230585
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.15120691061019897,
+            "rmse": 0.04161288691324054,
+            "relative_rmse": 1.908748983963508,
+            "expected_rms": 0.021801131140267372
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.0930023193359375,
+            "rmse": 0.030139119211335705,
+            "relative_rmse": 1.289109152804446,
+            "expected_rms": 0.023379803910140818
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.1513671875,
+            "rmse": 0.04161278361601223,
+            "relative_rmse": 1.9087574279052197,
+            "expected_rms": 0.021800980579119732
+          }
+        },
+        {
+          "state_in_layout": "V_major",
+          "state_out_layout": "V_major",
+          "gate_semantics": "wire_is_decay_factor",
+          "head_map": "tile",
+          "query_scale": 1.0,
+          "attention_vs_float32": {
+            "finite": true,
+            "max_abs": 0.11151532828807831,
+            "rmse": 0.03212010416686574,
+            "relative_rmse": 1.3841390308218393,
+            "expected_rms": 0.023205836589836118
+          },
+          "state_vs_float32": {
+            "finite": true,
+            "max_abs": 0.1626320481300354,
+            "rmse": 0.04162932035113801,
+            "relative_rmse": 1.9118800307021202,
+            "expected_rms": 0.021774023308277365
+          },
+          "attention_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.111328125,
+            "rmse": 0.032119631188837296,
+            "relative_rmse": 1.3841789598959338,
+            "expected_rms": 0.02320482547376109
+          },
+          "state_vs_bf16_rounded": {
+            "finite": true,
+            "max_abs": 0.16259765625,
+            "rmse": 0.041629209636167674,
+            "relative_rmse": 1.9118860291352946,
+            "expected_rms": 0.021773897084752317
+          }
+        }
+      ],
+      "hypothesis_metric_input": "Original runner converts FP16 outputs back to BF16 before these metrics; retained verbatim. Raw FP16 output equality is evaluated separately above without this conversion.",
+      "elapsed_seconds_diagnostic_only": 3.7298527999955695
+    }
+  ],
+  "publication_builder_sha256": "f1990010ef2fd29cd9b96e6e1125b70139c350d97b44ec6a4c2c4f324795ec2b"
+}

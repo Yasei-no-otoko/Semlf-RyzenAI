@@ -23,9 +23,10 @@ or speed results.
 | Public OGA 0.14 export | Complete; repaired graph loads on CPU |
 | CPU direct scoring | Three owned short examples are finite and correct |
 | SDK default Token Fusion recipe | Failed: missing Qwen3.5 DD partition and incompatible default projection format |
-| Custom DD LinearAttention | Two direct-DD single-token NPU calls complete; nonzero-state reference identifies the state/gate/head contract |
-| v2/no-control-packet MatMul DD | Real layer-0 `in_proj_b` direct-NPU check passes with DD LLM mode disabled; original mode failed |
+| Custom DD LinearAttention | Two direct-DD calls and three native ORT calls complete; BF16 outputs, and FP16 outputs after the boundary cast, match direct DD exactly |
+| v2/no-control-packet MatMul DD | Real layer-0 `in_proj_b` passes direct DD and native ORT checks with DD LLM mode disabled; original mode failed |
 | Projection transaction inventory | Exact M=1 v2/no-control-packet entries exist for all 249 projections across 8 shapes |
+| Representative projection sizes | All eight shapes host-compile and pass one direct-DD NPU check each, including the 248,320-output LM head |
 | All-projection DD graph prototype | 249 projections converted; CPU structural checks pass with the native ORT normalization schema; full model execution untested |
 | SDK NPU eager, chunk size 4096 | English short example passes; Japanese 96-token example returns NaNs |
 | SDK NPU eager, chunk size 64 | Three owned short examples pass, including Japanese |
@@ -95,9 +96,9 @@ The [complete projection inventory](../results/raw/qwen35-conversion-20260920/dd
 maps all 249 projections to eight `(K, N)` shapes. Each has an exact M=1,
 4-bit/group-128 v2/no-control-packet transaction returned by the SDK query
 and present in the transaction archive's index. This includes the
-`(2560, 248320)` output projection. No shape is missing from this inventory;
-only the small `(2560, 32)` projection has been host-compiled in these tests.
-Inventory presence alone does not prove all projections can compile or run.
+`(2560, 248320)` output projection. No shape is missing from this inventory.
+Inventory presence alone does not prove execution; the separate representative
+shape checks below provide compilation and numerical evidence.
 
 The [all-projection graph report](../results/raw/qwen35-conversion-20260920/dd-projection-graph.json)
 records a CPU-only conversion of all 249 projections into separate DD nodes.
@@ -120,6 +121,23 @@ the FP32 reference is 0.305% and 0.328%; state relative RMSE is 0.236% and
 0.284%. All 32 case/hypothesis rows are retained. These are diagnostic
 observations, not model-quality, speed, or 16K results.
 
+The [native ORT LinearAttention report](../results/raw/qwen35-conversion-20260920/dd-native-linear-attention.json)
+adds three independent one-session/one-execution checks: zero-state BF16,
+asymmetric-state BF16, and asymmetric-state FP16 boundaries. Each records one
+completed NPU command and zero errors. The wrapper uses `model_type=9`, six
+DD inputs (`input_num=6`), and a seventh UINT32 host input containing the valid
+token count. The DD metadata still has six inputs. This is an experimentally
+verified connection, not a claim of AMD-supported Qwen3.5 integration.
+All 1,585,152 output elements across the three cases match the corresponding
+direct-DD storage bits exactly after the defined output conversion. Twelve
+state elements round differently when cast from BF16 to FP16; they match the
+cast reference, not the original BF16 bits. The report preserves all 48 native
+and 32 direct reference-hypothesis rows. The FP16 runner's numerical metrics
+re-round its output to BF16; the independent bit comparison uses the actual
+FP16 output. The seeded asymmetric state is not derived from a real 128-token
+prefix. These checks do not establish multi-token evolution or full-model
+correctness.
+
 The [first real MatMul NPU report](../results/raw/qwen35-conversion-20260920/dd-matmul-npu-failure.json)
 records successful initialization followed by `ERT_CMD_STATE_ERROR` on the
 single execution attempt: one submission, zero completions, and one error.
@@ -134,9 +152,45 @@ single NPU call completes with zero errors. All 32 outputs are finite and
 within their component budgets; relative RMSE is 0.875% versus the FP64
 dequantized reference, below the predeclared 3.125% diagnostic limit. The
 report preserves every output row and both failed/successful attempt records.
-Sigmoid is evaluated separately on CPU. Other projection shapes, native
-provider integration, full-model behavior, and 16K context remain unverified
-by this single-projection check.
+Sigmoid is evaluated separately on CPU. Other projection shapes, full-model
+behavior, and 16K context remain unverified by this single-projection check.
+
+The [native ORT MatMul report](../results/raw/qwen35-conversion-20260920/dd-native-matmul.json)
+then verifies the same projection through the RyzenAI NPU provider with
+`model_type=9`, `mladf_version=v2`, `input_num=1`, and a second host count input.
+One session construction and one execution produce one completed NPU command
+and zero errors. All 32 BF16 output values match the successful direct-DD
+result bit for bit, with the same predeclared error limits. The graph contains
+one DD node; its separately reported Sigmoid values are CPU post-processing.
+The native provider's internal compile configuration has not been proven
+identical to the direct-DD configuration.
+
+The [representative-shape report](../results/raw/qwen35-conversion-20260920/dd-all-shapes-npu.json)
+covers one real projection for each of the eight shapes, with one seeded
+synthetic BF16 input per shape. Each host compilation succeeds, and each
+direct-DD NPU call completes with zero errors. All outputs are finite and
+within the predeclared component error budgets and 3.125% relative-RMSE limit.
+The [compressed output rows](../results/raw/qwen35-conversion-20260920/dd-all-shapes-rows.csv.gz)
+retain individual references, results, and error budgets, including every
+output of the LM head.
+
+| K | N | Relative RMSE versus FP64 dequantized reference |
+|---:|---:|---:|
+| 2,560 | 32 | 0.875% |
+| 2,560 | 1,024 | 0.952% |
+| 2,560 | 4,096 | 0.973% |
+| 4,096 | 2,560 | 0.985% |
+| 2,560 | 8,192 | 0.971% |
+| 2,560 | 9,216 | 0.938% |
+| 9,216 | 2,560 | 0.959% |
+| 2,560 | 248,320 | 0.785% |
+
+These are eight representative weight tensors, not numerical validation of
+all 249 projections. The inputs are not captured model activations, and the
+results are not model-quality or throughput benchmarks. The seven new CPU
+references use chunks of at most 18 MiB of FP64 weights. Host compilation of
+the largest projection peaks at approximately 2.03 GiB of process private
+commit; this is not a bound on whole-model runtime memory.
 
 The two operator families require different xclbins and execution interfaces.
 They need separate DD subgraphs, validated BF16/state boundaries, and an
