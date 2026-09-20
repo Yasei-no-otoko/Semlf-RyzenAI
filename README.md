@@ -17,31 +17,60 @@ in [README.txt](README.txt). Use `./run_semif_npu.ps1` for JSONL scoring.
 The demo opens with a 16-option receipt-routing example (up to 32 options are supported)
 for observing the cost of generating the complete probability object.
 
-An experimental [Qwen3.5-4B conversion](docs/QWEN35_NPU.md) combines Quark
-UINT4 RTN quantization, OGA export, NPU prefill, and 273 custom DD token
-partitions. Its original batched prefill failed a 16K head-information case.
-The new `--prefill-linear-attention token_loop` conversion runs the 24
-prefill LinearAttention operators one token at a time on the NPU, while
-keeping the other prefill projections batched. In a
-[bounded short run](results/raw/qwen35-conversion-20260920/dd-stable-prefix-short.json),
-the formerly failing 64-token prefix now has finite full-vocabulary logits
-and all 64 final states are finite. Three owned English/Japanese questions
-are correct, and native generation ends at EOS: 16,260 completed NPU
-commands, zero errors. The revised model also
-[passes both 16K boundary cases](results/raw/qwen35-conversion-20260920/dd-stable-16k.json):
-head and tail information are answered correctly at exactly 16,384 input
-tokens, with finite full-vocabulary logits and 1,075,563 completed NPU
-commands without errors. A separate
-[near-boundary generation run](results/raw/qwen35-conversion-20260920/near16k-decode/manifest.json)
-also passes: 16,380 input tokens, four sampled tokens including EOS, three
-DD decode steps, and a correct answer. All observed logits and final states
-are finite, with 531,411 completed NPU commands and zero errors.
-CPU convolution, GQA, and host operations remain. This custom conversion is
-not AMD's supported recipe and does not replace the default AMD Qwen3-4B
-demo model. The measured 16K input processing takes about 15 minutes;
-these owned functional cases are not general quality or speed benchmarks.
-See the conversion guide for exact revisions, evidence, and
-reproduction commands.
+## Qwen3.5-4B NPU 16K — verified on Ryzen AI 1.8.0 (2026-09-20)
+
+**日本語:** Qwen3.5-4BのNPU・16K対応モデルを変換し、実機検証まで完了しました。
+16,384トークンの先頭・末尾に置いた情報を問うテストは両方正解し、
+16,380入力＋4トークン生成も終了トークンで正常終了しました。
+一部CPU処理を含む実験版で、16K入力処理には約15分かかります。
+
+**English:** The experimental Qwen3.5-4B conversion passes the owned 16K
+prefill and near-boundary generation checks on Ryzen AI 1.8.0 hardware.
+
+| Hardware check | Result | Recorded evidence |
+|---|---|---|
+| Short English/Japanese inputs and the previously failing 64-token prefix | Three complete questions correct; short generation ends at EOS; all observed logits and all 64 prefix states finite | [Short-run report](results/raw/qwen35-conversion-20260920/dd-stable-prefix-short.json) |
+| Information at the head and tail of a 16K input | Both correct at exactly 16,384 input tokens; all observed full-vocabulary logits finite | [16K report](results/raw/qwen35-conversion-20260920/dd-stable-16k.json) |
+| Generation near the context limit | 16,380 input tokens plus four sampled tokens including EOS; three DD decode steps; correct answer and clean exit 0; all observed logits and read states finite | [Generation report](results/raw/qwen35-conversion-20260920/near16k-decode/manifest.json) |
+
+The complete short, 16K, and near-boundary validation runs recorded 16,260,
+1,075,563, and 531,411 completed NPU commands respectively, each with zero
+errors. In the near-boundary batch-1 greedy run, OGA omits terminal EOS from
+its returned sequence. Four tokens are sampled, but the final API-returned
+sequence has 16,383 entries. The input-plus-sampled count, including EOS,
+is 16,384.
+
+The conversion uses **Quark 0.11 UINT4 RTN/MinMax, asymmetric group size 128**,
+OGA export, and 273 custom DD token partitions. The
+`--prefill-linear-attention token_loop` option runs the 24 prefill
+LinearAttention operators one token at a time on the NPU, while retaining
+batched execution for the other prefill projections. CPU convolution, GQA,
+and host operations remain; no GPU provider is configured. This is a custom
+integration, not AMD's supported recipe or the reference model's AWQ recipe.
+
+The measured 16K input processing takes approximately **15 minutes**.
+These owned functional checks are not general quality or speed benchmarks.
+See the [conversion and validation guide](docs/QWEN35_NPU.md) for exact
+revisions, model identities, the original failures, and reproduction commands.
+
+### Run the converted model
+
+Follow the [runtime setup](docs/RYZENAI.md) and
+[conversion instructions](docs/QWEN35_NPU.md#public-custom-dd-conversion-command)
+first. Model weights are not included in this repository. The command below
+uses the local artifact that passed the hardware checks; substitute your
+conversion output directory when reproducing it elsewhere.
+
+```powershell
+.\run_semif_npu.ps1 `
+  -Model 'models/Qwen3.5-4B-stable-prefill-dd-token-16k-run1' `
+  -Revision '851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a' `
+  -MaxTokens 16384
+```
+
+This runs direct scoring on `examples/decisions.jsonl` and creates a new
+output file. Use `-InputFile` for another JSONL input. The local web demo
+continues to use AMD's official Qwen3-4B model by default.
 
 The upstream project description and its original benchmark results follow.
 
@@ -69,7 +98,7 @@ Jev is TypeSafe's closed service for runtime-defined semantic decisions. This pr
 
 This baseline reads typed option probabilities directly from a model. No answer sentence, JSON repair, or decoding loop.
 
-### Latest changes — 2026-09-18
+### Latest upstream changes — 2026-09-18
 
 - Added MiniCPM5 2B and Qwen3.5 4B to the browser demo.
 - Added **Unsloppify site**, a switch to a conventional interface.
