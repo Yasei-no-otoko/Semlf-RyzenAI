@@ -24,6 +24,8 @@ or speed results.
 | CPU direct scoring | Three owned short examples are finite and correct |
 | SDK default Token Fusion recipe | Failed: missing Qwen3.5 DD partition and incompatible default projection format |
 | Custom DD conversion | Host-only LinearAttention compilation succeeds; full model conversion remains incomplete |
+| v2/no-control-packet MatMul DD | Synthetic and real layer-0 `in_proj_b` host compilation succeeds; NPU execution remains untested |
+| Projection transaction inventory | Exact M=1 v2/no-control-packet entries exist for all 249 projections across 8 shapes |
 | SDK NPU eager, chunk size 4096 | English short example passes; Japanese 96-token example returns NaNs |
 | SDK NPU eager, chunk size 64 | Three owned short examples pass, including Japanese |
 | Native generation | Finite logits observed, but the original validator checked logits after EOS; normal termination is not validated |
@@ -78,6 +80,23 @@ Neither result alone proves numerical correctness or 16K inference.
 The [transaction and packing results](../results/raw/qwen35-conversion-20260920/dd-contracts.json)
 and [host compilation report](../results/raw/qwen35-conversion-20260920/dd-linear-host-compile.json)
 record the exact SDK source and generated artifact hashes.
+
+The [MatMul host-compilation report](../results/raw/qwen35-conversion-20260920/dd-matmul-host-compile.json)
+also covers the real layer-0 `in_proj_b` projection. Only 42,240 external
+weight/scale bytes were read; zero points were inline. Restoring the
+preformatted weight, zero-point, and scale layout reproduces the original
+dequantized matrix exactly. Four CPU linear/Sigmoid reference inputs agree
+with that restored representation. Sigmoid remains outside DD. This checks
+weight layout and host compilation, not NPU rounding, model quality, or
+the native provider's single-node `model_type` routing.
+
+The [complete projection inventory](../results/raw/qwen35-conversion-20260920/dd-projection-inventory.json)
+maps all 249 projections to eight `(K, N)` shapes. Each has an exact M=1,
+4-bit/group-128 v2/no-control-packet transaction returned by the SDK query
+and present in the transaction archive's index. This includes the
+`(2560, 248320)` output projection. No shape is missing from this inventory;
+only the small `(2560, 32)` projection has been host-compiled in these tests.
+Inventory presence alone does not prove all projections can compile or run.
 
 The two operator families require different xclbins and execution interfaces.
 They need separate DD subgraphs, validated BF16/state boundaries, and an

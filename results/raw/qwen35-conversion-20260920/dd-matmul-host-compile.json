@@ -1,0 +1,440 @@
+{
+  "source_model_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "scope": "Synthetic and one real projection host compilation only; no NPU execution or 16K validation",
+  "diagnostic_source_sha256": {
+    "compile_host.py": "9e0590427c5aaad7aef532c071d9662a7b3c90ab4944f3dd42554ae7eafa88cb",
+    "compile_real_projection.py": "97c9ad74b0f98a285c46dca9ab74a8e4df698d8db103ae5c9d533b4fc7c72d1b"
+  },
+  "cases": [
+    {
+      "scope": "synthetic K2560 N32 group128, CPU-only host compile",
+      "status": "compiled_and_saved",
+      "npu_init_or_execute": false,
+      "real_weights_loaded": false,
+      "stages": [
+        "SDK llm.dd.matmulnbits replacement passed with synthetic weights",
+        "build_dd_node metadata and ONNX checker passed",
+        "FusionRuntime.compile passed",
+        "FusionRuntime.save_state passed"
+      ],
+      "native_op": {
+        "type": "MladfMatMul",
+        "domain": "com.ryzenai",
+        "inputs": [
+          "X.outmatmul_0",
+          "W.preformat",
+          "bias.preformat",
+          "scale.preformat",
+          "zp.preformat"
+        ],
+        "outputs": [
+          "Y.outmatmul_0"
+        ],
+        "attrs": {
+          "K": 2560,
+          "N": 32,
+          "accuracy_level": 4,
+          "bits": 4,
+          "block_size": 128,
+          "op_version": "v2",
+          "default_shape": 1,
+          "offload_npu": 1,
+          "group_size": 128
+        }
+      },
+      "dd_node": {
+        "type": "DynamicDispatch",
+        "domain": "com.ryzenai",
+        "inputs": [
+          "X.outmatmul_0"
+        ],
+        "outputs": [
+          "Y.outmatmul_0"
+        ],
+        "attrs": {
+          "input_shape_0": [
+            1,
+            1,
+            2560
+          ],
+          "output_shape_0": [
+            1,
+            1,
+            32
+          ],
+          "xclbin": "stx_llama2_mladf_2x4x4_v2_gemmbfp16_silu_mul_mha_rms_rope_unified",
+          "model_type": 9,
+          "mladf_version": "v2",
+          "replaced": [
+            "synthetic_proj"
+          ]
+        }
+      },
+      "model_type": {
+        "selected": 9,
+        "name": "LLM_TOKEN",
+        "qualification": "Matches SDK token wrapper enum. Host compile does not validate ORT custom-op model_type routing."
+      },
+      "io": {
+        "dtype": "BFLOAT16 (ONNX enum 16; DD bfloat16)",
+        "input_shape": [
+          1,
+          1,
+          2560
+        ],
+        "output_shape": [
+          1,
+          1,
+          32
+        ],
+        "outer_casts": "BFLOAT16->BFLOAT16 Cast nodes retained outside DD by SDK replacement"
+      },
+      "not_tested": [
+        "NPU init/execute",
+        "numerical inference",
+        "cross-xclbin runtime",
+        "model_type=9 custom-op IO behavior",
+        "conversion from an already packed MatMulNBitsBf blob",
+        "real model weights"
+      ],
+      "artifacts": [
+        {
+          "path": "compiled",
+          "bytes": 51957,
+          "sha256": "c93b73b07d268dc7a0b037394945f8542c777c13333f646a69ae2c3fc659ea12"
+        },
+        {
+          "path": "compiled.ctrlpkt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "compiled.fconst",
+          "bytes": 45696,
+          "sha256": "97a3919d4d681bfaaf71f96d5654cccf05a2c8d76e9df48cb2e98a40a22c72f0"
+        },
+        {
+          "path": "compiled.super",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "dd.onnx",
+          "bytes": 632,
+          "sha256": "3e8aaa1d193b97d8f42fff36aeec4c751d593736e4238329d59561cb7c56553e"
+        },
+        {
+          "path": "lowered.onnx",
+          "bytes": 85996,
+          "sha256": "60a3970316392a1d2f0c74ee2848bfbb23f961757293d8bb9d5a05a467b9e1b7"
+        },
+        {
+          "path": "matmul_unified_v2.xclbin",
+          "bytes": 7751240,
+          "sha256": "290fa567afa44f3c0c43d39b6fa0d21ca78fabcb5c66c3e5fe11cd8ca759f82b"
+        },
+        {
+          "path": "source.onnx",
+          "bytes": 44297,
+          "sha256": "fa59ee633be621020aa6196c130b1e6162c09181b2cc0e175a105aba9c53ebe0"
+        },
+        {
+          "path": "synthetic_proj_0.const",
+          "bytes": 81920,
+          "sha256": "fa569e2360c540e6280e34a4627516770f1a5f34d81d35689334a99cc1013357"
+        },
+        {
+          "path": "synthetic_proj_1.const",
+          "bytes": 128,
+          "sha256": "38723a2e5e8a17aa7950dc008209944e898f69a7bd10a23c839d341e935fd5ca"
+        },
+        {
+          "path": "synthetic_proj_2.const",
+          "bytes": 2560,
+          "sha256": "71f3f0e94575685f1a2bdf9de61e7afedd35f1309b25791d3f8c7879ec1d576b"
+        },
+        {
+          "path": "synthetic_proj_3.const",
+          "bytes": 640,
+          "sha256": "9e132485d5107211de325a45e7917cbe3e4b5b9cde3e4ee91d7d2102317759ee"
+        },
+        {
+          "path": "synthetic_proj_meta.json",
+          "bytes": 4475,
+          "sha256": "c1b0c4800d477823672cabe60278696b989df03f8d9458663da81c62a58c25be"
+        }
+      ],
+      "source_report_sha256": "03795b25a14ffd74cda50db6ce6d9e69a9d76170d9fd8c4ec61a027f798379a5",
+      "compile_config": {
+        "buffer_reuse_version": "v3",
+        "const_iter_key": "",
+        "constbo_sharing_key": "",
+        "dealloc_elfs": false,
+        "dealloc_input_bo": false,
+        "dealloc_output_bo": false,
+        "dealloc_scratch_bo": false,
+        "eager_mode": false,
+        "en_check_constbo": false,
+        "en_dynamic_subgraph_lazy_loading": false,
+        "en_lazy_constbo": false,
+        "enable_preemption": false,
+        "instr_xrt_bo_stack_size_mb": 0,
+        "model_name": "matmul_v2",
+        "optimize_memory_noop": true,
+        "optimize_pm_swap": true,
+        "optimize_scratch": true,
+        "pm_swap": false,
+        "profile": 0,
+        "reload_const": false,
+        "txn_opt": false,
+        "use_elf_flow": false,
+        "use_lazy_input_bo": false,
+        "use_lazy_output_bo": false,
+        "use_lazy_scratch_bo": true
+      },
+      "xclbin_sha256": "290fa567afa44f3c0c43d39b6fa0d21ca78fabcb5c66c3e5fe11cd8ca759f82b",
+      "metadata_sha256": "c1b0c4800d477823672cabe60278696b989df03f8d9458663da81c62a58c25be"
+    },
+    {
+      "scope": "one real projection host compile, no NPU",
+      "status": "compiled_and_saved",
+      "npu_init_or_execute": false,
+      "stages": [
+        "read exactly one projection and retain its Sigmoid",
+        "real preformat reconstruction and CPU linear+Sigmoid reference agree exactly",
+        "real projection DynamicDispatch host compile and save_state passed"
+      ],
+      "native_op": {
+        "inputs": [
+          "/model/layers.0/input_layernorm/output_0.outreal_b_0",
+          "model.layers.0.linear_attn.in_proj_b.MatMulNBits.qweight.preformat",
+          "normalized_zero_bias.preformat",
+          "model.layers.0.linear_attn.in_proj_b.MatMulNBits.scales.preformat",
+          "model.layers.0.linear_attn.in_proj_b.MatMulNBits.qzeros.preformat"
+        ],
+        "outputs": [
+          "/model/layers.0/linear_attn/in_proj_b/MatMul/output_0.outreal_b_0"
+        ],
+        "attrs": {
+          "accuracy_level": 0,
+          "bits": 4,
+          "N": 32,
+          "block_size": 128,
+          "K": 2560,
+          "op_version": "v2",
+          "default_shape": 1,
+          "offload_npu": 1,
+          "group_size": 128
+        }
+      },
+      "dd_node": {
+        "inputs": [
+          "/model/layers.0/input_layernorm/output_0.outreal_b_0"
+        ],
+        "outputs": [
+          "/model/layers.0/linear_attn/in_proj_b/MatMul/output_0.outreal_b_0"
+        ],
+        "attrs": {
+          "input_shape_0": [
+            1,
+            1,
+            2560
+          ],
+          "output_shape_0": [
+            1,
+            1,
+            32
+          ],
+          "xclbin": "stx_llama2_mladf_2x4x4_v2_gemmbfp16_silu_mul_mha_rms_rope_unified",
+          "model_type": 9,
+          "mladf_version": "v2",
+          "replaced": [
+            "/model/layers.0/linear_attn/in_proj_b/MatMulNBits"
+          ]
+        }
+      },
+      "not_tested": [
+        "NPU init/execute",
+        "cross-xclbin runtime",
+        "full model",
+        "NPU rounding/accuracy",
+        "actual normalized activation",
+        "ORT custom-op model_type routing"
+      ],
+      "artifacts": [
+        {
+          "path": "compiled",
+          "bytes": 53182,
+          "sha256": "51befbaae884a32038aa66528b4619605c1c7f9cab4bc014f07900312c8d782f"
+        },
+        {
+          "path": "compiled.ctrlpkt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "compiled.fconst",
+          "bytes": 45696,
+          "sha256": "484594e05b4728e865c6c0ef83d6a654554ccb28b9a18dbed294d901d123fd7e"
+        },
+        {
+          "path": "compiled.super",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "dd.onnx",
+          "bytes": 1763,
+          "sha256": "08616148e9685c1b90c109dd31bd3e5c1372c5a8559fb61cd3158ab988c6dece"
+        },
+        {
+          "path": "lowered.onnx",
+          "bytes": 87445,
+          "sha256": "64cf9d1edbf7f72017ab374e35d8fe87f74bd1aa39c19c1d976babcebb646e4c"
+        },
+        {
+          "path": "modellayers.0linear_attnin_proj_bMatMulNBits_0.const",
+          "bytes": 81920,
+          "sha256": "e029d7a4d90dec063b424a38dfece3c616ee284f43a55f7044df9d292dbbfa64"
+        },
+        {
+          "path": "modellayers.0linear_attnin_proj_bMatMulNBits_1.const",
+          "bytes": 128,
+          "sha256": "38723a2e5e8a17aa7950dc008209944e898f69a7bd10a23c839d341e935fd5ca"
+        },
+        {
+          "path": "modellayers.0linear_attnin_proj_bMatMulNBits_2.const",
+          "bytes": 2560,
+          "sha256": "82c2710cfc0766bc88dc6a2a2d05d2c7fa6444b62263d16ada5c8395eb2ee0be"
+        },
+        {
+          "path": "modellayers.0linear_attnin_proj_bMatMulNBits_3.const",
+          "bytes": 640,
+          "sha256": "97dbf77e1fb9946c3b544d492119be5334177362478d92a9f7ac0934e1239d0a"
+        },
+        {
+          "path": "modellayers.0linear_attnin_proj_bMatMulNBits_meta.json",
+          "bytes": 5485,
+          "sha256": "ac17d3d90a0b5faff2a373f1a194ef519b58dbc4473407951fe0995f0631d037"
+        },
+        {
+          "path": "source_projection.onnx",
+          "bytes": 43833,
+          "sha256": "819c83d9882fd6080e0f2434dde951f4d18592545111ad29f403e34161a17f13"
+        }
+      ],
+      "original_op": {
+        "name": "/model/layers.0/linear_attn/in_proj_b/MatMulNBits",
+        "inputs": [
+          "/model/layers.0/input_layernorm/output_0",
+          "model.layers.0.linear_attn.in_proj_b.MatMulNBits.qweight",
+          "model.layers.0.linear_attn.in_proj_b.MatMulNBits.scales",
+          "model.layers.0.linear_attn.in_proj_b.MatMulNBits.qzeros"
+        ],
+        "attrs": {
+          "accuracy_level": 0,
+          "bits": 4,
+          "N": 32,
+          "block_size": 128,
+          "K": 2560
+        }
+      },
+      "activation": {
+        "type": "Sigmoid",
+        "name": "/model/layers.0/linear_attn/beta/Sigmoid",
+        "domain": "",
+        "inputs": [
+          "/model/layers.0/linear_attn/in_proj_b/MatMul/output_0"
+        ],
+        "outputs": [
+          "InsertedPrecisionFreeCast_/model/layers.0/linear_attn/beta/Sigmoid/output_0.in.inter"
+        ],
+        "handling": "preserved as an ONNX Sigmoid outside DD"
+      },
+      "bias": "source MatMul has no bias; normalized explicit all-zero FLOAT16 bias",
+      "upstream_norm": "not executed; post-input_layernorm tensor is an external input",
+      "external_read_cap": 65536,
+      "external_bytes_read": 42240,
+      "cpu_reference": {
+        "preformat_components_exact": true,
+        "dequant_matrix_exact": true,
+        "input_vectors": 4,
+        "seed": 20260920,
+        "linear_max_abs": 0.0,
+        "sigmoid_max_abs": 0.0,
+        "dequant_sha256": "b1ba5a1f2e9c45e114a9e8077573a1ee3d5acc43209a9894f2195563691f4ee6",
+        "qualification": "CPU float64 dequant reference confirms layout/scale/zp restoration only; no NPU rounding or actual normalized model activation tested"
+      },
+      "source_report_sha256": "51b410eef9e07c804850dbebc9b8fc70da76167cf87212f592566128b56c017f",
+      "compile_config": {
+        "buffer_reuse_version": "v3",
+        "const_iter_key": "",
+        "constbo_sharing_key": "",
+        "dealloc_elfs": false,
+        "dealloc_input_bo": false,
+        "dealloc_output_bo": false,
+        "dealloc_scratch_bo": false,
+        "eager_mode": false,
+        "en_check_constbo": false,
+        "en_dynamic_subgraph_lazy_loading": false,
+        "en_lazy_constbo": false,
+        "enable_preemption": false,
+        "instr_xrt_bo_stack_size_mb": 0,
+        "model_name": "real_in_proj_b_v2",
+        "optimize_memory_noop": true,
+        "optimize_pm_swap": true,
+        "optimize_scratch": true,
+        "pm_swap": false,
+        "profile": 0,
+        "reload_const": false,
+        "txn_opt": false,
+        "use_elf_flow": false,
+        "use_lazy_input_bo": false,
+        "use_lazy_output_bo": false,
+        "use_lazy_scratch_bo": true
+      },
+      "xclbin_sha256": "290fa567afa44f3c0c43d39b6fa0d21ca78fabcb5c66c3e5fe11cd8ca759f82b",
+      "source_header_sha256": "6dfce6ed7ce6fafe21588b5b7e66bd3792078e55db19a33afa08b2bb3470fc51",
+      "reads": [
+        {
+          "name": "model.layers.0.linear_attn.in_proj_b.MatMulNBits.qweight",
+          "dtype": "uint8",
+          "shape": [
+            32,
+            20,
+            64
+          ],
+          "expected_bytes": 40960,
+          "storage": "external_range",
+          "offset": 1354855424,
+          "length": 40960,
+          "sha256": "8d73406eecd2257bda130882281beedd31ee3aa84140858cc9aa3ddf12e98d82"
+        },
+        {
+          "name": "model.layers.0.linear_attn.in_proj_b.MatMulNBits.scales",
+          "dtype": "float16",
+          "shape": [
+            640
+          ],
+          "expected_bytes": 1280,
+          "storage": "external_range",
+          "offset": 1354896384,
+          "length": 1280,
+          "sha256": "0f83ee16cfec0709ed45cf433f356d13ad8e60f29e12b8b10a1241576a031994"
+        },
+        {
+          "name": "model.layers.0.linear_attn.in_proj_b.MatMulNBits.qzeros",
+          "dtype": "uint8",
+          "shape": [
+            320
+          ],
+          "expected_bytes": 320,
+          "storage": "inline",
+          "length": 320,
+          "sha256": "407a72fe10598bc013c00e27c2ef08bfefc838c3140acdb35e4c1c107c6db62e"
+        }
+      ],
+      "metadata_sha256": "ac17d3d90a0b5faff2a373f1a194ef519b58dbc4473407951fe0995f0631d037"
+    }
+  ]
+}
