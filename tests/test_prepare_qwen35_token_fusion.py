@@ -364,3 +364,53 @@ def test_cli_help_exposes_adaptive_flag_from_repository():
                                 "plan", "--help"], cwd=conversion.HERE.parent,
                                capture_output=True, text=True, timeout=30, check=True)
     assert "adaptive" in completed.stdout and "--prefill-chunk-size {1024,4096}" in completed.stdout
+    assert "--prune-prefill-lm-head" in completed.stdout
+
+
+@pytest.mark.parametrize("mode,value", [("native", True), ("token_loop", True), ("adaptive", 1),
+                                        ("adaptive", "true"), ("adaptive", None)])
+def test_plan_rejects_incompatible_or_nonbool_pruning(small_inputs, mode, value):
+    with pytest.raises(ValueError, match="adaptive|boolean"):
+        _plan(small_inputs, prefill_linear_attention=mode, prune_prefill_lm_head=value)
+    assert not small_inputs.work.exists() and not small_inputs.output.exists()
+
+
+@pytest.mark.parametrize("mode,prune", [("native", False), ("token_loop", False),
+                                       ("adaptive", False), ("adaptive", True)])
+def test_pruning_plan_build_passthrough_and_default(small_inputs, monkeypatch, mode, prune):
+    from benchmarks import qwen35_dd, qwen35_package
+    original_config = (small_inputs.prefill / "genai_config.json").read_bytes()
+    arguments = {"prune_prefill_lm_head": True} if prune else {}
+    plan = _plan(small_inputs, prefill_linear_attention=mode, **arguments)
+    assert plan["prune_prefill_lm_head"] is prune
+    assert plan["code_sha256"]["qwen35_lm_head.py"] == conversion.sha256(conversion.HERE / "qwen35_lm_head.py")
+    conversion.write_new(small_inputs.plan, plan)
+    monkeypatch.setattr(conversion, "regenerate_token", lambda *args: small_inputs.source / "source.bin")
+    monkeypatch.setattr(qwen35_dd, "lower_token_graph", lambda *args, **kwargs: {"owned": True})
+    received = []
+    def package(*args, **kwargs):
+        received.append(kwargs)
+        return {"owned": True}
+    monkeypatch.setattr(qwen35_package, "package_model", package)
+    result = conversion.build(small_inputs.plan, conversion.sha256(small_inputs.plan))
+    assert len(received) == 1 and received[0]["prune_prefill_lm_head"] is prune
+    assert result["prune_prefill_lm_head"] is prune and result["runtime_validated"] is False
+    assert (small_inputs.prefill / "genai_config.json").read_bytes() == original_config
+
+
+@pytest.mark.parametrize("explicit", [False, True])
+def test_cli_pruning_flag_records_explicit_opt_in_only(small_inputs, monkeypatch, capsys, explicit):
+    argv = ["prepare_qwen35_token_fusion.py", "plan", "--prefill-linear-attention", "adaptive"]
+    for name, value in (("source", small_inputs.source), ("prefill", small_inputs.prefill),
+                        ("sdk-root", small_inputs.sdk), ("work-dir", small_inputs.work),
+                        ("output", small_inputs.output), ("plan", small_inputs.plan), ("profile", small_inputs.profile)):
+        argv.extend(["--" + name, str(value)])
+    if explicit:
+        argv.append("--prune-prefill-lm-head")
+    monkeypatch.setattr(sys, "argv", argv)
+    conversion.main()
+    plan = conversion.read_json(small_inputs.plan)
+    assert plan["prune_prefill_lm_head"] is explicit
+    assert plan["prefill_chunk_size"] == 1024
+    assert json.loads(capsys.readouterr().out)["sha256"] == conversion.sha256(small_inputs.plan)
+    assert not small_inputs.work.exists() and not small_inputs.output.exists()

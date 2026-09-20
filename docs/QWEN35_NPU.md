@@ -790,23 +790,25 @@ the original native batched operator. The finite/correct owned cases do
 not establish general model quality; the full SemIf Speed/Quality
 comparison remains separate.
 
-To reproduce the conversion from the same pinned inputs, run the following
+To reproduce the conversion with the last-position LM head described below
+from the same pinned inputs, run the following
 from the repository root in the SDK 1.8 environment. Use fresh paths for
 each build:
 
 ```powershell
 $adaptiveSdk = 'C:\Program Files\RyzenAI\1.8.0'
 $adaptivePython = Join-Path $env:USERPROFILE 'miniforge3\envs\ryzen-ai-1.8.0\python.exe'
-$adaptiveWork = 'cache\qwen35-conversion\adaptive-build-new'
-$adaptiveOutput = 'models\Qwen3.5-4B-adaptive-new'
-$adaptivePlan = 'cache\qwen35-conversion\adaptive-plan-new.json'
+$adaptiveWork = 'cache\qwen35-conversion\adaptive-pruned-build-new'
+$adaptiveOutput = 'models\Qwen3.5-4B-adaptive-pruned-new'
+$adaptivePlan = 'cache\qwen35-conversion\adaptive-pruned-plan-new.json'
 
 & $adaptivePython benchmarks\prepare_qwen35_token_fusion.py plan `
   --source models\Qwen3.5-4B-oga-run2 `
   --prefill models\Qwen3.5-4B-npu-eager-16k-chunk64-run1 `
   --sdk-root $adaptiveSdk --work-dir $adaptiveWork --output $adaptiveOutput `
   --profile benchmarks\qwen35_rai18_profile.json --plan $adaptivePlan `
-  --prefill-linear-attention adaptive --prefill-chunk-size 1024
+  --prefill-linear-attention adaptive --prefill-chunk-size 1024 `
+  --prune-prefill-lm-head
 if ($LASTEXITCODE -ne 0) { throw 'Adaptive plan validation failed.' }
 
 $adaptivePlanSha = (Get-FileHash -LiteralPath $adaptivePlan -Algorithm SHA256).Hash.ToLowerInvariant()
@@ -831,6 +833,55 @@ manifest SHA256
 It was built with the experimental transformation; the public transform
 produces the same prefill graph bytes. A fresh build has its own manifest
 and needs runtime validation.
+
+### Last-position LM head
+
+The optional `--prune-prefill-lm-head` selects the last hidden-state row
+before the prefill LM head. It retains every attention, convolution and
+recurrent/KV state update, all weights, and the complete DD token branch.
+The prefill branch and top-level logits declaration both become
+`[1, 1, 248320]`; OGA uses the top-level fixed length to allocate its
+trimmed output. The input remains variable length and must be nonempty,
+batch one and unpadded. This option defaults to false and requires
+`adaptive` mode. Omit it to reproduce the intermediate variant above.
+
+The same short English input improved from the intermediate adaptive
+median of 3.121026 seconds to 0.984449 seconds; Japanese improved from
+3.421538 to 0.972472 seconds. All seven direct checks remained correct.
+The 64-token regression prefix's complete 248,320-entry logit vector is
+bit-identical before and after this change. All 64 saved state-statistics
+records also match; raw state tensors were not saved, so this does not
+establish state bit equality. Greedy generation returns the same four
+tokens including EOS, in 1.851628 seconds. The short run completed 9,216
+NPU commands with zero errors and exit 0.
+
+The separate 16K run passed both head and tail questions in 94.956294 and
+92.843629 seconds. Relative to the historical token-loop model, those are
+9.56× and 10.01× improvements on identical input IDs and weights. Near the
+limit, 16,380-token prefill took 94.111096 seconds and four sampled tokens
+including EOS completed through three DD forwards. All observed logits
+and all 64 final states were finite; 64,903 NPU commands completed with
+zero errors and clean exit 0. Cold model loading still takes about
+217–222 seconds. These single long observations and small owned checks
+are separate from general Speed/Quality suite results.
+
+All four saved near-boundary full-vocabulary vectors are bit-identical
+to the intermediate adaptive run. The 64 final state-statistics records
+also match; this again compares statistics, not unsaved raw state arrays.
+
+[Short/2K evidence](../results/raw/qwen35-speed-20260920/pruned-short-2k.json)
+and [16K evidence](../results/raw/qwen35-speed-20260920/pruned-long-16k.json)
+preserve individual observations and model/runtime/source hashes. The
+measured local package is
+`models/Qwen3.5-4B-adaptive-prefill-pruned-lmhead-dd-token-16k-chunk1024-run1`,
+manifest SHA256
+`468cd661d1f8aac5990feb585c8bfe24d089d56bc72eee2b10bf5791dcf59060`.
+It was produced by an independent copy of the intermediate model and a
+header-only rewrite. The public transform produces the same final header
+bytes, SHA256
+`4add5396e7b1850419c2d94731290fe0b781e2d553d23f68517471b3121ddc90`.
+A full package built afresh through the public command has its own
+manifest and still needs runtime validation.
 
 ## Validation before deployment
 

@@ -290,7 +290,8 @@ def _opsets_and_functions(models, paths):
     ], list(functions.values())
 
 
-def _combine_branches(reference_path, prefill_path, token_path, output_dir, *, prefill_model=None) -> Path:
+def _combine_branches(reference_path, prefill_path, token_path, output_dir, *, prefill_model=None,
+                      combined_transform=None) -> Path:
     """Write a new model directory; never replace an existing path or source file.
 
     Interface, hashes, and collisions are checked before creating output_dir.
@@ -415,6 +416,10 @@ def _combine_branches(reference_path, prefill_path, token_path, output_dir, *, p
     ):
         setattr(combined, field, getattr(reference, field))
     combined.metadata_props.extend(reference.metadata_props)
+    if combined_transform is not None:
+        combined = combined_transform(combined)
+        _require(isinstance(combined, onnx.ModelProto), "Combined transform must return ModelProto")
+        _check_captures(combined.graph, set())
 
     output_dir.mkdir(parents=False, exist_ok=False)
     for source, filename in external_files.items():
@@ -559,7 +564,8 @@ def _transaction_coverage(archive, eager_archive):
 
 
 def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_root: Path, profile: dict,
-                  prefill_linear_attention: str = "native", prefill_chunk_size: int | None = None) -> dict:
+                  prefill_linear_attention: str = "native", prefill_chunk_size: int | None = None,
+                  prune_prefill_lm_head: bool = False) -> dict:
     """Create a fresh package from an eager prefill and a lowered DD token graph.
 
     ``profile['source_revision']`` is required. Optional ``expected_dd_nodes``
@@ -570,10 +576,15 @@ def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_r
     ``'adaptive'`` uses unchanged gates with adaptive native segments and a FLOAT
     sequence accumulator. Only this mode accepts a global chunk size, 1024
     (the default) or 4096; the source configuration must still use chunk64.
+    ``prune_prefill_lm_head=True`` is an additional adaptive-only opt-in that
+    projects the last prefill token while retaining every state update.
     Token inputs are ``model.onnx`` and ``cache/<node.name>_meta.json`` plus their
     referenced constants. This function never initializes/executes the runtime.
     """
     _require(prefill_linear_attention in {"native", "token_loop", "adaptive"}, "Unsupported prefill LinearAttention mode")
+    _require(type(prune_prefill_lm_head) is bool, "prune_prefill_lm_head must be a boolean")
+    _require(not prune_prefill_lm_head or prefill_linear_attention == "adaptive",
+             "Prefill LM-head pruning requires adaptive mode")
     if prefill_linear_attention == "adaptive":
         prefill_chunk_size = 1024 if prefill_chunk_size is None else prefill_chunk_size
         _require(type(prefill_chunk_size) is int and prefill_chunk_size in (1024, 4096),
@@ -645,6 +656,24 @@ def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_r
             observed_global_chunk_size=prefill_chunk_size,
         )
         config["search"]["chunk_size"] = prefill_chunk_size
+    lm_head_transformation = None
+    combine_options = {}
+    if prune_prefill_lm_head:
+        try:
+            from benchmarks import qwen35_lm_head
+        except ModuleNotFoundError as error:
+            if error.name != "benchmarks":
+                raise
+            import qwen35_lm_head
+        lm_head_path = Path(qwen35_lm_head.__file__).resolve(strict=True)
+        transformation_dependencies[lm_head_path] = _sha256(lm_head_path)
+        def transform_combined(combined):
+            nonlocal lm_head_transformation
+            result, lm_head_transformation = qwen35_lm_head.transform_prefill_lm_head(combined)
+            lm_head_transformation.update(transformer_path=str(lm_head_path),
+                                          transformer_sha256=transformation_dependencies[lm_head_path])
+            return result
+        combine_options["combined_transform"] = transform_combined
     source_paths = {prefill_path, token_path, config_path, header_path, eager_weights}
     source_paths.update(transformation_dependencies)
     if transformer_path is not None:
@@ -719,10 +748,10 @@ def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_r
     hashes = {p: _sha256(p) for p in (prefill_path, token_path, config_path, header_path)}
     hashes.update(transformation_dependencies)
     if prefill_transformation is None:
-        _combine_branches(prefill_path, prefill_path, token_path, output_dir)
+        _combine_branches(prefill_path, prefill_path, token_path, output_dir, **combine_options)
     else:
         prefill_transformation["source_model_sha256"] = hashes[prefill_path]
-        _combine_branches(prefill_path, prefill_path, token_path, output_dir, prefill_model=prefill)
+        _combine_branches(prefill_path, prefill_path, token_path, output_dir, prefill_model=prefill, **combine_options)
     (output_dir / "cache").mkdir(exist_ok=False)
     roles = {"model.onnx": "combined_header"}
     for path in output_dir.glob("weights-*.bin"):
@@ -767,6 +796,8 @@ def package_model(prefill_dir: Path, token_dir: Path, output_dir: Path, *, sdk_r
     )
     if prefill_transformation is not None:
         manifest["prefill_transformation"] = prefill_transformation
+    if lm_head_transformation is not None:
+        manifest["prefill_lm_head_pruning"] = lm_head_transformation
     _write_new(output_dir / "package-manifest.json", manifest)
     return manifest
 

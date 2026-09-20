@@ -280,3 +280,65 @@ def test_adaptive_helper_change_prevents_success_manifest(fixture, monkeypatch):
     with pytest.raises(package.PackagingError, match="Source changed|Source header/config changed"):
         _package(fixture, prefill_linear_attention="adaptive")
     assert not (fixture.output / "package-manifest.json").exists()
+
+
+@pytest.mark.parametrize("mode,value", [("native", True), ("token_loop", True), ("adaptive", 1),
+                                        ("adaptive", "true"), ("adaptive", None)])
+def test_lm_head_pruning_is_strictly_adaptive_opt_in(fixture, mode, value):
+    with pytest.raises(package.PackagingError, match="adaptive|boolean"):
+        _package(fixture, prefill_linear_attention=mode, prune_prefill_lm_head=value)
+    assert not fixture.output.exists()
+
+
+def test_lm_head_hook_runs_before_copy_and_records_exact_module_identity(fixture, monkeypatch):
+    from benchmarks import qwen35_adaptive_prefill, qwen35_lm_head
+    monkeypatch.setattr(qwen35_adaptive_prefill, "transform_prefill_adaptive_attention",
+                        lambda model: (copy.deepcopy(model), {}))
+    seen = []
+    def prune(model):
+        assert not fixture.output.exists()
+        seen.append(model.SerializeToString())
+        return model, {"owned_hook": True, "source_header_sha256": package.hashlib.sha256(seen[-1]).hexdigest()}
+    monkeypatch.setattr(qwen35_lm_head, "transform_prefill_lm_head", prune)
+    result = _package(fixture, prefill_linear_attention="adaptive", prune_prefill_lm_head=True)
+    assert len(seen) == 1
+    assert result["prefill_lm_head_pruning"] == {
+        "owned_hook": True,
+        "source_header_sha256": package.hashlib.sha256(seen[0]).hexdigest(),
+        "transformer_path": str(package.Path(qwen35_lm_head.__file__).resolve()),
+        "transformer_sha256": package._sha256(package.Path(qwen35_lm_head.__file__)),
+    }
+    config = json.loads((fixture.output / "genai_config.json").read_text())
+    assert config["search"] == {**fixture.config["search"], "chunk_size": 1024}
+    assert result["runtime_unverified"] is True
+
+
+def test_lm_head_module_change_during_copy_prevents_success(fixture, monkeypatch):
+    from benchmarks import qwen35_adaptive_prefill, qwen35_lm_head
+    fake = fixture.prefill.parent / "owned_lm_head.py"
+    fake.write_bytes(b"owned original transformer")
+    monkeypatch.setattr(qwen35_lm_head, "__file__", str(fake))
+    monkeypatch.setattr(qwen35_lm_head, "transform_prefill_lm_head", lambda model: (model, {}))
+    monkeypatch.setattr(qwen35_adaptive_prefill, "transform_prefill_adaptive_attention",
+                        lambda model: (copy.deepcopy(model), {}))
+    original_copy = package._copy_independent
+    def change_after_copy(source, destination):
+        digest = original_copy(source, destination)
+        fake.write_bytes(b"changed transformer")
+        return digest
+    monkeypatch.setattr(package, "_copy_independent", change_after_copy)
+    with pytest.raises(package.PackagingError, match="Source changed"):
+        _package(fixture, prefill_linear_attention="adaptive", prune_prefill_lm_head=True)
+    assert not (fixture.output / "package-manifest.json").exists()
+
+
+@pytest.mark.parametrize("mode", ["native", "token_loop", "adaptive"])
+def test_pruning_remains_disabled_for_every_default_mode(fixture, monkeypatch, mode):
+    from benchmarks import qwen35_prefill, qwen35_adaptive_prefill, qwen35_lm_head
+    monkeypatch.setattr(qwen35_prefill, "transform_prefill_linear_attention", lambda model: (model, {}))
+    monkeypatch.setattr(qwen35_adaptive_prefill, "transform_prefill_adaptive_attention", lambda model: (model, {}))
+    def forbidden(*args, **kwargs):
+        pytest.fail("pruning requires explicit opt-in")
+    monkeypatch.setattr(qwen35_lm_head, "transform_prefill_lm_head", forbidden)
+    result = _package(fixture, prefill_linear_attention=mode)
+    assert "prefill_lm_head_pruning" not in result

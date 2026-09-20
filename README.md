@@ -56,37 +56,41 @@ revisions, model identities, the original failures, and reproduction commands.
 
 ### Prefill speed improvement
 
-**日本語:** NPUで処理する区間を入力に応じてまとめ、途中結果のコピーを減らしました。
-同じ短文の回答時間は英語で約6.69秒から3.12秒、日本語で約6.85秒から3.42秒に短縮しました。
+**日本語:** NPUで処理する区間を入力に応じてまとめ、途中結果のコピーを減らし、
+語彙への変換を最後の位置に限定しました。
+同じ短文の回答時間は英語で約6.69秒から0.98秒、日本語で約6.85秒から0.97秒に短縮しました。
 1K・2K入力を含む7件の直接判定はすべて正解しました。
-16K入力も先頭・末尾とも正解し、約908～930秒から約132～160秒に短縮しました。
+16K入力も先頭・末尾とも正解し、約908～930秒から約93～95秒に短縮しました。
 
 The experimental `adaptive` prefill groups tokens using a per-head log-gate
 budget of 64, keeps native computation and recurrent state in BF16, and
 collects attention outputs without repeatedly copying the entire prefix.
-Other prefill projections use a global chunk size of 1,024. Weights and the
+Other prefill projections use a global chunk size of 1,024. The additional
+`--prune-prefill-lm-head` option projects only the last position into the
+248,320-token vocabulary while retaining all state updates. Weights and the
 DD decode branch are unchanged.
 
-| Owned input | Previous token loop | Adaptive prefill |
-|---|---:|---:|
-| English, 94 tokens | 6.689 s | 3.121 s |
-| Japanese, 96 tokens | 6.850 s | 3.422 s |
-| English with reversed options, 94 tokens | 6.740 s | 3.114 s |
-| Head sentinel, 1,024 tokens | Not measured | 8.246 s |
-| Tail sentinel, 2,048 tokens | Not measured | 14.304 s |
-| Head sentinel, 16,384 tokens | 907.923 s | 160.317 s |
-| Tail sentinel, 16,384 tokens | 929.666 s | 132.207 s |
+| Owned input | Previous token loop | Adaptive prefill | Adaptive + last-position LM head |
+|---|---:|---:|---:|
+| English, 94 tokens | 6.689 s | 3.121 s | **0.984 s** |
+| Japanese, 96 tokens | 6.850 s | 3.422 s | **0.972 s** |
+| English with reversed options, 94 tokens | 6.740 s | 3.114 s | **0.953 s** |
+| Head sentinel, 1,024 tokens | Not measured | 8.246 s | **4.464 s** |
+| Tail sentinel, 2,048 tokens | Not measured | 14.304 s | **9.392 s** |
+| Head sentinel, 16,384 tokens | 907.923 s | 160.317 s | **94.956 s** |
+| Tail sentinel, 16,384 tokens | 929.666 s | 132.207 s | **92.844 s** |
 
-English adaptive timing is the median of three identical inputs; the other
+English adaptive timings are medians of three identical inputs; the other
 entries are individual observations. The previous timings come from the
 earlier run on the same PC and model weights. Timings exclude model loading
 and include host work and logit readout. All observed full-vocabulary logits
 and all 64 states read for the regression prefix were finite; the supervised
 short/2K run completed 9,216 NPU commands with zero errors and exit code 0.
-See the [row-level evidence](results/raw/qwen35-speed-20260920/short-2k.json)
+See the [row-level evidence](results/raw/qwen35-speed-20260920/pruned-short-2k.json),
+the [intermediate adaptive run](results/raw/qwen35-speed-20260920/short-2k.json),
 and [reproduction instructions](docs/QWEN35_NPU.md#adaptive-prefill).
 
-The separate [16K run](results/raw/qwen35-speed-20260920/long-16k.json)
+The separate [16K run](results/raw/qwen35-speed-20260920/pruned-long-16k.json)
 also passed near-boundary generation: 16,380 input tokens, four sampled
 tokens including EOS, and three DD decode steps. All observed logits and
 all 64 final states were finite; 64,903 NPU commands completed with zero
@@ -109,7 +113,7 @@ conversion output directory when reproducing it elsewhere.
 
 ```powershell
 .\run_semif_npu.ps1 `
-  -Model 'models/Qwen3.5-4B-adaptive-prefill-dd-token-16k-chunk1024-run1' `
+  -Model 'models/Qwen3.5-4B-adaptive-prefill-pruned-lmhead-dd-token-16k-chunk1024-run1' `
   -Revision '851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a' `
   -MaxTokens 16384
 ```

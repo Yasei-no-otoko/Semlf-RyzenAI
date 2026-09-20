@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "status": "completed_pruned_short_and_long_evidence",
+  "curators": [
+    {
+      "path": "cache/qwen35-speed-20260920/curate_pruned_long_evidence.py",
+      "sha256": "015fb2b28cd191443d95797461e0109e3ecc331cfb6f6e5d0a5d8b3f40675893",
+      "bytes": 10636
+    },
+    {
+      "path": "cache/qwen35-speed-20260920/curate_pruned_speed_evidence.py",
+      "sha256": "a34fdb922b9c2234f6bf8e66d3b7dc1e946a093520fc8d42e6660f2f79f81759",
+      "bytes": 16992
+    },
+    {
+      "path": "cache/qwen35-speed-20260920/curate_long_speed_evidence.py",
+      "sha256": "6aad63f29c5ba9dabe60e8af4268ebab6ff49c42d5ef3463ca37fe2363d8f992",
+      "bytes": 22079
+    },
+    {
+      "path": "cache/qwen35-speed-20260920/curate_speed_evidence.py",
+      "sha256": "40df93df373261b7e185bd76a980b71bd8d7c80a79e2e3def3bf759b8b6b2f79",
+      "bytes": 27396
+    }
+  ],
+  "prior_candidate_manifest": {
+    "path": "cache/qwen35-speed-20260920/pruned-publication-candidate-run1/curatedmanifest.json",
+    "sha256": "4943e28d76877a6d793b4c63c3c328a066ca2a1b87ef3544c1d662e683df79fe",
+    "bytes": 957
+  },
+  "new_npu_executions": 0,
+  "raw_arrays_published": false,
+  "raw_state_bit_equality_claimed": false,
+  "artifacts": [
+    {
+      "path": "pruned-short-2k.json",
+      "sha256": "0749dfa095b9cb735b5f012f7b87c216b7e9ea0af2ce0068b5265ef46920c703",
+      "bytes": 1123276
+    },
+    {
+      "path": "pruned-long-16k.json",
+      "sha256": "cfd8167803da1bc59da03fef5771f2fb8b61ea311b9fd305973c73df0d9cdf34",
+      "bytes": 1024463
+    }
+  ]
+}
