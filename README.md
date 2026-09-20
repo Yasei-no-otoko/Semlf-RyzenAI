@@ -105,8 +105,75 @@ and is excluded from the table.
 
 Native batched attention has greater rounding error than per-token execution
 in the captured operator check. These owned checks do not establish general
-model quality or replace the SemIf Speed and Quality suites. Those full
-comparisons were deferred while addressing prefill speed.
+model quality or replace the SemIf Speed and Quality suites. The completed
+comparison of the optimized artifact follows.
+
+### Qwen3.5 versus Qwen3: Speed and Quality
+
+**日本語:** 高速化後のQwen3.5-4BとAMD公式Qwen3-4Bを、同じ入力で比較しました。
+21件の直接判定はQwen3.5が178.49秒、Qwen3が78.16秒で、Qwen3.5は約2.28倍の時間を要しました。
+Qualityの主要8指標はQwen3.5が6指標で上回り、2指標は同値でした。
+JSON生成はQwen3.5が3回とも20件しか回答せず、必要な21件を満たしませんでした。
+
+**English:** These measurements compare the optimized custom Qwen3.5-4B
+16K deployment with AMD's official Qwen3-4B 16K deployment on the same
+Ryzen AI Max+ 395, using Ryzen AI 1.8.0. Both Speed runs were measured
+sequentially on **2026-09-20 UTC** (September 20–21 in Japan), with identical
+benchmark code and frozen inputs. Architecture, tokenizer, quantization,
+and compiled graphs differ. CPU graph and host work are included; no GPU
+offload is configured.
+
+| Speed measure | Qwen3.5-4B, optimized 16K | Qwen3-4B, AMD 16K |
+|---|---:|---:|
+| Fresh direct, 21 decisions, median of 3 | **178.492 s** | **78.159 s** |
+| Compact JSON, median of 3 | 40.153 s | 9.050 s |
+| Complete required 21-value arrays | **0/3** | **3/3** |
+| EOS-terminated / truncated runs | 3/3 / 0/3 | 3/3 / 0/3 |
+| Fresh Shape777, total time | 6,486.178 s | 2,850.042 s |
+| Shape777 decisions/second | 0.119793 | 0.272628 |
+| Shape777 state p50 | 174.715 s | 77.037 s |
+
+Qwen3.5's JSON outputs were syntactically valid arrays containing **20 of
+the required 21 values** in every repeat. They reached configured EOS at
+106 tokens, below the unchanged 128-token cap. Their timing is therefore
+**not a successful 21-answer completion time**. Qwen3 returned all 21 values
+in every repeat, using 64 tokens. See the
+[per-repeat output audit](results/raw/qwen35-speed-20260920/benchmark-recovery-audit.json)
+and [complete comparison](results/raw/qwen35-vs-qwen3-20260920/comparison.json).
+
+Speed includes prompt construction, tokenization, forward execution, readout,
+and the full-vocabulary finite-logit checks. Initialization and evidence writes
+are excluded. The recorded initialization stages took **211.084 s** for
+Qwen3.5 and **21.074 s** for Qwen3. All direct calls start fresh; this NPU
+benchmark does not implement shared-state or prefix-reuse modes.
+
+| Quality measure | Qwen3.5-4B, optimized 16K | Qwen3-4B, AMD 16K |
+|---|---:|---:|
+| Authored144 mean-family balanced accuracy | **77.60%** | 69.45% |
+| Perturbations108 mean-family balanced accuracy | **75.22%** | 67.35% |
+| WANLI256 mean-family balanced accuracy | **63.24%** | 58.47% |
+| TypeSafe102 equal-case modal agreement, 20 cases | **83.04%** | 62.95% |
+| Every judgment36 accuracy | **80.56%** | 72.22% |
+| Firewall10 action accuracy | **70.00%** | 50.00% |
+| Code6 queries Recall@1 | 100.00% | 100.00% |
+| Company7 queries Recall@1 | 92.86% | 92.86% |
+
+Both Quality reports cover **all 814 rows**, with no context rejections.
+Qwen3.5 Quality is newly measured; Qwen3 Quality uses the saved **2026-09-19**
+16K run. Its 36 model-artifact hashes match the fresh Qwen3 Speed run, but
+the historical Quality run has no recorded runtime DLL identity or later
+full-vocabulary guard. Those checks are not attributed retrospectively to it.
+TypeSafe total variation also decreased from 0.320081 to 0.197624; the full
+reports retain the remaining metrics and individual predictions.
+
+Both fresh jobs exited with code 0. Qwen3.5 passed **2,005** full-vocabulary
+checks and completed **3,526,505** NPU commands with zero errors; Qwen3 passed
+**1,058** checks and completed **595,994** commands with zero errors. Code,
+runtime, and model artifact hashes matched their recorded pre/post checks.
+The [publication manifest](results/raw/qwen35-vs-qwen3-20260920/manifest.json)
+binds **3,308 prediction rows** and the execution evidence. The
+[method and CPU-only verification commands](docs/METHOD.md#qwen35-versus-qwen3-comparison)
+describe the timing scope, historical baseline, and evidence limitations.
 
 ### Run the converted model
 

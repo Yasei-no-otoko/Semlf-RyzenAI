@@ -1,0 +1,68 @@
+{
+  "total_delta": {
+    "command_submissions": 3526505,
+    "command_completions": 3526505,
+    "errors": 0
+  },
+  "context_labels": "Relative labels within this run; no original device/context IDs.",
+  "before": {
+    "available": true,
+    "contexts": [
+      {
+        "label": "context-1",
+        "command_submissions": 0,
+        "command_completions": 0,
+        "errors": 0
+      },
+      {
+        "label": "context-2",
+        "command_submissions": 0,
+        "command_completions": 0,
+        "errors": 0
+      },
+      {
+        "label": "context-3",
+        "command_submissions": 0,
+        "command_completions": 0,
+        "errors": 0
+      },
+      {
+        "label": "context-4",
+        "command_submissions": 0,
+        "command_completions": 0,
+        "errors": 0
+      }
+    ],
+    "other_process_command_submissions": 17
+  },
+  "after": {
+    "available": true,
+    "contexts": [
+      {
+        "label": "context-1",
+        "command_submissions": 3284810,
+        "command_completions": 3284810,
+        "errors": 0
+      },
+      {
+        "label": "context-2",
+        "command_submissions": 69552,
+        "command_completions": 69552,
+        "errors": 0
+      },
+      {
+        "label": "context-3",
+        "command_submissions": 162288,
+        "command_completions": 162288,
+        "errors": 0
+      },
+      {
+        "label": "context-4",
+        "command_submissions": 9855,
+        "command_completions": 9855,
+        "errors": 0
+      }
+    ],
+    "other_process_command_submissions": 17
+  }
+}

@@ -789,7 +789,12 @@ adaptive final state's relative RMSE against FP64 was 4.841%, compared
 with 1.449% for token-loop execution. Much of this error is also present in
 the original native batched operator. The finite/correct owned cases do
 not establish general model quality; the full SemIf Speed/Quality
-comparison remains separate.
+comparison is now reported separately in
+[the Qwen3.5-versus-Qwen3 results](../README.md#qwen35-versus-qwen3-speed-and-quality),
+with [create-only evidence](../results/raw/qwen35-vs-qwen3-20260920).
+That comparison preserves this
+diagnostic scope and records the deployed-artifact differences, historical
+Qwen3 Quality limits, and compact-output validity outcomes.
 
 To reproduce the conversion with the last-position LM head described below
 from the same pinned inputs, run the following

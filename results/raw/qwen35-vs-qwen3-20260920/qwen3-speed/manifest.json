@@ -1,0 +1,203 @@
+{
+  "version": "ryzenai-benchmark-v1",
+  "created_utc": "2026-09-20T12:51:07.850145+00:00",
+  "suite": "speed",
+  "model_load_seconds": 21.073640799993882,
+  "git_base_revision": "e0d1f98ea2185d1b579be3229aa702edaf6c86b4",
+  "benchmark_code_sha256": {
+    "benchmarks/ryzenai_benchmark.py": "652d921e8589bea9ca5a6be4455b80e43311f1224da0ebc818230d85020919aa",
+    "benchmarks/ryzenai_speed.py": "5c0b891c170635fdc56224013b3a24c9773d13a72d8a926fac00afb41cd674c3",
+    "benchmarks/evaluate.py": "2b8376577294d6836e2aff1bccf5d4d01aa1ec39e21f8f908281437b2bd4f2af",
+    "benchmarks/evaluate_external.py": "8d69435817a08416866a3df17a6003a296d8e280a67da06d80914b0962c40b33",
+    "benchmarks/evaluate_perturbations.py": "effbe9b74c12aeef5fb5cbf9410528b44bed215c1ee97978df7db9a9dbfd916a",
+    "src/semif_phase1/ryzenai_backend.py": "f4257f077dccd48597f929da137541fd0f2bf6ae5f92c29be6ee22d32b2afd2f",
+    "src/semif_phase1/core.py": "dc72a4b536b340b6f22547d35cf8980613f15334452b9eac92249367d850b4a4"
+  },
+  "source_selection_sha256": "81d98a4195971e1fe046673928730b7112a6a7677baf046505761f2504b424c7",
+  "evaluation_matrix_sha256": "6daebbf2ab8d45c081e718dea2c19e07836695ab5bac0120dcd304ed279f22d3",
+  "unavailable": {},
+  "timing_scope": "Warm model; prompt construction, tokenization, forward and readout included; model load and evidence writes excluded. Full-vocabulary readback and finite checks are included; observation serialization and provenance hashing are excluded.",
+  "limitations": [
+    "Model families, tokenizers, quantization recipes and NPU graphs differ; this compares the recorded deployed artifacts, not architecture alone.",
+    "NPU execution includes CPU graph/host work; no GPU offload is configured.",
+    "Speed retains the original 4096-token prompt budget, three compact repeats and 128 generated-token limit; Quality uses the model context ceiling.",
+    "Invalid JSON and generation truncation are results, not grounds for retry.",
+    "No source text or reference document is copied into predictions.",
+    "This is a sequential local systems measurement, not an isolated appliance."
+  ],
+  "model": {
+    "revision": "715d60818350b685ca2af3566e5ae38f4780daf0",
+    "backend": "ryzenai-npu",
+    "oga_distribution": "onnxruntime-genai-directml-ryzenai",
+    "oga_version": "0.14.0",
+    "transformers_version": "4.57.6",
+    "model_device_type": "RyzenAI",
+    "context_ceiling": 16384,
+    "generation_reserve_tokens": 0,
+    "source_artifact_sha256": {
+      "added_tokens.json": "79f6ec6fcc423d3a82bfac8b9033b1daac7b7bce06a5f5f441637b480cc605de",
+      "cache/Token_modellayers.0input_layernormMLADFRMSNORM_meta.json": "f2d3162f23de0c1035c79bd6bf285e019645a199e4b93d802e88f07209ae3697",
+      "cache/txn_bins.zip": "12dd62a852074fb368f5a4e7b2dad42438e752041f8499951e86a97f40a3d91a",
+      "chat_template.jinja": "51fa65c79bb57f058dc7ef8734884bd325fe9d45bb03a61bfef59785d3bc2da9",
+      "config.json": "ba0c950e5d64337be93aa1bd8cfe496b36a5ca25fd462441831c4ad0b47059e1",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM.fconst": "d865baac3559de117d63516604d2bcd8065a290dc640b1ad2e2d6f57a16fdbb6",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM.state": "cb78e0d8669947ce6aee4a87e21addc7f6aec35d6ce41f0df70cd63d5d2b3a53",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_1024_.ctrlpkt": "dfc12fad9822803c6bc0ebb4ece7c89ab5bacd565ab60dba7736c423edbf33e3",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_1024_.meta": "1edbdfc87576ee3c84911f1112c6dcddd28558ced52964e738483c6f0dc262ff",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_1024_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_16384_.ctrlpkt": "4a8ec04baa769ffb771a869583bef806f84a05331574ba10dfa73f81edd452c2",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_16384_.meta": "d26dd2dd6977e8aa43fdc945d60c2a5bdb8c600cbbdf18167289a2eb20b0b9bf",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_16384_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_2048_.ctrlpkt": "cfa7afea7ba2d63aa4fa73e76ec4d9fc5d096905959dab066008c7d1b1961d0e",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_2048_.meta": "22455ab1ae6eff199445ced5172ab4c8404705a5e02376442138860560d93ccb",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_2048_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_256_.ctrlpkt": "c6c4cdc4553dfbd0e91dfcfc4f3a843d0b2e71bda69af3df8c76fa1c47689eda",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_256_.meta": "c198eec5f9c4e5a7af8fec88163102736e07a07295b483eea58a2e870a10b8ff",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_256_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_3072_.ctrlpkt": "993e7f33fe6b0044a28ca4c72346ae40d1626041352a332aac489c901fb7cb17",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_3072_.meta": "fda13b631edfaf655c938f5d2ecc5b8bc8cd92aca02d3db42ebca8a2019f40f0",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_3072_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_4096_.ctrlpkt": "04250bc065b6d82e62df078704b4356367afd20fef708d528ca4b92ac0928dc2",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_4096_.meta": "83f2b71bd316fc93c3de7c10a1c63e1b1f9c47cbb1cb98741a28a92fe50ce678",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_4096_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_512_.ctrlpkt": "846a58a0dadfa0a2784e5e7bf41a53d9e2c560400dc60a7e9105fd4508c7570f",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_512_.meta": "5398ce8a2cca7cf6a462c47b446f0088c365856c3cf9d6789474b6fb37b278f7",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_512_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "genai_config.json": "36cd96e2fb6578754ec9b3a1acccc3acb292f9b6bdfe0dfa56308a0d6a31c16d",
+      "model.bin": "75cda9a083a5fc00ab7b0e40969f7ebca96af9be638902ebffa72c6d3be9782f",
+      "model.onnx": "21bed6209ad73163316c7696860f4df2539f7e200d7e4970e868aa72b02d2ea9",
+      "model.onnx.data": "98b1936ceb989d985ad4c8b463dce2568821b627c7e847ff4becb48b77f95555",
+      "model.pb.bin": "d8db8cbfb7e20ec1c8510e21fbcd4b4f0c0a95109ab443b1236dc9e56c7baaea",
+      "special_tokens_map.json": "57255613bbe23c9497211ca68561ff429a51e871dbaf5a59998fa4c8f7fe168a",
+      "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+      "tokenizer_config.json": "bb4a4119410e61c1bd90d6746d0ae517a996df2b72d5b03f810d219b8a88dee4"
+    },
+    "execution": "RyzenAI NPU configuration with CPU graph/host components; no GPU provider configured. Artifact identity is recorded below."
+  },
+  "hardware": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.11",
+    "logical_cpus": 32,
+    "processor": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+    "runtime_versions": {
+      "onnxruntime-genai-directml-ryzenai": "0.14.0",
+      "onnxruntime-vitisai": "1.27.0",
+      "onnxruntime-providers-ryzenai": "1.8.0",
+      "ryzenai-dynamic-dispatch": "1.8.0",
+      "voe": "1.8.0",
+      "numpy": "1.26.4"
+    }
+  },
+  "inputs": {
+    "authored144": {
+      "file": "authored144.jsonl",
+      "sha256": "8162d1c73f925af64453f1ec05ef36d583b3815bf698e60f0d454bd11537e079",
+      "rows": 144
+    },
+    "perturbations108": {
+      "file": "perturbations108.jsonl",
+      "sha256": "1dd7ccf80518d0e34886478ca23982aa726e9daccd343b9e95cedaf6b569bec4",
+      "rows": 108
+    },
+    "shape777": {
+      "file": "shape777.jsonl",
+      "sha256": "8dcf414b12fc2684e3c4ca5f3ebfd3f525f5346fec4a9bc67eb65138101f55f1",
+      "rows": 777
+    },
+    "wanli256": {
+      "file": "wanli256.jsonl",
+      "sha256": "b37977d0753d17c50f64053ed421a5f8ca71d16f8c73262bc8e8d5b113212e78",
+      "rows": 256
+    },
+    "typesafe102": {
+      "file": "typesafe102.jsonl",
+      "sha256": "3d5d5cd10490baaed0b42176d9b7226a0daef17832feb17a973e2ccabf1cd280",
+      "rows": 102
+    },
+    "every204": {
+      "file": "inference204.jsonl",
+      "sha256": "595449ca958a81d7d24bb86bb652d634035e2cfca00ca1e4fe4d5f393e24d42b",
+      "rows": 204
+    },
+    "every_gold154": {
+      "file": "gold154.jsonl",
+      "sha256": "d564ef8ad1242a17e9d28b2595e5f71a5c8db8700f7282c2f2031eec5a95756b",
+      "rows": 154
+    },
+    "firewall_actions": {
+      "file": "firewall-actions.json",
+      "sha256": "5d9299cbc5b90857f555559df2658bfe400252441ad7aac576bb6da09784400f",
+      "actions": 10
+    }
+  },
+  "historical_measurement": false,
+  "dll_identity_evidence": true,
+  "full_vocabulary_guard_evidence": true,
+  "observation": {
+    "version": "ryzenai-observed-v1",
+    "code_sha256": {
+      "benchmarks/build_every.py": "25aa8b0a767d7e3727e70e8517f0a8743647edea1bd55bb79ba9dc7d0f02f62c",
+      "benchmarks/build_perturbations.py": "c0fad430068fc991ec2db3d43329e7f164c5fc0f56d4224ce34a2d3a7387fe80",
+      "benchmarks/build_typesafe.py": "b59057b14500055f7180d49d32f68678736ef36f12793b0952e6d74744469c1b",
+      "benchmarks/build_wanli.py": "521d2d1794f125e87d14133e544aed359917c3a4f0013326e53a853caf208312",
+      "benchmarks/decision_vs_generation.py": "0c6eb587cc90e9c5fb0b5a4eb5a6fad71faf4be7e85968e5e820dc530eab5d74",
+      "benchmarks/evaluate.py": "99d78df9d59b28ea2f0e58a2c6bab1eddce9e4835aad137c0118e40ac6802beb",
+      "benchmarks/evaluate_external.py": "8d06dcaadcc217cca357f4411c46760199101d02aa830c04ca1ee575c6fff3d5",
+      "benchmarks/evaluate_perturbations.py": "4a1e39f934d2e6e963c7a01708799908f33cfcc19defea0f2f4f47ba9fd9f017",
+      "benchmarks/export_qwen35.py": "df9d2c5ce6c894f8b5aa059bd3278499ec5c2ee75e9256acb85d2c2d912254a5",
+      "benchmarks/fetch_sources.py": "bf80b220c5c4111341ebd599ed7f8e48833bc7a6755b44f5d59b9ee043011ed7",
+      "benchmarks/mlx_benchmark.py": "f3ef7246c1caa20004a3b7b3a920fb1ee6a9c5d03a46e8b6fa1c7c6c9127ee78",
+      "benchmarks/mlx_evidence.py": "911417f4d5778f829984e5f0e065cc1f00022b442b17697f32f51207c29f8240",
+      "benchmarks/mlx_precision_probe.py": "ff59ac179ffcfa9c5d0b447cefa78fc7d065888cbd16ad9c8f89f7d6eeaa5603",
+      "benchmarks/prepare_qwen35.py": "ead731d7995d21f44be3418f30173cabbad7d5bfeaf2cf94c14bebd219b4b194",
+      "benchmarks/prepare_qwen35_token_fusion.py": "447c5abc7885123a58caeb47686010828ee8c7ce32ccb151e930a0045fd95ec3",
+      "benchmarks/quantize_qwen35.py": "fe5e99e7f61aeaaf956596ee20832f0628d32ecbf1a99b487c26bbb4dfbdf17d",
+      "benchmarks/qwen35_adaptive_prefill.py": "90714d012924b609f50a97bfc5999f434d0007c81f2b4efc070a0ea82747fedf",
+      "benchmarks/qwen35_dd.py": "e0ef911ee70633a1de1091661118510ddf447571f466c394dd92443696b6366a",
+      "benchmarks/qwen35_lm_head.py": "feae79d59e6feddf9b52b6969d7c653139a7ee248c3c814dab2cc86d03c926af",
+      "benchmarks/qwen35_package.py": "700c91cac168c7e9448f74710b87243aefd299db588425b62dc2e34baa0abc21",
+      "benchmarks/qwen35_prefill.py": "48dab2cb27950bde69801cf36ae31fcd06a9e784dec207cead49e55b8aa38f87",
+      "benchmarks/ryzenai_benchmark.py": "652d921e8589bea9ca5a6be4455b80e43311f1224da0ebc818230d85020919aa",
+      "benchmarks/ryzenai_guard.py": "1c833198dcb5d9dbbaa389fc086c80f88fcd4d317bd1217c97326b054081cf0f",
+      "benchmarks/ryzenai_observed.py": "35a0b06c784fcfe1d98e0dcfacda03738e671182791e00d9b79255a4240d37c1",
+      "benchmarks/ryzenai_speed.py": "5c0b891c170635fdc56224013b3a24c9773d13a72d8a926fac00afb41cd674c3",
+      "benchmarks/shape777.py": "6ad20b1bc6f7082bce24066609324c7d2391d6d98c095712318373d5e840dc2a",
+      "benchmarks/shape777_reranker.py": "474724d25075195030456ecd441269b011c0ca720ad2b593fe56d0b8add3cd3f",
+      "benchmarks/validate_qwen35_npu.py": "4da84c2ff2a8b8553cdf9c87c75a4dd13300018e19a7f91fd571ea1bdaa3b318",
+      "benchmarks/verify_mlx.py": "66a04edb191ff42916550af2769e7270ec6b3d7e4629776a5be720f5fd2ba049",
+      "benchmarks/verify_published.py": "5112e87f394b1a1a6eedb7498a5b2dc9299ae3f00acec3dc66757bf826626842",
+      "benchmarks/verify_ryzenai.py": "958a2d3a73839715d7b3345c6c4b4712fd15cfa5eadea4c630d907480b3dc997",
+      "src/semif_phase1/__init__.py": "427c98469d8b4c9bb73dbd1200d4caa054c5ed51a8e18361d8338d69a4419ec3",
+      "src/semif_phase1/cli.py": "424a66d9c0de531c161fd17dda067b38a1057834b7855cf858de6b68574bc58e",
+      "src/semif_phase1/core.py": "8f593ea1dfc186591742846a709adb12f1d492c5faa1317f5d4039ff2a488244",
+      "src/semif_phase1/direct.py": "bfe47c8d1a1212af4bb0a471c967fe2069f26996372f7a20e9fd0cce3df40001",
+      "src/semif_phase1/mlx_backend.py": "33fd3ab33c3bf79630633e4e0ee09323668829df09b1004f59e5f11e7ef5e4a4",
+      "src/semif_phase1/reranker.py": "4786249095ac39eeb505b488885e1204858ab02c0a7a3cc13261c54ba2cab0af",
+      "src/semif_phase1/ryzenai_backend.py": "f4257f077dccd48597f929da137541fd0f2bf6ae5f92c29be6ee22d32b2afd2f",
+      "src/semif_phase1/ryzenai_demo.py": "ace550ee1ad8bf6898cc2984056055701128e237f8dc37109fa4fa461d293cfd",
+      "src/semif_phase1/ryzenai_generation.py": "a41dd689c8a0d686bc50d804f62f25dcd1ccb30ffe79dc83ee8c10a747d906c6",
+      "src/semif_phase1/serial.py": "93b0fb63e557af1b769d47941b07e90cafe8426517b53454bd850f07d9f7a6ee",
+      "src/semif_phase1/shared.py": "e58aa26dc17e5ea3ee1961262d1fa5df02a077a6aee06eaee92628c7f4cedd2c"
+    },
+    "runtime_binary_sha256": {
+      "D3D12Core.dll": "8a23d826b25b4329522ff451cb52b7f2b34d7f2913cfeb878371ce8bd765fe2d",
+      "dyn_bins.dll": "eb2b8c7a2a76e00fbe34d460df7223f5e455398637ff0cbc1c9a04395eeb2cce",
+      "dyn_dispatch_core.dll": "3b45bcfd02e2ba2ae29dd64fc006f2e3824a358736f64955ef24f04fa3db08b8",
+      "onnxruntime-genai.dll": "96364a30425298e3ec37dbfcf112fdf33a6fb2cc276d607a0188ab518c4fd9f9",
+      "onnxruntime_genai.cp312-win_amd64.pyd": "3fa4974b10d0ed1f6bf9a030a87e554a80dac050eceb7e0ec9b6776d4183b7aa",
+      "onnxruntime_providers_ryzenai.dll": "657559589c9cacdabefc40730f0652d4d73496634f6181b0ff78f8e5c444a271",
+      "ryzen_mm.dll": "d47bf10dbe5043c16d758a71745b8d9cbd9ef5d2173368169690f77c8d07f3f5"
+    },
+    "package_manifest_sha256": null,
+    "guard": "Every direct readout and each pre-sampling readout checks the full vocabulary; the following sample reuses cached logits. No post-EOS readout.",
+    "speed_prompt_budget": 4096,
+    "max_generated_tokens": 128,
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    },
+    "partial_evidence": "Quality flushes each row; Speed flushes each 21-row group. A hard process exit can lose the current group and final observations."
+  }
+}

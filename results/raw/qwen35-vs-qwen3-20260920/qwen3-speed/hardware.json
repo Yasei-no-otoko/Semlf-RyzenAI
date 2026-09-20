@@ -1,0 +1,44 @@
+{
+  "total_delta": {
+    "command_submissions": 595994,
+    "command_completions": 595994,
+    "errors": 0
+  },
+  "context_labels": "Relative labels within this run; no original device/context IDs.",
+  "before": {
+    "available": true,
+    "contexts": [
+      {
+        "label": "context-1",
+        "command_submissions": 0,
+        "command_completions": 0,
+        "errors": 0
+      },
+      {
+        "label": "context-2",
+        "command_submissions": 0,
+        "command_completions": 0,
+        "errors": 0
+      }
+    ],
+    "other_process_command_submissions": 17
+  },
+  "after": {
+    "available": true,
+    "contexts": [
+      {
+        "label": "context-1",
+        "command_submissions": 595802,
+        "command_completions": 595802,
+        "errors": 0
+      },
+      {
+        "label": "context-2",
+        "command_submissions": 192,
+        "command_completions": 192,
+        "errors": 0
+      }
+    ],
+    "other_process_command_submissions": 17
+  }
+}

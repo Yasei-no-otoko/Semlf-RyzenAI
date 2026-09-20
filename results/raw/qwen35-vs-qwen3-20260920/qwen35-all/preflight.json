@@ -1,0 +1,38 @@
+{
+  "authored144": {
+    "rows": 144,
+    "min_input_tokens": 127,
+    "max_input_tokens": 171,
+    "over_context_limit": []
+  },
+  "perturbations108": {
+    "rows": 108,
+    "min_input_tokens": 132,
+    "max_input_tokens": 203,
+    "over_context_limit": []
+  },
+  "shape777": {
+    "rows": 777,
+    "min_input_tokens": 1798,
+    "max_input_tokens": 1893,
+    "over_context_limit": []
+  },
+  "wanli256": {
+    "rows": 256,
+    "min_input_tokens": 125,
+    "max_input_tokens": 191,
+    "over_context_limit": []
+  },
+  "typesafe102": {
+    "rows": 102,
+    "min_input_tokens": 278,
+    "max_input_tokens": 12538,
+    "over_context_limit": []
+  },
+  "every204": {
+    "rows": 204,
+    "min_input_tokens": 110,
+    "max_input_tokens": 223,
+    "over_context_limit": []
+  }
+}

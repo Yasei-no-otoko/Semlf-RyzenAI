@@ -70,6 +70,50 @@ The reproducible bundles are
 `results/raw/ryzenai-4k-20260919/{quality.json,compact.json,manifest.json}`
 and `results/raw/ryzenai-16k-20260919/{quality.json,manifest.json}`.
 
+### Qwen3.5 versus Qwen3 Speed and Quality
+
+The completed comparison uses the fresh Qwen3 Speed run from 2026-09-20,
+not the historical 4K Speed record. It compares the same deployed NPU
+measurement protocol while keeping the artifact boundary explicit: the
+Qwen3.5 and Qwen3 packages differ in architecture, tokenizer, and
+quantization. CPU host, prefill, and LM-head graph components are allowed.
+The historical Qwen3 Quality record is dated 2026-09-19 and does not identify
+the DLL or record the full-vocabulary guard, so its Quality comparison has
+that limitation.
+
+| Measure | Qwen3.5, optimized 16K | Qwen3, AMD 16K |
+|---|---:|---:|
+| Direct 21 median | 178.492 s | 78.159 s |
+| Compact JSON median | 40.153 s | 9.050 s |
+| Complete required 21-value arrays | 0/3 | 3/3 |
+| Shape777 wall time | 6,486.178 s | 2,850.042 s |
+| Shape777 throughput | 0.119793 decisions/s | 0.272628 decisions/s |
+| State p50 | 174.715 s | 77.037 s |
+
+Qwen3.5 emitted syntactically valid JSON in all three repeats and reached
+EOS without truncation, but each parsed array contained 20 rather than the
+required 21 items. Qwen3 produced three strict 21-item outputs. Quality has
+eight headline metrics over all 814 rows per model, with no context
+rejections: Qwen3.5 is higher on six and equal on two (code6
+Recall@1 and company7 Recall@1) against the historical Qwen3 record. The
+fresh Speed report includes full-vocabulary guard time. NPU command counts
+were 3,526,505 for Qwen3.5 and 595,994 for Qwen3, with zero command errors;
+Qwen3.5 used 1,685 generators and passed 2,005 full-vocabulary checks, while
+Qwen3 recorded 1,058 checks. Runs are dated September 20 UTC (September
+20–21 JST).
+
+The final create-only evidence is in
+[`results/raw/qwen35-vs-qwen3-20260920`](../results/raw/qwen35-vs-qwen3-20260920).
+Verify it from the repository root with:
+
+```powershell
+.venv\Scripts\python.exe -B benchmarks\verify_ryzenai_comparison.py results\raw\qwen35-vs-qwen3-20260920
+```
+
+The [README comparison](../README.md#qwen35-versus-qwen3-speed-and-quality)
+contains the eight Quality metrics. See [METHOD.md](METHOD.md#qwen35-versus-qwen3-comparison)
+for verification with external inputs and the limits of the public evidence.
+
 The finalized one-RTX-3090 measurements are recorded in `results/phase1-summary.json`:
 
 | Mode | Wall time | Decisions/s | State p50 | Argmax drift vs batch-1/fresh |

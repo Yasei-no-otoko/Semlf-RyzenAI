@@ -1,0 +1,1315 @@
+{
+  "shape777": {
+    "version": "ryzenai-shape777-fresh-v1",
+    "wall_seconds": 2850.0418469000433,
+    "decisions_per_second": 0.2726275759231864,
+    "state_p50_seconds": 77.03749200000311,
+    "groups": [
+      {
+        "group_id": "shape777-state-00",
+        "total_seconds": 77.88438240000687,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-01",
+        "total_seconds": 79.19338450000214,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-02",
+        "total_seconds": 77.48315090000688,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-03",
+        "total_seconds": 75.96654870000202,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-04",
+        "total_seconds": 76.49032300000545,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-05",
+        "total_seconds": 76.26276650000364,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-06",
+        "total_seconds": 76.7466975999996,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-07",
+        "total_seconds": 76.95649419999972,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-08",
+        "total_seconds": 76.65494300000137,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-09",
+        "total_seconds": 77.32178250000288,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-10",
+        "total_seconds": 77.39412939999602,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-11",
+        "total_seconds": 77.37688460000209,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-12",
+        "total_seconds": 75.96718430001056,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-13",
+        "total_seconds": 76.09602399999858,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-14",
+        "total_seconds": 77.17290480001247,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-15",
+        "total_seconds": 76.513412100001,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-16",
+        "total_seconds": 77.73423509999702,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-17",
+        "total_seconds": 78.23350499999651,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-18",
+        "total_seconds": 77.41998920000333,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-19",
+        "total_seconds": 76.81047750001017,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-20",
+        "total_seconds": 76.52784959999553,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-21",
+        "total_seconds": 76.66819509999186,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-22",
+        "total_seconds": 76.61042079998879,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-23",
+        "total_seconds": 76.75660780000908,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-24",
+        "total_seconds": 77.0533482000028,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-25",
+        "total_seconds": 77.56984280000324,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-26",
+        "total_seconds": 77.46423359999608,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-27",
+        "total_seconds": 77.32834449999791,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-28",
+        "total_seconds": 76.71971119999944,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-29",
+        "total_seconds": 76.15767170001345,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-30",
+        "total_seconds": 76.12703289999627,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-31",
+        "total_seconds": 77.03749200000311,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-32",
+        "total_seconds": 77.22755399999733,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-33",
+        "total_seconds": 77.43320379999932,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-34",
+        "total_seconds": 77.22277019999456,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-35",
+        "total_seconds": 77.42858019999403,
+        "decisions": 21
+      },
+      {
+        "group_id": "shape777-state-36",
+        "total_seconds": 77.02976920000219,
+        "decisions": 21
+      }
+    ],
+    "scope": "Warm AMD OGA model; every Shape777 decision is scored through an independent fresh direct generator.",
+    "unsupported_modes": {
+      "serial_prefix": "Ryzen AI OGA backend has no SemIf serial-prefix cache support.",
+      "parallel_shared": "Ryzen AI OGA backend has no SemIf shared-state parallel support.",
+      "reranker": "Ryzen AI OGA backend supports direct categorical logits only."
+    }
+  },
+  "compact": {
+    "version": "ryzenai-decision21-fresh-v1",
+    "scope": "Warm AMD OGA model; 21 independent fresh direct calls versus one compact greedy JSON array generation.",
+    "unsupported_modes": {
+      "serial_prefix": "Ryzen AI OGA backend has no SemIf serial-prefix cache support.",
+      "parallel_shared": "Ryzen AI OGA backend has no SemIf shared-state parallel support.",
+      "reranker": "Ryzen AI OGA backend supports direct categorical logits only."
+    },
+    "median_wall_ratio_generation_over_direct": 0.11579502450082968,
+    "direct_fresh": {
+      "median_total_seconds": 78.15900759999931,
+      "runs": [
+        {
+          "repeat": 0,
+          "total_seconds": 78.46320179999748
+        },
+        {
+          "repeat": 1,
+          "total_seconds": 78.15900759999931
+        },
+        {
+          "repeat": 2,
+          "total_seconds": 78.00097670000105
+        }
+      ]
+    },
+    "compact_generation": {
+      "max_new_tokens": 128,
+      "median_total_seconds": 9.050424200002453,
+      "median_output_tokens": 64,
+      "all_runs_valid_complete_arrays": true,
+      "all_runs_ended_by_eos": true,
+      "truncated_repeats": [],
+      "runs": [
+        {
+          "repeat": 0,
+          "prompt_sha256": "4310f4e635768b2cdbefe601ee7d9ca8678d2059c5c56f86396c94ba887d7b9a",
+          "input_tokens": 2147,
+          "output_tokens": 64,
+          "time_to_first_token_seconds": 7.4303516000072705,
+          "total_seconds": 11.686421399994288,
+          "valid_complete_array": true,
+          "choices": [
+            "yes",
+            "yes",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no"
+          ],
+          "ended_by_eos": true,
+          "truncated": false,
+          "agreement_with_direct_argmax": 0.6666666666666666,
+          "output_text_sha256": "f9f85c3e3b3a1938b7494407ea5ca9f73951ca6c4fbf666d1288942bbffea0a5",
+          "timeline": [
+            {
+              "sample": 1,
+              "seconds": 7.4303516000072705,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 2,
+              "seconds": 7.692348700002185,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 3,
+              "seconds": 7.756306900002528,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 4,
+              "seconds": 7.820205600000918,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 5,
+              "seconds": 7.884459399996558,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 6,
+              "seconds": 7.948401200002991,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 7,
+              "seconds": 8.012080700005754,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 8,
+              "seconds": 8.076660100006848,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 9,
+              "seconds": 8.142620300001,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 10,
+              "seconds": 8.207514900001115,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 11,
+              "seconds": 8.271406200001366,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 12,
+              "seconds": 8.340354200001457,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 13,
+              "seconds": 8.405827099995804,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 14,
+              "seconds": 8.469751700002234,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 15,
+              "seconds": 8.533471300004749,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 16,
+              "seconds": 8.598108999998658,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 17,
+              "seconds": 8.66236580000259,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 18,
+              "seconds": 8.726297500004875,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 19,
+              "seconds": 8.790380799997365,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 20,
+              "seconds": 8.855090800003381,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 21,
+              "seconds": 8.91895019999356,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 22,
+              "seconds": 8.982595800000126,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 23,
+              "seconds": 9.048714400007157,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 24,
+              "seconds": 9.113094300002558,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 25,
+              "seconds": 9.176358800003072,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 26,
+              "seconds": 9.239838399997097,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 27,
+              "seconds": 9.30404269999417,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 28,
+              "seconds": 9.368554900007439,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 29,
+              "seconds": 9.433071799998288,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 30,
+              "seconds": 9.497333999999682,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 31,
+              "seconds": 9.561648400005652,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 32,
+              "seconds": 9.625774100000854,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 33,
+              "seconds": 9.690064900001744,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 34,
+              "seconds": 9.754288800002541,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 35,
+              "seconds": 9.818586699999287,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 36,
+              "seconds": 9.882915199996205,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 37,
+              "seconds": 9.947486300006858,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 38,
+              "seconds": 10.012124100001529,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 39,
+              "seconds": 10.077084899996407,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 40,
+              "seconds": 10.142920099999174,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 41,
+              "seconds": 10.207491799999843,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 42,
+              "seconds": 10.271713900001487,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 43,
+              "seconds": 10.336448899994139,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 44,
+              "seconds": 10.401181199995335,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 45,
+              "seconds": 10.465436900005443,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 46,
+              "seconds": 10.529689100003452,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 47,
+              "seconds": 10.593856199993752,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 48,
+              "seconds": 10.658554099994944,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 49,
+              "seconds": 10.72363249999762,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 50,
+              "seconds": 10.78807379999489,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 51,
+              "seconds": 10.853020599999581,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 52,
+              "seconds": 10.91709859999537,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 53,
+              "seconds": 10.980970799995703,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 54,
+              "seconds": 11.044689200003631,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 55,
+              "seconds": 11.108872700002394,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 56,
+              "seconds": 11.172484700000496,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 57,
+              "seconds": 11.236666500000865,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 58,
+              "seconds": 11.300287200007006,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 59,
+              "seconds": 11.3645361999952,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 60,
+              "seconds": 11.429195100005018,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 61,
+              "seconds": 11.493830499995966,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 62,
+              "seconds": 11.557986400002846,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 63,
+              "seconds": 11.62191499999608,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 64,
+              "seconds": 11.686021800007438,
+              "is_configured_eos": true
+            }
+          ],
+          "strict_parser_evidence": "Validity and truncation recomputed by pinned comparison on private original text/timeline. Published evidence omits generated text and token IDs; its SHA-256 retains identity."
+        },
+        {
+          "repeat": 1,
+          "prompt_sha256": "4310f4e635768b2cdbefe601ee7d9ca8678d2059c5c56f86396c94ba887d7b9a",
+          "input_tokens": 2147,
+          "output_tokens": 64,
+          "time_to_first_token_seconds": 5.006571400008397,
+          "total_seconds": 9.050424200002453,
+          "valid_complete_array": true,
+          "choices": [
+            "yes",
+            "yes",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no"
+          ],
+          "ended_by_eos": true,
+          "truncated": false,
+          "agreement_with_direct_argmax": 0.6666666666666666,
+          "output_text_sha256": "f9f85c3e3b3a1938b7494407ea5ca9f73951ca6c4fbf666d1288942bbffea0a5",
+          "timeline": [
+            {
+              "sample": 1,
+              "seconds": 5.006571400008397,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 2,
+              "seconds": 5.073202400002629,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 3,
+              "seconds": 5.14057380000304,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 4,
+              "seconds": 5.210460400005104,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 5,
+              "seconds": 5.27504520000366,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 6,
+              "seconds": 5.338220300007379,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 7,
+              "seconds": 5.401710600010119,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 8,
+              "seconds": 5.46593620000931,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 9,
+              "seconds": 5.530268200003775,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 10,
+              "seconds": 5.594442400004482,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 11,
+              "seconds": 5.659013500000583,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 12,
+              "seconds": 5.723107700003311,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 13,
+              "seconds": 5.787309499995899,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 14,
+              "seconds": 5.851872400002321,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 15,
+              "seconds": 5.915851300000213,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 16,
+              "seconds": 5.979203700000653,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 17,
+              "seconds": 6.043342999997549,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 18,
+              "seconds": 6.107520300007309,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 19,
+              "seconds": 6.1717550000030315,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 20,
+              "seconds": 6.235795000000508,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 21,
+              "seconds": 6.299363600002835,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 22,
+              "seconds": 6.363960400005453,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 23,
+              "seconds": 6.428031700008432,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 24,
+              "seconds": 6.492170600002282,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 25,
+              "seconds": 6.557862500005285,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 26,
+              "seconds": 6.622186699998565,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 27,
+              "seconds": 6.685944099997869,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 28,
+              "seconds": 6.749742200001492,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 29,
+              "seconds": 6.8130451000033645,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 30,
+              "seconds": 6.877740900003118,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 31,
+              "seconds": 6.941871300005005,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 32,
+              "seconds": 7.00602980000258,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 33,
+              "seconds": 7.070043700005044,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 34,
+              "seconds": 7.133826500008581,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 35,
+              "seconds": 7.19765919999918,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 36,
+              "seconds": 7.261771500008763,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 37,
+              "seconds": 7.326132000001962,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 38,
+              "seconds": 7.389815200003795,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 39,
+              "seconds": 7.453701799997361,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 40,
+              "seconds": 7.517756100001861,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 41,
+              "seconds": 7.581531700008782,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 42,
+              "seconds": 7.6451547000033315,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 43,
+              "seconds": 7.708474300001399,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 44,
+              "seconds": 7.772234100004425,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 45,
+              "seconds": 7.835526499999105,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 46,
+              "seconds": 7.8991211999964435,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 47,
+              "seconds": 7.9625027000001865,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 48,
+              "seconds": 8.026625600003172,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 49,
+              "seconds": 8.090060300004552,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 50,
+              "seconds": 8.1535378999979,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 51,
+              "seconds": 8.217485600005602,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 52,
+              "seconds": 8.281467200009502,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 53,
+              "seconds": 8.345478100003675,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 54,
+              "seconds": 8.409683000005316,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 55,
+              "seconds": 8.473774800004321,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 56,
+              "seconds": 8.53750590000709,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 57,
+              "seconds": 8.600858200006769,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 58,
+              "seconds": 8.665124899998773,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 59,
+              "seconds": 8.729426100006094,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 60,
+              "seconds": 8.792943200009177,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 61,
+              "seconds": 8.856385999999475,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 62,
+              "seconds": 8.92056300000695,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 63,
+              "seconds": 8.985279100001208,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 64,
+              "seconds": 9.04995709999639,
+              "is_configured_eos": true
+            }
+          ],
+          "strict_parser_evidence": "Validity and truncation recomputed by pinned comparison on private original text/timeline. Published evidence omits generated text and token IDs; its SHA-256 retains identity."
+        },
+        {
+          "repeat": 2,
+          "prompt_sha256": "4310f4e635768b2cdbefe601ee7d9ca8678d2059c5c56f86396c94ba887d7b9a",
+          "input_tokens": 2147,
+          "output_tokens": 64,
+          "time_to_first_token_seconds": 4.91048230000888,
+          "total_seconds": 8.942350199999055,
+          "valid_complete_array": true,
+          "choices": [
+            "yes",
+            "yes",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no",
+            "no"
+          ],
+          "ended_by_eos": true,
+          "truncated": false,
+          "agreement_with_direct_argmax": 0.6666666666666666,
+          "output_text_sha256": "f9f85c3e3b3a1938b7494407ea5ca9f73951ca6c4fbf666d1288942bbffea0a5",
+          "timeline": [
+            {
+              "sample": 1,
+              "seconds": 4.91048230000888,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 2,
+              "seconds": 4.977858900005231,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 3,
+              "seconds": 5.042094000003999,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 4,
+              "seconds": 5.106157700007316,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 5,
+              "seconds": 5.169587500000489,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 6,
+              "seconds": 5.233404400001746,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 7,
+              "seconds": 5.298087700008182,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 8,
+              "seconds": 5.3622477000026265,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 9,
+              "seconds": 5.4264091000077315,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 10,
+              "seconds": 5.4892141000018455,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 11,
+              "seconds": 5.553277800005162,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 12,
+              "seconds": 5.617674599998281,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 13,
+              "seconds": 5.681417200001306,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 14,
+              "seconds": 5.745027600001777,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 15,
+              "seconds": 5.8089543000096455,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 16,
+              "seconds": 5.873080300007132,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 17,
+              "seconds": 5.936284600000363,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 18,
+              "seconds": 6.000127100007376,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 19,
+              "seconds": 6.064370100008091,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 20,
+              "seconds": 6.128270300003351,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 21,
+              "seconds": 6.192345200004638,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 22,
+              "seconds": 6.256217900008778,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 23,
+              "seconds": 6.320146700003534,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 24,
+              "seconds": 6.384281400009058,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 25,
+              "seconds": 6.448262300007627,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 26,
+              "seconds": 6.512270899998839,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 27,
+              "seconds": 6.5760569999984,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 28,
+              "seconds": 6.640044900006615,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 29,
+              "seconds": 6.704090900006122,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 30,
+              "seconds": 6.76734010000655,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 31,
+              "seconds": 6.831241400010185,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 32,
+              "seconds": 6.895341499999631,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 33,
+              "seconds": 6.959376600003452,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 34,
+              "seconds": 7.023146600011387,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 35,
+              "seconds": 7.087143199998536,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 36,
+              "seconds": 7.150250500009861,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 37,
+              "seconds": 7.214408700005151,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 38,
+              "seconds": 7.279339500004426,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 39,
+              "seconds": 7.343056700003217,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 40,
+              "seconds": 7.40716760000214,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 41,
+              "seconds": 7.471974100000807,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 42,
+              "seconds": 7.5352812000055565,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 43,
+              "seconds": 7.600037100011832,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 44,
+              "seconds": 7.664198700003908,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 45,
+              "seconds": 7.727947200008202,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 46,
+              "seconds": 7.791602400000556,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 47,
+              "seconds": 7.85559020000801,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 48,
+              "seconds": 7.921566500008339,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 49,
+              "seconds": 7.988112600010936,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 50,
+              "seconds": 8.050813300011214,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 51,
+              "seconds": 8.114157000003615,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 52,
+              "seconds": 8.178310700008296,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 53,
+              "seconds": 8.241909300006228,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 54,
+              "seconds": 8.305568199997651,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 55,
+              "seconds": 8.369426800010842,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 56,
+              "seconds": 8.433037700000568,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 57,
+              "seconds": 8.49652870000864,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 58,
+              "seconds": 8.56032679999771,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 59,
+              "seconds": 8.624106600007508,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 60,
+              "seconds": 8.68780240000342,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 61,
+              "seconds": 8.751149000003352,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 62,
+              "seconds": 8.814937600007397,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 63,
+              "seconds": 8.878488700007438,
+              "is_configured_eos": false
+            },
+            {
+              "sample": 64,
+              "seconds": 8.941960399999516,
+              "is_configured_eos": true
+            }
+          ],
+          "strict_parser_evidence": "Validity and truncation recomputed by pinned comparison on private original text/timeline. Published evidence omits generated text and token IDs; its SHA-256 retains identity."
+        }
+      ]
+    }
+  }
+}

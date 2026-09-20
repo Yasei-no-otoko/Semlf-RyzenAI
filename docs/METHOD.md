@@ -89,6 +89,51 @@ Its output identifies a historical match by commit rather than implying that
 the current implementation is unchanged. A shallow clone or source ZIP that
 lacks the matching historical source cannot complete that check.
 
+### Qwen3.5-versus-Qwen3 comparison
+
+The completed Qwen3.5 comparison uses the same fresh 21-decision Speed
+protocol for both models and compares Qwen3.5 quality with the dated
+2026-09-19 Qwen3 16K Quality artifact. It adds three fresh direct repeats,
+three compact JSON repeats, and one fresh-direct Shape777 pass per model;
+the compact path has a 128-token cap and reports syntax validity, parsed
+array length, EOS, and truncation independently. Full-vocabulary guard time
+is included in the fresh Speed measurements. The deployed artifacts differ
+in architecture, tokenizer, and quantization, so the comparison describes
+these pinned systems; CPU host, prefill, and LM-head graph components are
+permitted by the NPU backend. The historical Qwen3 Quality record has no DLL
+identity and no full-vocabulary guard record.
+
+The final comparison is summarized in
+[`RESULTS.md`](RESULTS.md#qwen35-versus-qwen3-speed-and-quality) and its
+create-only evidence bundle is
+[`results/raw/qwen35-vs-qwen3-20260920`](../results/raw/qwen35-vs-qwen3-20260920).
+After the bundle is present, the public integrity check is:
+
+```powershell
+.venv\Scripts\python.exe -B benchmarks\verify_ryzenai_comparison.py results\raw\qwen35-vs-qwen3-20260920
+.venv\Scripts\python.exe -B benchmarks\verify_ryzenai_comparison.py results\raw\qwen35-vs-qwen3-20260920 --data-dir cache\benchmark-built-20260919-215735
+```
+
+The default check verifies all 3,308 prediction rows, timing arithmetic,
+recorded guards and provenance associations, and recomputes the owned
+Authored/Perturbations metrics. WANLI, TypeSafe, and Every metrics are only
+recomputed when `--data-dir` supplies their matching frozen inputs. The
+second command was also run for this publication; when reproducing it,
+substitute the directory built by the repository's pinned source workflow.
+Missing or mismatched inputs fail the check. `verify_published.py` now also
+runs the default comparison check, separately from its original 69 claims.
+
+Generated text and token sequences are omitted from the public bundle, so
+it cannot independently repeat strict JSON parsing. It retains recorded
+validity, choices when valid, output hashes, EOS/truncation, and timing.
+The [output and recovery audit](../results/raw/qwen35-speed-20260920/benchmark-recovery-audit.json)
+records the independently checked 20-versus-21 array lengths and earlier
+failed attempts. Full logits arrays and warmup token-ID fingerprints were
+not retained; finite-logit verification checks the saved guard records.
+Hash checks establish consistency of recorded evidence and do not rerun
+the model or independently establish hardware execution. Neither verifier
+command performs inference or downloads model weights or source records.
+
 The model distinction and context modes follow AMD's [Ryzen AI 1.8 OGA
 documentation](https://ryzenai.docs.amd.com/en/latest/oga_model_prepare.html). The
 official model cards are [Qwen3-4B NPU 4K](https://huggingface.co/amd/Qwen3-4B_rai_1.8.0_npu_4K)

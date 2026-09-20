@@ -1,0 +1,373 @@
+{
+  "schema_version": 1,
+  "status": "completed_comparison_published",
+  "prepared_utc": "2026-09-20T16:40:29.782967+00:00",
+  "curator_sha256": "9fa5110a929b9aae38bba04f9d9cd9e311917c7d2f4c57b7644db3174776ab82",
+  "public_prefix": "qwen35-vs-qwen3-20260920",
+  "artifacts": {
+    "comparison.json": {
+      "sha256": "83ba9ae38464528eb2968f476950598f065bbc170c9a20d6597db5397b3de547",
+      "bytes": 242170
+    },
+    "execution.json": {
+      "sha256": "e04abfc3a1cdd3eb880548ce181a91479625e965614d64a14d47109813364846",
+      "bytes": 267654
+    },
+    "qwen3-quality-historical/authored144.predictions.jsonl": {
+      "sha256": "4ca2a1813b6d3397bb409999a8b935dab96065eaefac563f7e75bcc4fa58fd40",
+      "bytes": 115327
+    },
+    "qwen3-quality-historical/every204.predictions.jsonl": {
+      "sha256": "82e4f31fd5153ed914a8cb748a49c133ae4f26a7c74f8a17539f39812a921ef3",
+      "bytes": 157728
+    },
+    "qwen3-quality-historical/hardware.json": {
+      "sha256": "bfc7001b7ee24f5dfc9d3303e1e162176ae7723e7bbbc441d6efd978e344529b",
+      "bytes": 974
+    },
+    "qwen3-quality-historical/manifest.json": {
+      "sha256": "e2cebef54ff129476e01283c8d29ba73637deb29b227385ea404cb2688666078",
+      "bytes": 9675
+    },
+    "qwen3-quality-historical/perturbations108.predictions.jsonl": {
+      "sha256": "945a914dad1141c05c46657cb813e025d5fe5122281ddd166f88f325daf423c5",
+      "bytes": 86484
+    },
+    "qwen3-quality-historical/preflight.json": {
+      "sha256": "bfd7f7e70a8d930e218dd702b9403dc2f8f1f549c3d64dd39ec6e865a9c32ad9",
+      "bytes": 771
+    },
+    "qwen3-quality-historical/quality-timing.json": {
+      "sha256": "e31d01c119233ffb468cc5a5a271de23e9f872c13f0c7feb7917f14472aa6c00",
+      "bytes": 646
+    },
+    "qwen3-quality-historical/quality.json": {
+      "sha256": "4163fcb619a2659e728f96e88d99014102d6b0a52eee7d0b86112aa2d0413726",
+      "bytes": 260904
+    },
+    "qwen3-quality-historical/typesafe102.predictions.jsonl": {
+      "sha256": "0b947681f9f0608eaa489f6ffc51b2465ee1133db458b1d6a407dcb1716f08cb",
+      "bytes": 82542
+    },
+    "qwen3-quality-historical/wanli256.predictions.jsonl": {
+      "sha256": "b0a7b1d6f3421c54ca9b8da1d36ed471f956bded7e425aa03f8ecf33b9cd2542",
+      "bytes": 206726
+    },
+    "qwen3-speed/compact.predictions.jsonl": {
+      "sha256": "1a3c45e0a00157ddc1b8f3e32160b4d13d28fff0557f713511f1f7ad461d482e",
+      "bytes": 49551
+    },
+    "qwen3-speed/hardware.json": {
+      "sha256": "7b55b00aec6002ac83b33f1a053ab75d5deb4213488b0584de6e941bad378826",
+      "bytes": 974
+    },
+    "qwen3-speed/load-gate.json": {
+      "sha256": "9ce85658a881b33024aa04e3576c07c8bf769d25ab248a12a3b4d2cbc28580c2",
+      "bytes": 1596
+    },
+    "qwen3-speed/manifest.json": {
+      "sha256": "56219c7194b84291a40ea7f80f15a975306fc72cb739b98becab4cdba0d4e40c",
+      "bytes": 15784
+    },
+    "qwen3-speed/observations.json": {
+      "sha256": "688585b39aa47a3a998cf54ee8ef68442ff76a515f868e788d0a38f26c41e642",
+      "bytes": 819402
+    },
+    "qwen3-speed/preflight.json": {
+      "sha256": "bfd7f7e70a8d930e218dd702b9403dc2f8f1f549c3d64dd39ec6e865a9c32ad9",
+      "bytes": 771
+    },
+    "qwen3-speed/shape777.predictions.jsonl": {
+      "sha256": "a4b33253202723c82ef340c21570836bdd3ecddf8fa4310d70527c8c6f99845b",
+      "bytes": 622888
+    },
+    "qwen3-speed/speed.json": {
+      "sha256": "4971f4f9668066f48301246f6919eede10e255b28bb4eab05512ac11b858b3a8",
+      "bytes": 37450
+    },
+    "qwen35-all/authored144.predictions.jsonl": {
+      "sha256": "dbd34a197823fefc7cc9b4a6b1375a6c5dd8b701a96bc96cc37d2f66d02bc711",
+      "bytes": 115121
+    },
+    "qwen35-all/compact.predictions.jsonl": {
+      "sha256": "c7f8112048318d0ca6363be4d329819b46ccfd8c6c2035eb6157a3579538c6ed",
+      "bytes": 49400
+    },
+    "qwen35-all/every204.predictions.jsonl": {
+      "sha256": "2c73d17a189a22acb1beccc0211010947992ec2c48fb51ffb38d8a54263d75c0",
+      "bytes": 157559
+    },
+    "qwen35-all/hardware.json": {
+      "sha256": "2ec8524eacf282aa1b1e97cacdcd2fd310fc3aafd6de21a873bf69b2a5c9f2c0",
+      "bytes": 1538
+    },
+    "qwen35-all/load-gate.json": {
+      "sha256": "d2f3d28abb7d3228d0c69cde8acfd8632c1a6b9a6ca353cb836e4b7a8b7a8c3f",
+      "bytes": 1595
+    },
+    "qwen35-all/manifest.json": {
+      "sha256": "bf0276088b21172b81e2d0c147902a95f92249d004503fed972067a2cf690f6a",
+      "bytes": 213420
+    },
+    "qwen35-all/observations.json": {
+      "sha256": "f3c5ee59a13be5aa4af8c0806fc766a4a35888e0872c9c9e91ced541eea9dbd4",
+      "bytes": 1565076
+    },
+    "qwen35-all/perturbations108.predictions.jsonl": {
+      "sha256": "c6955732e912eb34e66f9cc9a486cee8b94f928b0c2f27e6650f833cbd587916",
+      "bytes": 86308
+    },
+    "qwen35-all/preflight.json": {
+      "sha256": "242e843ab58eb7c87c99b364c4d9eff012699a039bfefbb737b5289f1390faa0",
+      "bytes": 771
+    },
+    "qwen35-all/quality-timing.json": {
+      "sha256": "01077c262055b11e7d1b66609e57b79ec2cabe6e19ecc492a81acc5c8814081d",
+      "bytes": 644
+    },
+    "qwen35-all/quality.json": {
+      "sha256": "a14679dbadadcb16cc88241551fc22b88f7b65c7db17e718a9c5280283713fdb",
+      "bytes": 229070
+    },
+    "qwen35-all/shape777.predictions.jsonl": {
+      "sha256": "917a0ffd370a842b7b885c40bbf79b9ac2b5121d861602207a48fc4da4e5e1bc",
+      "bytes": 621492
+    },
+    "qwen35-all/speed.json": {
+      "sha256": "25a65b59404ba919966a8f53403d999536d174e92d7918ff784be8ca0b13dc10",
+      "bytes": 54389
+    },
+    "qwen35-all/typesafe102.predictions.jsonl": {
+      "sha256": "97a35e839370a41fcf91053613d25b09011f178ccd7e1a6203cc5ac723aeb68f",
+      "bytes": 82527
+    },
+    "qwen35-all/wanli256.predictions.jsonl": {
+      "sha256": "e1b2574f23502c22c5a443ab5bcd83345a7c848cf4d381c8011b0a5e12362dd2",
+      "bytes": 206323
+    }
+  },
+  "original_evidence": {
+    "qwen3-speed/queue-load.jsonl": {
+      "sha256": "0fcd93a34ebc17811665dd09d6cf65fa7458d3ce31547735f22557664660e2d7",
+      "bytes": 982
+    },
+    "qwen3-speed/queue-load-gate.json": {
+      "sha256": "c34b83eab2d880dec1ab09329cb3493be09c3d96cb07d83a1f8150918ed3abcb",
+      "bytes": 117
+    },
+    "qwen3-speed/queue-supervisor.json": {
+      "sha256": "5571b2bcdccca397ca8408ec6f996b351d371f104a8dd6f1fc8679bcb94979ed",
+      "bytes": 9989
+    },
+    "qwen3-speed/queue-preflight.json": {
+      "sha256": "45e02f9502989a7ec99757b90e16be08f3fd704058d12c32586a265c553b7f23",
+      "bytes": 677
+    },
+    "qwen3-speed/manifest.json": {
+      "sha256": "041ec9224877a4edf356a2f189e7320228bf9a786526a2853dec904e75845747",
+      "bytes": 16067
+    },
+    "qwen3-speed/preflight.json": {
+      "sha256": "bfd7f7e70a8d930e218dd702b9403dc2f8f1f549c3d64dd39ec6e865a9c32ad9",
+      "bytes": 771
+    },
+    "qwen3-speed/hardware.json": {
+      "sha256": "93863bdd72d3499e85dc9d1470da2d0497be4703e75ba4ee1264e3f673f51d8e",
+      "bytes": 816
+    },
+    "qwen3-speed/summary.json": {
+      "sha256": "9389f87c7e0d375bdf29dcbe4552fe4cd1dec46f84a378286a799c6d10aecfb5",
+      "bytes": 428
+    },
+    "qwen3-speed/observations.json": {
+      "sha256": "38822ec42647b94108fe43d85c03b105b8099735ff3e4b9917d9b87686e4c760",
+      "bytes": 819459
+    },
+    "qwen3-speed/shape777.json": {
+      "sha256": "86a2e1a3421e0a822e0b7f8e7b5cf40def563d5dab3e4459018368d8e9ecd453",
+      "bytes": 697456
+    },
+    "qwen3-speed/compact.json": {
+      "sha256": "d15bebbc5ea09240cae897514fda676c91cd20b672678acec5582ad19030f478",
+      "bytes": 110596
+    },
+    "qwen3-speed/shape777.predictions.jsonl": {
+      "sha256": "a4b33253202723c82ef340c21570836bdd3ecddf8fa4310d70527c8c6f99845b",
+      "bytes": 622888
+    },
+    "qwen3-speed/compact.predictions.jsonl": {
+      "sha256": "1a3c45e0a00157ddc1b8f3e32160b4d13d28fff0557f713511f1f7ad461d482e",
+      "bytes": 49551
+    },
+    "qwen3-speed/hardware-private-after.json": {
+      "sha256": "35e3975f77acf67520c2fedbfcc66db667585bb7e22192fab45a23ff83285e06",
+      "bytes": 8023
+    },
+    "qwen3-speed/hardware-private-before.json": {
+      "sha256": "627e50d675dfd236b3d30688b8dbb7f3c7b93a334d2f58deaad006a16fc7f37f",
+      "bytes": 8003
+    },
+    "qwen35-all/queue-load.jsonl": {
+      "sha256": "06b63406dbceaf1347654a3cdf10b7ea09a5de83f6b54eb734d0eb275fbfefdb",
+      "bytes": 981
+    },
+    "qwen35-all/queue-load-gate.json": {
+      "sha256": "76baa2e5ba50d424ee3ffc140faf506b5e7a2af5cb320c1a2b693bbc6727def8",
+      "bytes": 117
+    },
+    "qwen35-all/queue-supervisor.json": {
+      "sha256": "bf0e48001b432069b718eeb95651f76a8170cd810caa579cfac8c2de9f27c425",
+      "bytes": 10169
+    },
+    "qwen35-all/queue-preflight.json": {
+      "sha256": "8cd2bcc95e8d2eda408ea3aad0017775e2ec15f5c46d57c37a84edefee581670",
+      "bytes": 679
+    },
+    "qwen35-all/manifest.json": {
+      "sha256": "0b4e8ab8143853fe99914944a61410332c8972d02c0f81b4c60c3d6d7c77d049",
+      "bytes": 213756
+    },
+    "qwen35-all/preflight.json": {
+      "sha256": "242e843ab58eb7c87c99b364c4d9eff012699a039bfefbb737b5289f1390faa0",
+      "bytes": 771
+    },
+    "qwen35-all/hardware.json": {
+      "sha256": "9ea75a661443fe51d856d71baeda9fd58d21f0e6eb6b69cf4899a4a9fe71d5d5",
+      "bytes": 1398
+    },
+    "qwen35-all/summary.json": {
+      "sha256": "3290f26cd162bd295d57b6bd01728a4d70161c76efa0e0718ca831a08f9cc7c8",
+      "bytes": 2173
+    },
+    "qwen35-all/observations.json": {
+      "sha256": "a9f5b3efe7eb883d24ac014d685a4b2c1968c887964ed9f1b10a669278e1befa",
+      "bytes": 1565133
+    },
+    "qwen35-all/shape777.json": {
+      "sha256": "d49cb085c33abda5b5eeeaa332d189d64d03dce6050e5d82199689fc845d4a76",
+      "bytes": 893720
+    },
+    "qwen35-all/compact.json": {
+      "sha256": "b385d200f96146ffdd6a8072e6505d0363839c5c692071c4beff133a8f97f92a",
+      "bytes": 322485
+    },
+    "qwen35-all/shape777.predictions.jsonl": {
+      "sha256": "917a0ffd370a842b7b885c40bbf79b9ac2b5121d861602207a48fc4da4e5e1bc",
+      "bytes": 621492
+    },
+    "qwen35-all/compact.predictions.jsonl": {
+      "sha256": "c7f8112048318d0ca6363be4d329819b46ccfd8c6c2035eb6157a3579538c6ed",
+      "bytes": 49400
+    },
+    "qwen35-all/quality.json": {
+      "sha256": "a14679dbadadcb16cc88241551fc22b88f7b65c7db17e718a9c5280283713fdb",
+      "bytes": 229070
+    },
+    "qwen35-all/quality-timing.json": {
+      "sha256": "01077c262055b11e7d1b66609e57b79ec2cabe6e19ecc492a81acc5c8814081d",
+      "bytes": 644
+    },
+    "qwen35-all/authored144.predictions.jsonl": {
+      "sha256": "dbd34a197823fefc7cc9b4a6b1375a6c5dd8b701a96bc96cc37d2f66d02bc711",
+      "bytes": 115121
+    },
+    "qwen35-all/perturbations108.predictions.jsonl": {
+      "sha256": "c6955732e912eb34e66f9cc9a486cee8b94f928b0c2f27e6650f833cbd587916",
+      "bytes": 86308
+    },
+    "qwen35-all/wanli256.predictions.jsonl": {
+      "sha256": "e1b2574f23502c22c5a443ab5bcd83345a7c848cf4d381c8011b0a5e12362dd2",
+      "bytes": 206323
+    },
+    "qwen35-all/typesafe102.predictions.jsonl": {
+      "sha256": "97a35e839370a41fcf91053613d25b09011f178ccd7e1a6203cc5ac723aeb68f",
+      "bytes": 82527
+    },
+    "qwen35-all/every204.predictions.jsonl": {
+      "sha256": "2c73d17a189a22acb1beccc0211010947992ec2c48fb51ffb38d8a54263d75c0",
+      "bytes": 157559
+    },
+    "qwen35-all/hardware-private-after.json": {
+      "sha256": "5a936ede09b692f824f409114af466c1017cb9bc55ed5933c8c0b8211d0b2fcb",
+      "bytes": 9870
+    },
+    "qwen35-all/hardware-private-before.json": {
+      "sha256": "6efa3b73d8807c553f6f50af017a8dd768d1761ba1a3bc4b2c26ebeee9f44a02",
+      "bytes": 9822
+    },
+    "qwen3-quality-historical/manifest.json": {
+      "sha256": "b78fee2ce878ae72817a885cfb30cd8b6935baf6028a5e27c11823869e55bdac",
+      "bytes": 9684
+    },
+    "qwen3-quality-historical/preflight.json": {
+      "sha256": "bfd7f7e70a8d930e218dd702b9403dc2f8f1f549c3d64dd39ec6e865a9c32ad9",
+      "bytes": 771
+    },
+    "qwen3-quality-historical/hardware.json": {
+      "sha256": "177fbf9854c15efb7e8e8cb55a28c94052bbf69103fe4693c5eda6366dda0f03",
+      "bytes": 812
+    },
+    "qwen3-quality-historical/summary.json": {
+      "sha256": "e3580fe85c781a7b80c9ec0f83350e15910acf1d652118598210039c56289aa5",
+      "bytes": 1768
+    },
+    "qwen3-quality-historical/quality.json": {
+      "sha256": "4163fcb619a2659e728f96e88d99014102d6b0a52eee7d0b86112aa2d0413726",
+      "bytes": 260904
+    },
+    "qwen3-quality-historical/quality-timing.json": {
+      "sha256": "e31d01c119233ffb468cc5a5a271de23e9f872c13f0c7feb7917f14472aa6c00",
+      "bytes": 646
+    },
+    "qwen3-quality-historical/authored144.predictions.jsonl": {
+      "sha256": "4ca2a1813b6d3397bb409999a8b935dab96065eaefac563f7e75bcc4fa58fd40",
+      "bytes": 115327
+    },
+    "qwen3-quality-historical/perturbations108.predictions.jsonl": {
+      "sha256": "945a914dad1141c05c46657cb813e025d5fe5122281ddd166f88f325daf423c5",
+      "bytes": 86484
+    },
+    "qwen3-quality-historical/wanli256.predictions.jsonl": {
+      "sha256": "b0a7b1d6f3421c54ca9b8da1d36ed471f956bded7e425aa03f8ecf33b9cd2542",
+      "bytes": 206726
+    },
+    "qwen3-quality-historical/typesafe102.predictions.jsonl": {
+      "sha256": "0b947681f9f0608eaa489f6ffc51b2465ee1133db458b1d6a407dcb1716f08cb",
+      "bytes": 82542
+    },
+    "qwen3-quality-historical/every204.predictions.jsonl": {
+      "sha256": "82e4f31fd5153ed914a8cb748a49c133ae4f26a7c74f8a17539f39812a921ef3",
+      "bytes": 157728
+    }
+  },
+  "original_control_evidence": {
+    "comparison_sha256": "83ba9ae38464528eb2968f476950598f065bbc170c9a20d6597db5397b3de547",
+    "queue_report_sha256": "7f8b09a9bffb7a0722752b1d584825f38e557fb2a9f620ca32bdf311ffbee018",
+    "pins_sha256": "81532c3959fd659bfa0ddce20f22d72b1b8db692ac86c9c1742ac7f5cc3bb1d9",
+    "selection_sha256": "e4df3d8c9adbe7c67229f09551204f72c6c22a3bd6f887f708c2bd3e3aee7784"
+  },
+  "prediction_rows": {
+    "qwen3-speed/shape777.predictions.jsonl": 777,
+    "qwen3-speed/compact.predictions.jsonl": 63,
+    "qwen35-all/shape777.predictions.jsonl": 777,
+    "qwen35-all/compact.predictions.jsonl": 63,
+    "qwen35-all/authored144.predictions.jsonl": 144,
+    "qwen35-all/perturbations108.predictions.jsonl": 108,
+    "qwen35-all/wanli256.predictions.jsonl": 256,
+    "qwen35-all/typesafe102.predictions.jsonl": 102,
+    "qwen35-all/every204.predictions.jsonl": 204,
+    "qwen3-quality-historical/authored144.predictions.jsonl": 144,
+    "qwen3-quality-historical/perturbations108.predictions.jsonl": 108,
+    "qwen3-quality-historical/wanli256.predictions.jsonl": 256,
+    "qwen3-quality-historical/typesafe102.predictions.jsonl": 102,
+    "qwen3-quality-historical/every204.predictions.jsonl": 204
+  },
+  "total_prediction_rows": 3308,
+  "npu_calls_by_curator": 0,
+  "model_payload_reads_by_curator": 0,
+  "privacy": "No hardware PID/device/context identifiers, absolute account paths, source records, generated text/token sequences, weights or cache payloads copied.",
+  "compact_limit": "Strict JSON verified against pinned private originals. The public copy retains choices, text SHA, validity, truncation and per-sample times but omits generated text/token IDs.",
+  "historical_limit": "Qwen3 Quality is the dated 2026-09-19 measurement; no new DLL identity or full-vocabulary proof is attributed to it.",
+  "publication": "Completed evidence reviewed and published after full row-level verification. The immutable private candidate is identified above.",
+  "candidate_manifest_sha256": "889c3833f92c77336048961140ed5927fb4b93eaaa4c0483274cf7c9b4b4f4cc"
+}

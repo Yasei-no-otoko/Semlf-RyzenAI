@@ -1,0 +1,135 @@
+{
+  "version": "ryzenai-benchmark-v1",
+  "created_utc": "2026-09-19T13:52:02.417081+00:00",
+  "suite": "quality",
+  "model_load_seconds": 23.849745899962727,
+  "git_base_revision": "9033b80eb3b65738313e4fcda8a0795f0e137243",
+  "benchmark_code_sha256": {
+    "benchmarks/ryzenai_benchmark.py": "652d921e8589bea9ca5a6be4455b80e43311f1224da0ebc818230d85020919aa",
+    "benchmarks/ryzenai_speed.py": "7572c6e4223f90692b88e13dcc82c5ffbcf2a300d9d9beaee27e4cebf20cfece",
+    "benchmarks/evaluate.py": "2b8376577294d6836e2aff1bccf5d4d01aa1ec39e21f8f908281437b2bd4f2af",
+    "benchmarks/evaluate_external.py": "8d69435817a08416866a3df17a6003a296d8e280a67da06d80914b0962c40b33",
+    "benchmarks/evaluate_perturbations.py": "effbe9b74c12aeef5fb5cbf9410528b44bed215c1ee97978df7db9a9dbfd916a",
+    "src/semif_phase1/ryzenai_backend.py": "f4257f077dccd48597f929da137541fd0f2bf6ae5f92c29be6ee22d32b2afd2f",
+    "src/semif_phase1/core.py": "dc72a4b536b340b6f22547d35cf8980613f15334452b9eac92249367d850b4a4"
+  },
+  "source_selection_sha256": "81d98a4195971e1fe046673928730b7112a6a7677baf046505761f2504b424c7",
+  "evaluation_matrix_sha256": "6daebbf2ab8d45c081e718dea2c19e07836695ab5bac0120dcd304ed279f22d3",
+  "unavailable": {},
+  "timing_scope": "Warm model; prompt construction, tokenization, forward and readout included; model load and evidence writes excluded.",
+  "limitations": [
+    "AMD Qwen3-4B quantized NPU artifact differs from the upstream Qwen3.5-4B BF16 model.",
+    "Official NPU configuration includes CPU graph/host work; no GPU offload is configured.",
+    "No source text or reference document is copied into predictions.",
+    "Other idle demo processes may remain resident; this is a local systems measurement."
+  ],
+  "model": {
+    "revision": "715d60818350b685ca2af3566e5ae38f4780daf0",
+    "backend": "ryzenai-npu",
+    "oga_distribution": "onnxruntime-genai-directml-ryzenai",
+    "oga_version": "0.14.0",
+    "transformers_version": "4.57.6",
+    "model_device_type": "RyzenAI",
+    "context_ceiling": 16384,
+    "generation_reserve_tokens": 0,
+    "source_artifact_sha256": {
+      "added_tokens.json": "79f6ec6fcc423d3a82bfac8b9033b1daac7b7bce06a5f5f441637b480cc605de",
+      "cache/Token_modellayers.0input_layernormMLADFRMSNORM_meta.json": "f2d3162f23de0c1035c79bd6bf285e019645a199e4b93d802e88f07209ae3697",
+      "cache/txn_bins.zip": "12dd62a852074fb368f5a4e7b2dad42438e752041f8499951e86a97f40a3d91a",
+      "chat_template.jinja": "51fa65c79bb57f058dc7ef8734884bd325fe9d45bb03a61bfef59785d3bc2da9",
+      "config.json": "ba0c950e5d64337be93aa1bd8cfe496b36a5ca25fd462441831c4ad0b47059e1",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM.fconst": "d865baac3559de117d63516604d2bcd8065a290dc640b1ad2e2d6f57a16fdbb6",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM.state": "cb78e0d8669947ce6aee4a87e21addc7f6aec35d6ce41f0df70cd63d5d2b3a53",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_1024_.ctrlpkt": "dfc12fad9822803c6bc0ebb4ece7c89ab5bacd565ab60dba7736c423edbf33e3",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_1024_.meta": "1edbdfc87576ee3c84911f1112c6dcddd28558ced52964e738483c6f0dc262ff",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_1024_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_16384_.ctrlpkt": "4a8ec04baa769ffb771a869583bef806f84a05331574ba10dfa73f81edd452c2",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_16384_.meta": "d26dd2dd6977e8aa43fdc945d60c2a5bdb8c600cbbdf18167289a2eb20b0b9bf",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_16384_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_2048_.ctrlpkt": "cfa7afea7ba2d63aa4fa73e76ec4d9fc5d096905959dab066008c7d1b1961d0e",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_2048_.meta": "22455ab1ae6eff199445ced5172ab4c8404705a5e02376442138860560d93ccb",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_2048_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_256_.ctrlpkt": "c6c4cdc4553dfbd0e91dfcfc4f3a843d0b2e71bda69af3df8c76fa1c47689eda",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_256_.meta": "c198eec5f9c4e5a7af8fec88163102736e07a07295b483eea58a2e870a10b8ff",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_256_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_3072_.ctrlpkt": "993e7f33fe6b0044a28ca4c72346ae40d1626041352a332aac489c901fb7cb17",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_3072_.meta": "fda13b631edfaf655c938f5d2ecc5b8bc8cd92aca02d3db42ebca8a2019f40f0",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_3072_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_4096_.ctrlpkt": "04250bc065b6d82e62df078704b4356367afd20fef708d528ca4b92ac0928dc2",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_4096_.meta": "83f2b71bd316fc93c3de7c10a1c63e1b1f9c47cbb1cb98741a28a92fe50ce678",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_4096_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_512_.ctrlpkt": "846a58a0dadfa0a2784e5e7bf41a53d9e2c560400dc60a7e9105fd4508c7570f",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_512_.meta": "5398ce8a2cca7cf6a462c47b446f0088c365856c3cf9d6789474b6fb37b278f7",
+      "dd_metastate_Llm_Token_Token_modellayers.0input_layernormMLADFRMSNORM_attention_mask_padded_512_.super": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "genai_config.json": "36cd96e2fb6578754ec9b3a1acccc3acb292f9b6bdfe0dfa56308a0d6a31c16d",
+      "model.bin": "75cda9a083a5fc00ab7b0e40969f7ebca96af9be638902ebffa72c6d3be9782f",
+      "model.onnx": "21bed6209ad73163316c7696860f4df2539f7e200d7e4970e868aa72b02d2ea9",
+      "model.onnx.data": "98b1936ceb989d985ad4c8b463dce2568821b627c7e847ff4becb48b77f95555",
+      "model.pb.bin": "d8db8cbfb7e20ec1c8510e21fbcd4b4f0c0a95109ab443b1236dc9e56c7baaea",
+      "special_tokens_map.json": "57255613bbe23c9497211ca68561ff429a51e871dbaf5a59998fa4c8f7fe168a",
+      "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+      "tokenizer_config.json": "bb4a4119410e61c1bd90d6746d0ae517a996df2b72d5b03f810d219b8a88dee4"
+    },
+    "execution": "AMD official RyzenAI NPU configuration, including its CPU graph components; no GPU provider configured"
+  },
+  "hardware": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.11",
+    "logical_cpus": 32,
+    "processor": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+    "runtime_versions": {
+      "onnxruntime-genai-directml-ryzenai": "0.14.0",
+      "onnxruntime-vitisai": "1.27.0",
+      "onnxruntime-providers-ryzenai": "1.8.0",
+      "ryzenai-dynamic-dispatch": "1.8.0",
+      "voe": "1.8.0",
+      "numpy": "1.26.4"
+    }
+  },
+  "inputs": {
+    "authored144": {
+      "file": "authored144.jsonl",
+      "sha256": "8162d1c73f925af64453f1ec05ef36d583b3815bf698e60f0d454bd11537e079",
+      "rows": 144
+    },
+    "perturbations108": {
+      "file": "perturbations108.jsonl",
+      "sha256": "1dd7ccf80518d0e34886478ca23982aa726e9daccd343b9e95cedaf6b569bec4",
+      "rows": 108
+    },
+    "shape777": {
+      "file": "shape777.jsonl",
+      "sha256": "8dcf414b12fc2684e3c4ca5f3ebfd3f525f5346fec4a9bc67eb65138101f55f1",
+      "rows": 777
+    },
+    "wanli256": {
+      "file": "wanli256.jsonl",
+      "sha256": "b37977d0753d17c50f64053ed421a5f8ca71d16f8c73262bc8e8d5b113212e78",
+      "rows": 256
+    },
+    "typesafe102": {
+      "file": "typesafe102.jsonl",
+      "sha256": "3d5d5cd10490baaed0b42176d9b7226a0daef17832feb17a973e2ccabf1cd280",
+      "rows": 102
+    },
+    "every204": {
+      "file": "inference204.jsonl",
+      "sha256": "595449ca958a81d7d24bb86bb652d634035e2cfca00ca1e4fe4d5f393e24d42b",
+      "rows": 204
+    },
+    "every_gold154": {
+      "file": "gold154.jsonl",
+      "sha256": "d564ef8ad1242a17e9d28b2595e5f71a5c8db8700f7282c2f2031eec5a95756b",
+      "rows": 154
+    },
+    "firewall_actions": {
+      "file": "firewall-actions.json",
+      "sha256": "5d9299cbc5b90857f555559df2658bfe400252441ad7aac576bb6da09784400f",
+      "actions": 10
+    }
+  },
+  "historical_measurement": true,
+  "dll_identity_evidence": false,
+  "full_vocabulary_guard_evidence": false,
+  "historical_limit": "2026-09-19 Qwen3 Quality has package-version and artifact evidence, but no saved DLL identity or new full-vocabulary guard proof. Runtime equivalence is not established."
+}

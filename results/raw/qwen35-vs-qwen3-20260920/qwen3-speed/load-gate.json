@@ -1,0 +1,64 @@
+{
+  "policy": {
+    "maximum_cpu_percent": 30,
+    "minimum_free_gib": 32,
+    "build_process_count": 0,
+    "consecutive_samples_required": 2
+  },
+  "samples": [
+    {
+      "cpu_percent": 1.0258915486077187,
+      "native_cpu": {
+        "api": "GetSystemTimes",
+        "seconds": 3.0005899000097997,
+        "logical_processors": 32,
+        "begin": {
+          "idle": 21853366250000,
+          "kernel": 22499300937500,
+          "user": 1526493125000
+        },
+        "end": {
+          "idle": 21854315937500,
+          "kernel": 22500256250000,
+          "user": 1526497343750
+        },
+        "delta": {
+          "idle": 949687500,
+          "kernel": 955312500,
+          "user": 4218750
+        }
+      },
+      "free_gib": 99.21356201171875,
+      "build_process_count": 0,
+      "utc": "2026-09-20T12:50:28.507071+00:00",
+      "consecutive_idle": 1
+    },
+    {
+      "cpu_percent": 1.0729962607706065,
+      "native_cpu": {
+        "api": "GetSystemTimes",
+        "seconds": 3.0006909999938216,
+        "logical_processors": 32,
+        "begin": {
+          "idle": 21858154531250,
+          "kernel": 22504127031250,
+          "user": 1526540156250
+        },
+        "end": {
+          "idle": 21859105312500,
+          "kernel": 22505083437500,
+          "user": 1526544843750
+        },
+        "delta": {
+          "idle": 950781250,
+          "kernel": 956406250,
+          "user": 4687500
+        }
+      },
+      "free_gib": 99.20312118530273,
+      "build_process_count": 0,
+      "utc": "2026-09-20T12:50:43.712354+00:00",
+      "consecutive_idle": 2
+    }
+  ]
+}

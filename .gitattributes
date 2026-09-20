@@ -18,6 +18,9 @@ results/raw/qwen35-*/native-la/*.md text eol=lf
 results/raw/qwen35-*/native-la/*.py text eol=lf
 results/raw/qwen35-*/native-la/*.onnx -text
 results/raw/qwen35-*/native-la/*.zip -text
+# Curated comparison records are LF, including nested per-model evidence.
+results/raw/qwen35-vs-qwen3-20260920/**/*.json text eol=lf
+results/raw/qwen35-vs-qwen3-20260920/**/*.jsonl text eol=lf
 benchmarks/data/*.jsonl text eol=lf
 benchmarks/manifests/*.jsonl text eol=lf
 docs/media/README.md text eol=lf

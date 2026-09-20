@@ -3,6 +3,11 @@ from collections import defaultdict
 import json
 from pathlib import Path
 
+if __package__:
+    from .verify_ryzenai_comparison import verify as verify_comparison
+else:
+    from verify_ryzenai_comparison import verify as verify_comparison
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -115,7 +120,9 @@ def main():
     close(generation["compact_generation"]["agreement_with_direct_argmax"], compact["compact_generation"]["agreement_with_direct_argmax_first_run"])
     close(generation["wall_time_ratio_generation_over_direct"], compact["median_wall_ratio"])
     checks += 5
-    print(json.dumps({"verified_summary_claims": checks, "status": "ok"}))
+    comparison = verify_comparison(ROOT / "results/raw/qwen35-vs-qwen3-20260920")
+    print(json.dumps({"verified_summary_claims": checks, "ryzenai_comparison": comparison,
+                      "status": "ok"}))
 
 
 if __name__ == "__main__":
